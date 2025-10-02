@@ -1,6 +1,6 @@
 {
   "name": "klaviyo-api-fetch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A native fetch API using hey-api ts codegen",
   "main": "dist/index.js",
   "tsup": {
