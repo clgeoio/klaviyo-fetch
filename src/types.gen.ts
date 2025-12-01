@@ -2285,8 +2285,106 @@ export type ProfilePredictiveAnalyticsChannelAffinityRankCondition = {
     filter: ProfilePredictiveAnalyticsChannelAffinityRankFilter;
 };
 
+export type ProfilePermissionsEnum = 'profile-permissions';
+
+export type ExplicitlyReachableEnum = 'explicitly_reachable';
+
+export type EffectiveDateEnum = 'effective_date';
+
+export type EffectiveDateFilter = {
+    field: EffectiveDateEnum;
+    filter: StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter;
+};
+
+export type RecordedDateEnum = 'recorded_date';
+
+export type RecordedDateFilter = {
+    field: RecordedDateEnum;
+    filter: StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter;
+};
+
+export type SubscribeMethodEnum = 'subscribe_method';
+
+export type MethodFilter = {
+    field: SubscribeMethodEnum;
+    /**
+     * Method for subscribing / unsubscribing.
+     */
+    method: 'api' | 'back_in_stock' | 'bigcommerce' | 'bulk_remove' | 'campaign_monitor' | 'carrier_deactivation' | 'checkout' | 'constant_contact' | 'exact_target' | 'facebook' | 'failed_age_gate' | 'inbound_message' | 'integration' | 'mad_mimi' | 'magento_two' | 'mailbox_provider' | 'manual_add' | 'manual_import' | 'manual_remove' | 'message_blocked' | 'netsuite' | 'preference_page' | 'provided_landline' | 'provided_no_age' | 'sftp' | 'shopify' | 'social_instagram_message' | 'spam_complaint' | 'square' | 'wix' | 'woocommerce';
+};
+
+export type FormSubscribeFilter = {
+    field: SubscribeMethodEnum;
+    method: FormEnum;
+    filter?: InStringArrayFilter;
+};
+
+export type ExplicitlyReachable = {
+    reachable_status: ExplicitlyReachableEnum;
+    filters: Array<EffectiveDateFilter | RecordedDateFilter | MethodFilter | FormSubscribeFilter>;
+};
+
+export type ImplicitlyReachableEnum = 'implicitly_reachable';
+
+export type ImplicitlyReachable = {
+    reachable_status: ImplicitlyReachableEnum;
+};
+
+export type ImplicitlyOrExplicitlyReachableEnum = 'implicitly_or_explicitly_reachable';
+
+export type ImplicitlyOrExplicitlyReachable = {
+    reachable_status: ImplicitlyOrExplicitlyReachableEnum;
+};
+
+export type ExplicitlyUnreachableEnum = 'explicitly_unreachable';
+
+export type ExplicitlyUnreachable = {
+    reachable_status: ExplicitlyUnreachableEnum;
+    filters: Array<EffectiveDateFilter | RecordedDateFilter | MethodFilter | FormSubscribeFilter>;
+};
+
+export type ImplicitlyUnreachableEnum = 'implicitly_unreachable';
+
+export type ImplicitlyUnreachable = {
+    reachable_status: ImplicitlyUnreachableEnum;
+};
+
+export type ImplicitlyOrExplicitlyUnreachableEnum = 'implicitly_or_explicitly_unreachable';
+
+export type ImplicitlyOrExplicitlyUnreachable = {
+    reachable_status: ImplicitlyOrExplicitlyUnreachableEnum;
+};
+
+export type ProfilePermissionsCondition = {
+    type: ProfilePermissionsEnum;
+    permission: ExplicitlyReachable | ImplicitlyReachable | ImplicitlyOrExplicitlyReachable | ExplicitlyUnreachable | ImplicitlyUnreachable | ImplicitlyOrExplicitlyUnreachable;
+    /**
+     * Possible channels for profile permissions criterion.
+     */
+    channel: 'whatsapp_marketing' | 'whatsapp_transactional';
+};
+
+export type ProfileMetricFunnelEnum = 'profile-metric-funnel';
+
+export type ProfileMetricFunnelSteps = {
+    metric_exists: boolean;
+    metric_id: string;
+    metric_filters?: Array<ProfileMetricPropertyFilter> | null;
+};
+
+export type SegmentsProfileMetricFunnelCondition = {
+    type: ProfileMetricFunnelEnum;
+    timeframe_filter: StaticDateRangeFilter | RelativeDateRangeFilter | RelativeDateOperatorBaseFilter;
+    /**
+     * Allowed completion window durations for funnel conditions (in
+     * seconds).
+     */
+    completion_window_seconds?: 'DAYS_1' | 'DAYS_180' | 'DAYS_3' | 'DAYS_30' | 'DAYS_5' | 'DAYS_90' | 'HOURS_1' | 'WEEKS_1' | 'YEARS_1';
+    steps: Array<ProfileMetricFunnelSteps>;
+};
+
 export type ConditionGroup = {
-    conditions: Array<ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | SegmentsProfileMetricCondition | ProfileMarketingConsentCondition | ProfilePostalCodeDistanceCondition | ProfilePropertyCondition | ProfileRegionCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsNumericCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsChannelAffinityPriorityCondition | ProfilePredictiveAnalyticsChannelAffinityRankCondition>;
+    conditions: Array<ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | SegmentsProfileMetricCondition | ProfileMarketingConsentCondition | ProfilePostalCodeDistanceCondition | ProfilePropertyCondition | ProfileRegionCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsNumericCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsChannelAffinityPriorityCondition | ProfilePredictiveAnalyticsChannelAffinityRankCondition | ProfilePermissionsCondition | SegmentsProfileMetricFunnelCondition>;
 };
 
 export type SegmentDefinition = {
@@ -2962,102 +3060,14 @@ export type GetImportErrorResponseCollection = {
     links?: CollectionLinks;
 };
 
-export type UtmParamInfo = {
-    name: string;
-    value: string;
+export type ActionOutputSplitEnum = 'action-output-split';
+
+export type BooleanBranchLinks = {
+    next_if_true: string | null;
+    next_if_false: string | null;
 };
 
-export type FlowEmailTrackingOptions = {
-    add_utm: boolean;
-    utm_params: Array<UtmParamInfo>;
-    is_tracking_opens: boolean;
-    is_tracking_clicks: boolean;
-};
-
-export type FlowsSmsTrackingOptions = {
-    add_utm: boolean;
-    utm_params: Array<UtmParamInfo>;
-};
-
-export type SendOptions = {
-    use_smart_sending: boolean;
-    is_transactional: boolean;
-};
-
-export type CampaignMessageIncrement = {
-    badge_config: 'increment_one';
-};
-
-export type CampaignMessageStaticCount = {
-    badge_config: 'set_count';
-    value: string;
-};
-
-export type CampaignMessageProperty = {
-    badge_config: 'set_property';
-    set_from_property: string;
-};
-
-export type SmsRenderOptions = {
-    shorten_links: boolean;
-    add_org_prefix: boolean;
-    add_info_link: boolean;
-    add_opt_out_language: boolean;
-};
-
-export type FlowActionResponseObjectResource = {
-    type: FlowActionEnum;
-    id: string;
-    attributes: {
-        action_type?: string | null;
-        status?: string | null;
-        created?: string | null;
-        updated?: string | null;
-        settings?: {
-            [key: string]: unknown;
-        } | null;
-        tracking_options?: FlowEmailTrackingOptions | FlowsSmsTrackingOptions | null;
-        send_options?: SendOptions;
-        badge_options?: CampaignMessageIncrement | CampaignMessageStaticCount | CampaignMessageProperty | null;
-        render_options?: SmsRenderOptions;
-    };
-    links: ObjectLinks;
-};
-
-export type GetFlowResponseCollectionCompoundDocument = {
-    data: Array<FlowResponseObjectResource & {
-        relationships?: {
-            'flow-actions'?: {
-                data?: Array<{
-                    type: FlowActionEnum;
-                    id: string;
-                }>;
-                links?: RelationshipLinks;
-            };
-            tags?: {
-                data?: Array<{
-                    type: TagEnum;
-                    id: string;
-                }>;
-                links?: RelationshipLinks;
-            };
-        };
-    }>;
-    links?: CollectionLinks;
-    included?: Array<FlowActionResponseObjectResource | TagResponseObjectResource>;
-};
-
-export type ListTrigger = {
-    type: ListEnum;
-    id?: string | null;
-};
-
-export type SegmentTrigger = {
-    type: SegmentEnum;
-    id?: string | null;
-};
-
-export type MetricPropertyEnum = 'metric-property';
+export type ActionOutputEnum = 'action-output';
 
 export type NumericRangeFilter = {
     type: NumericEnum;
@@ -3068,166 +3078,6 @@ export type NumericRangeFilter = {
     start: number | number;
     end: number | number;
 };
-
-export type MetricPropertyCondition = {
-    type: MetricPropertyEnum;
-    metric_id: string;
-    field: string;
-    filter: StringOperatorFilter | StringArrayOperatorFilter | NumericOperatorFilter | NumericRangeFilter | BooleanFilter | StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter | ListContainsOperatorFilter | ListLengthFilter | ExistenceOperatorFilter;
-};
-
-export type MetricPropertyConditionGroup = {
-    conditions: Array<MetricPropertyCondition>;
-};
-
-export type MetricPropertyConditionFilter = {
-    condition_groups: Array<MetricPropertyConditionGroup>;
-};
-
-export type MetricTrigger = {
-    type: MetricEnum;
-    id?: string | null;
-    trigger_filter?: MetricPropertyConditionFilter;
-};
-
-export type ProfilePropertyDateTrigger = {
-    type: DateEnum;
-    date_field_type: ProfilePropertyEnum;
-    date_profile_property: string;
-    /**
-     * See FlowDateTrigger.UNIT_CHOICES in app and CountdownUnit in fender.
-     */
-    timedelta_unit_before_date?: 'days' | 'months' | 'weeks';
-    timedelta_value_before_date: number;
-    /**
-     * aka RepeatTypes in app and RepeatType in fender.
-     */
-    recurrence_frequency?: 'annually' | 'monthly' | 'never' | 'weekly';
-    timezone?: 'Africa/Abidjan' | 'Africa/Accra' | 'Africa/Addis_Ababa' | 'Africa/Algiers' | 'Africa/Asmara' | 'Africa/Bamako' | 'Africa/Bangui' | 'Africa/Banjul' | 'Africa/Bissau' | 'Africa/Blantyre' | 'Africa/Brazzaville' | 'Africa/Bujumbura' | 'Africa/Cairo' | 'Africa/Casablanca' | 'Africa/Ceuta' | 'Africa/Conakry' | 'Africa/Dakar' | 'Africa/Dar_es_Salaam' | 'Africa/Djibouti' | 'Africa/Douala' | 'Africa/El_Aaiun' | 'Africa/Freetown' | 'Africa/Gaborone' | 'Africa/Harare' | 'Africa/Johannesburg' | 'Africa/Juba' | 'Africa/Kampala' | 'Africa/Khartoum' | 'Africa/Kigali' | 'Africa/Kinshasa' | 'Africa/Lagos' | 'Africa/Libreville' | 'Africa/Lome' | 'Africa/Luanda' | 'Africa/Lubumbashi' | 'Africa/Lusaka' | 'Africa/Malabo' | 'Africa/Maputo' | 'Africa/Maseru' | 'Africa/Mbabane' | 'Africa/Mogadishu' | 'Africa/Monrovia' | 'Africa/Nairobi' | 'Africa/Ndjamena' | 'Africa/Niamey' | 'Africa/Nouakchott' | 'Africa/Ouagadougou' | 'Africa/Porto-Novo' | 'Africa/Sao_Tome' | 'Africa/Tripoli' | 'Africa/Tunis' | 'Africa/Windhoek' | 'America/Adak' | 'America/Anchorage' | 'America/Anguilla' | 'America/Antigua' | 'America/Araguaina' | 'America/Argentina/Buenos_Aires' | 'America/Argentina/Catamarca' | 'America/Argentina/Cordoba' | 'America/Argentina/Jujuy' | 'America/Argentina/La_Rioja' | 'America/Argentina/Mendoza' | 'America/Argentina/Rio_Gallegos' | 'America/Argentina/Salta' | 'America/Argentina/San_Juan' | 'America/Argentina/San_Luis' | 'America/Argentina/Tucuman' | 'America/Argentina/Ushuaia' | 'America/Aruba' | 'America/Asuncion' | 'America/Atikokan' | 'America/Bahia' | 'America/Bahia_Banderas' | 'America/Barbados' | 'America/Belem' | 'America/Belize' | 'America/Blanc-Sablon' | 'America/Boa_Vista' | 'America/Bogota' | 'America/Boise' | 'America/Cambridge_Bay' | 'America/Campo_Grande' | 'America/Cancun' | 'America/Caracas' | 'America/Cayenne' | 'America/Cayman' | 'America/Chicago' | 'America/Chihuahua' | 'America/Ciudad_Juarez' | 'America/Costa_Rica' | 'America/Creston' | 'America/Cuiaba' | 'America/Curacao' | 'America/Danmarkshavn' | 'America/Dawson' | 'America/Dawson_Creek' | 'America/Denver' | 'America/Detroit' | 'America/Dominica' | 'America/Edmonton' | 'America/Eirunepe' | 'America/El_Salvador' | 'America/Fort_Nelson' | 'America/Fortaleza' | 'America/Glace_Bay' | 'America/Goose_Bay' | 'America/Grand_Turk' | 'America/Grenada' | 'America/Guadeloupe' | 'America/Guatemala' | 'America/Guayaquil' | 'America/Guyana' | 'America/Halifax' | 'America/Havana' | 'America/Hermosillo' | 'America/Indiana/Indianapolis' | 'America/Indiana/Knox' | 'America/Indiana/Marengo' | 'America/Indiana/Petersburg' | 'America/Indiana/Tell_City' | 'America/Indiana/Vevay' | 'America/Indiana/Vincennes' | 'America/Indiana/Winamac' | 'America/Inuvik' | 'America/Iqaluit' | 'America/Jamaica' | 'America/Juneau' | 'America/Kentucky/Louisville' | 'America/Kentucky/Monticello' | 'America/Kralendijk' | 'America/La_Paz' | 'America/Lima' | 'America/Los_Angeles' | 'America/Lower_Princes' | 'America/Maceio' | 'America/Managua' | 'America/Manaus' | 'America/Marigot' | 'America/Martinique' | 'America/Matamoros' | 'America/Mazatlan' | 'America/Menominee' | 'America/Merida' | 'America/Metlakatla' | 'America/Mexico_City' | 'America/Miquelon' | 'America/Moncton' | 'America/Monterrey' | 'America/Montevideo' | 'America/Montserrat' | 'America/Nassau' | 'America/New_York' | 'America/Nome' | 'America/Noronha' | 'America/North_Dakota/Beulah' | 'America/North_Dakota/Center' | 'America/North_Dakota/New_Salem' | 'America/Nuuk' | 'America/Ojinaga' | 'America/Panama' | 'America/Paramaribo' | 'America/Phoenix' | 'America/Port-au-Prince' | 'America/Port_of_Spain' | 'America/Porto_Velho' | 'America/Puerto_Rico' | 'America/Punta_Arenas' | 'America/Rankin_Inlet' | 'America/Recife' | 'America/Regina' | 'America/Resolute' | 'America/Rio_Branco' | 'America/Santarem' | 'America/Santiago' | 'America/Santo_Domingo' | 'America/Sao_Paulo' | 'America/Scoresbysund' | 'America/Sitka' | 'America/St_Barthelemy' | 'America/St_Johns' | 'America/St_Kitts' | 'America/St_Lucia' | 'America/St_Thomas' | 'America/St_Vincent' | 'America/Swift_Current' | 'America/Tegucigalpa' | 'America/Thule' | 'America/Tijuana' | 'America/Toronto' | 'America/Tortola' | 'America/Vancouver' | 'America/Whitehorse' | 'America/Winnipeg' | 'America/Yakutat' | 'Antarctica/Casey' | 'Antarctica/Davis' | 'Antarctica/DumontDUrville' | 'Antarctica/Macquarie' | 'Antarctica/Mawson' | 'Antarctica/McMurdo' | 'Antarctica/Palmer' | 'Antarctica/Rothera' | 'Antarctica/Syowa' | 'Antarctica/Troll' | 'Antarctica/Vostok' | 'Arctic/Longyearbyen' | 'Asia/Aden' | 'Asia/Almaty' | 'Asia/Amman' | 'Asia/Anadyr' | 'Asia/Aqtau' | 'Asia/Aqtobe' | 'Asia/Ashgabat' | 'Asia/Atyrau' | 'Asia/Baghdad' | 'Asia/Bahrain' | 'Asia/Baku' | 'Asia/Bangkok' | 'Asia/Barnaul' | 'Asia/Beirut' | 'Asia/Bishkek' | 'Asia/Brunei' | 'Asia/Chita' | 'Asia/Choibalsan' | 'Asia/Colombo' | 'Asia/Damascus' | 'Asia/Dhaka' | 'Asia/Dili' | 'Asia/Dubai' | 'Asia/Dushanbe' | 'Asia/Famagusta' | 'Asia/Gaza' | 'Asia/Hebron' | 'Asia/Ho_Chi_Minh' | 'Asia/Hong_Kong' | 'Asia/Hovd' | 'Asia/Irkutsk' | 'Asia/Jakarta' | 'Asia/Jayapura' | 'Asia/Jerusalem' | 'Asia/Kabul' | 'Asia/Kamchatka' | 'Asia/Karachi' | 'Asia/Kathmandu' | 'Asia/Khandyga' | 'Asia/Kolkata' | 'Asia/Krasnoyarsk' | 'Asia/Kuala_Lumpur' | 'Asia/Kuching' | 'Asia/Kuwait' | 'Asia/Macau' | 'Asia/Magadan' | 'Asia/Makassar' | 'Asia/Manila' | 'Asia/Muscat' | 'Asia/Nicosia' | 'Asia/Novokuznetsk' | 'Asia/Novosibirsk' | 'Asia/Omsk' | 'Asia/Oral' | 'Asia/Phnom_Penh' | 'Asia/Pontianak' | 'Asia/Pyongyang' | 'Asia/Qatar' | 'Asia/Qostanay' | 'Asia/Qyzylorda' | 'Asia/Riyadh' | 'Asia/Sakhalin' | 'Asia/Samarkand' | 'Asia/Seoul' | 'Asia/Shanghai' | 'Asia/Singapore' | 'Asia/Srednekolymsk' | 'Asia/Taipei' | 'Asia/Tashkent' | 'Asia/Tbilisi' | 'Asia/Tehran' | 'Asia/Thimphu' | 'Asia/Tokyo' | 'Asia/Tomsk' | 'Asia/Ulaanbaatar' | 'Asia/Urumqi' | 'Asia/Ust-Nera' | 'Asia/Vientiane' | 'Asia/Vladivostok' | 'Asia/Yakutsk' | 'Asia/Yangon' | 'Asia/Yekaterinburg' | 'Asia/Yerevan' | 'Atlantic/Azores' | 'Atlantic/Bermuda' | 'Atlantic/Canary' | 'Atlantic/Cape_Verde' | 'Atlantic/Faroe' | 'Atlantic/Madeira' | 'Atlantic/Reykjavik' | 'Atlantic/South_Georgia' | 'Atlantic/St_Helena' | 'Atlantic/Stanley' | 'Australia/Adelaide' | 'Australia/Brisbane' | 'Australia/Broken_Hill' | 'Australia/Darwin' | 'Australia/Eucla' | 'Australia/Hobart' | 'Australia/Lindeman' | 'Australia/Lord_Howe' | 'Australia/Melbourne' | 'Australia/Perth' | 'Australia/Sydney' | 'Canada/Atlantic' | 'Canada/Central' | 'Canada/Eastern' | 'Canada/Mountain' | 'Canada/Newfoundland' | 'Canada/Pacific' | 'Europe/Amsterdam' | 'Europe/Andorra' | 'Europe/Astrakhan' | 'Europe/Athens' | 'Europe/Belgrade' | 'Europe/Berlin' | 'Europe/Bratislava' | 'Europe/Brussels' | 'Europe/Bucharest' | 'Europe/Budapest' | 'Europe/Busingen' | 'Europe/Chisinau' | 'Europe/Copenhagen' | 'Europe/Dublin' | 'Europe/Gibraltar' | 'Europe/Guernsey' | 'Europe/Helsinki' | 'Europe/Isle_of_Man' | 'Europe/Istanbul' | 'Europe/Jersey' | 'Europe/Kaliningrad' | 'Europe/Kirov' | 'Europe/Kyiv' | 'Europe/Lisbon' | 'Europe/Ljubljana' | 'Europe/London' | 'Europe/Luxembourg' | 'Europe/Madrid' | 'Europe/Malta' | 'Europe/Mariehamn' | 'Europe/Minsk' | 'Europe/Monaco' | 'Europe/Moscow' | 'Europe/Oslo' | 'Europe/Paris' | 'Europe/Podgorica' | 'Europe/Prague' | 'Europe/Riga' | 'Europe/Rome' | 'Europe/Samara' | 'Europe/San_Marino' | 'Europe/Sarajevo' | 'Europe/Saratov' | 'Europe/Simferopol' | 'Europe/Skopje' | 'Europe/Sofia' | 'Europe/Stockholm' | 'Europe/Tallinn' | 'Europe/Tirane' | 'Europe/Ulyanovsk' | 'Europe/Vaduz' | 'Europe/Vatican' | 'Europe/Vienna' | 'Europe/Vilnius' | 'Europe/Volgograd' | 'Europe/Warsaw' | 'Europe/Zagreb' | 'Europe/Zurich' | 'GMT' | 'Indian/Antananarivo' | 'Indian/Chagos' | 'Indian/Christmas' | 'Indian/Cocos' | 'Indian/Comoro' | 'Indian/Kerguelen' | 'Indian/Mahe' | 'Indian/Maldives' | 'Indian/Mauritius' | 'Indian/Mayotte' | 'Indian/Reunion' | 'Pacific/Apia' | 'Pacific/Auckland' | 'Pacific/Bougainville' | 'Pacific/Chatham' | 'Pacific/Chuuk' | 'Pacific/Easter' | 'Pacific/Efate' | 'Pacific/Fakaofo' | 'Pacific/Fiji' | 'Pacific/Funafuti' | 'Pacific/Galapagos' | 'Pacific/Gambier' | 'Pacific/Guadalcanal' | 'Pacific/Guam' | 'Pacific/Honolulu' | 'Pacific/Kanton' | 'Pacific/Kiritimati' | 'Pacific/Kosrae' | 'Pacific/Kwajalein' | 'Pacific/Majuro' | 'Pacific/Marquesas' | 'Pacific/Midway' | 'Pacific/Nauru' | 'Pacific/Niue' | 'Pacific/Norfolk' | 'Pacific/Noumea' | 'Pacific/Pago_Pago' | 'Pacific/Palau' | 'Pacific/Pitcairn' | 'Pacific/Pohnpei' | 'Pacific/Port_Moresby' | 'Pacific/Rarotonga' | 'Pacific/Saipan' | 'Pacific/Tahiti' | 'Pacific/Tarawa' | 'Pacific/Tongatapu' | 'Pacific/Wake' | 'Pacific/Wallis' | 'US/Alaska' | 'US/Arizona' | 'US/Central' | 'US/Eastern' | 'US/Hawaii' | 'US/Mountain' | 'US/Pacific' | 'UTC' | 'profile';
-    trigger_time: string;
-    trigger_days?: Array<'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday'> | null;
-};
-
-export type PriceDropEnum = 'price-drop';
-
-export type PriceDropPropertyEnum = 'price-drop-property';
-
-export type PriceDropCondition = {
-    type: PriceDropPropertyEnum;
-    metric_id: string | null;
-    field: string;
-    filter: StringOperatorFilter | StringArrayOperatorFilter | NumericOperatorFilter | NumericRangeFilter | BooleanFilter | StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter | ListContainsOperatorFilter | ListLengthFilter | ExistenceOperatorFilter;
-};
-
-export type PriceDropConditionGroup = {
-    conditions: Array<PriceDropCondition>;
-};
-
-export type PriceDropConditionFilter = {
-    condition_groups: Array<PriceDropConditionGroup>;
-};
-
-export type PriceDropTrigger = {
-    type: PriceDropEnum;
-    trigger_filter: PriceDropConditionFilter;
-    price_drop_amount_value: number | number;
-    /**
-     * Price Drop amount type.
-     */
-    price_drop_amount_unit?: 'currency' | 'percent';
-    audience: Array<'checkout-started' | 'viewed'>;
-    timeframe_days?: number;
-    /**
-     * Currency type.
-     */
-    currency_type?: 'usd';
-};
-
-export type LowInventoryEnum = 'low-inventory';
-
-export type LowInventoryPropertyEnum = 'low-inventory-property';
-
-export type LowInventoryCondition = {
-    type: LowInventoryPropertyEnum;
-    metric_id: string | null;
-    field: string;
-    filter: StringOperatorFilter | StringArrayOperatorFilter | NumericOperatorFilter | NumericRangeFilter | BooleanFilter | StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter | ListContainsOperatorFilter | ListLengthFilter | ExistenceOperatorFilter;
-};
-
-export type LowInventoryConditionGroup = {
-    conditions: Array<LowInventoryCondition>;
-};
-
-export type LowInventoryConditionFilter = {
-    condition_groups: Array<LowInventoryConditionGroup>;
-};
-
-export type LowInventoryTrigger = {
-    type: LowInventoryEnum;
-    /**
-     * Low inventory product level.
-     */
-    product_level: 'product' | 'variant';
-    trigger_filter: LowInventoryConditionFilter;
-    inventory_count: number;
-    audience: Array<'added-to-cart' | 'checkout-started' | 'viewed'>;
-    timeframe_days?: number;
-};
-
-export type SinceFlowStartDateFilter = {
-    type: DateEnum;
-    /**
-     * Possible operators for since flow start date.
-     */
-    operator: 'flow-start';
-};
-
-export type FlowsProfileMetricCondition = {
-    type: ProfileMetricEnum;
-    metric_id: string;
-    /**
-     * Measurements for profile metrics.
-     */
-    measurement: 'count' | 'sum';
-    measurement_filter: NumericOperatorFilter;
-    timeframe_filter: StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | AlltimeDateFilter | SinceFlowStartDateFilter;
-    metric_filters?: Array<ProfileMetricPropertyFilter> | null;
-};
-
-export type ProfileSampleEnum = 'profile-sample';
-
-export type ProfileRandomSampleCondition = {
-    type: ProfileSampleEnum;
-    percentage: number;
-};
-
-export type ProfileNotInFlowEnum = 'profile-not-in-flow';
-
-export type InTheLastEnum = 'in-the-last';
-
-export type InTheLastBaseRelativeDateFilter = {
-    type: DateEnum;
-    operator: InTheLastEnum;
-    /**
-     * Units for relative date filters.
-     */
-    unit: 'day' | 'hour' | 'week';
-    quantity: number;
-};
-
-export type ProfileNotInFlowCondition = {
-    type: ProfileNotInFlowEnum;
-    timeframe_filter: AlltimeDateFilter | InTheLastBaseRelativeDateFilter;
-};
-
-export type ActionOutputSplitEnum = 'action-output-split';
-
-export type BooleanBranchLinks = {
-    next_if_true: string | null;
-    next_if_false: string | null;
-};
-
-export type ActionOutputEnum = 'action-output';
 
 export type ActionOutputCondition = {
     type: ActionOutputEnum;
@@ -3283,10 +3133,37 @@ export type BackInStockDelayAction = {
 
 export type ConditionalSplitEnum = 'conditional-split';
 
+export type SinceFlowStartDateFilter = {
+    type: DateEnum;
+    /**
+     * Possible operators for since flow start date.
+     */
+    operator: 'flow-start';
+};
+
+export type FlowsProfileMetricCondition = {
+    type: ProfileMetricEnum;
+    metric_id: string;
+    /**
+     * Measurements for profile metrics.
+     */
+    measurement: 'count' | 'sum';
+    measurement_filter: NumericOperatorFilter;
+    timeframe_filter: StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | AlltimeDateFilter | SinceFlowStartDateFilter;
+    metric_filters?: Array<ProfileMetricPropertyFilter> | null;
+};
+
+export type ProfileSampleEnum = 'profile-sample';
+
+export type ProfileRandomSampleCondition = {
+    type: ProfileSampleEnum;
+    percentage: number;
+};
+
 export type ConditionalBranchActionData = {
     profile_filter: {
         condition_groups: Array<{
-            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition>;
+            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfilePermissionsCondition>;
         }>;
     } | null;
 };
@@ -3330,6 +3207,18 @@ export type UtmParam = {
 
 export type ProfileNotSentEmailEnum = 'profile-not-sent-email';
 
+export type InTheLastEnum = 'in-the-last';
+
+export type InTheLastBaseRelativeDateFilter = {
+    type: DateEnum;
+    operator: InTheLastEnum;
+    /**
+     * Units for relative date filters.
+     */
+    unit: 'day' | 'hour' | 'week';
+    quantity: number;
+};
+
 export type ProfileHasNotReceivedEmailMessageCondition = {
     type: ProfileNotSentEmailEnum;
     timeframe_filter: AlltimeDateFilter | InTheLastBaseRelativeDateFilter;
@@ -3350,7 +3239,7 @@ export type FlowEmail = {
     custom_tracking_params?: Array<UtmParam> | null;
     additional_filters?: {
         condition_groups: Array<{
-            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfileHasNotReceivedEmailMessageCondition>;
+            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfilePermissionsCondition | ProfileHasNotReceivedEmailMessageCondition>;
         }>;
     } | null;
     name?: string | null;
@@ -3358,7 +3247,7 @@ export type FlowEmail = {
 };
 
 export type SendEmailActionData = {
-    message: FlowEmail;
+    message?: FlowEmail;
     /**
      * Flow action status.
      */
@@ -3435,7 +3324,7 @@ export type FlowPushNotification = {
     smart_sending_enabled?: boolean;
     additional_filters?: {
         condition_groups: Array<{
-            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfileHasNotReceivedPushMessageCondition>;
+            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfilePermissionsCondition | ProfileHasNotReceivedPushMessageCondition>;
         }>;
     } | null;
     name?: string | null;
@@ -3443,7 +3332,7 @@ export type FlowPushNotification = {
 };
 
 export type SendPushNotificationActionData = {
-    message: FlowPushNotification;
+    message?: FlowPushNotification;
     /**
      * Flow action status.
      */
@@ -3495,7 +3384,7 @@ export type FlowSms = {
     custom_tracking_params?: Array<UtmParam> | null;
     additional_filters?: {
         condition_groups: Array<{
-            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfileHasNotReceivedSmsMessageCondition>;
+            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfilePermissionsCondition | ProfileHasNotReceivedSmsMessageCondition>;
         }>;
     } | null;
     name?: string | null;
@@ -3503,7 +3392,7 @@ export type FlowSms = {
 };
 
 export type SendSmsActionData = {
-    message: FlowSms;
+    message?: FlowSms;
     /**
      * Flow action status.
      */
@@ -3592,6 +3481,43 @@ export type SendInternalAlertAction = {
     data?: SendInternalAlertActionData;
 };
 
+export type SendWhatsappEnum = 'send-whatsapp';
+
+export type FlowWhatsApp = {
+    id?: string | null;
+    name?: string | null;
+    vendor_id?: string | null;
+    smart_sending_enabled?: boolean;
+    transactional?: boolean;
+    additional_filters?: {
+        condition_groups: Array<{
+            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfilePermissionsCondition>;
+        }>;
+    } | null;
+};
+
+export type SendWhatsAppActionData = {
+    message?: FlowWhatsApp;
+    /**
+     * Flow action status.
+     */
+    status?: 'disabled' | 'draft' | 'live' | 'manual';
+};
+
+export type SendWhatsAppAction = {
+    /**
+     * The real ID of an action.
+     */
+    id?: string | null;
+    /**
+     * A temporary ID to use only during a create operation. Existing actions should use the id field.
+     */
+    temporary_id?: string | null;
+    type: SendWhatsappEnum;
+    links?: Link;
+    data?: SendWhatsAppActionData;
+};
+
 export type TimeDelayEnum = 'time-delay';
 
 export type TimeDelayActionData = {
@@ -3621,6 +3547,23 @@ export type TimeDelayAction = {
 };
 
 export type TriggerSplitEnum = 'trigger-split';
+
+export type MetricPropertyEnum = 'metric-property';
+
+export type MetricPropertyCondition = {
+    type: MetricPropertyEnum;
+    metric_id: string;
+    field: string;
+    filter: StringOperatorFilter | StringArrayOperatorFilter | NumericOperatorFilter | NumericRangeFilter | BooleanFilter | StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter | ListContainsOperatorFilter | ListLengthFilter | ExistenceOperatorFilter;
+};
+
+export type MetricPropertyConditionGroup = {
+    conditions: Array<MetricPropertyCondition>;
+};
+
+export type MetricPropertyConditionFilter = {
+    condition_groups: Array<MetricPropertyConditionGroup>;
+};
 
 export type TriggerBranchActionData = {
     trigger_filter: MetricPropertyConditionFilter;
@@ -3929,6 +3872,150 @@ export type ListUpdateAction = {
     data: ListUpdateActionData;
 };
 
+export type FlowActionEncodedResponseObjectResource = {
+    type: FlowActionEnum;
+    id: string;
+    attributes: {
+        created?: string | null;
+        updated?: string | null;
+        /**
+         * The encoded flow action definition.
+         */
+        definition?: ActionOutputSplitAction | BackInStockDelayAction | ConditionalBranchAction | ContentExperimentAction | SendEmailAction | SendPushNotificationAction | SendSmsAction | SendWebhookAction | SendInternalAlertAction | SendWhatsAppAction | TimeDelayAction | TriggerBranchAction | UpdateProfileAction | TargetDateAction | CountdownDelayAction | AbTestAction | InternalServiceAction | CodeAction | SplitAction | BranchAction | ListUpdateAction | null;
+    };
+    links: ObjectLinks;
+};
+
+export type GetFlowResponseCollectionCompoundDocument = {
+    data: Array<FlowResponseObjectResource & {
+        relationships?: {
+            'flow-actions'?: {
+                data?: Array<{
+                    type: FlowActionEnum;
+                    id: string;
+                }>;
+                links?: RelationshipLinks;
+            };
+            tags?: {
+                data?: Array<{
+                    type: TagEnum;
+                    id: string;
+                }>;
+                links?: RelationshipLinks;
+            };
+        };
+    }>;
+    links?: CollectionLinks;
+    included?: Array<FlowActionEncodedResponseObjectResource | TagResponseObjectResource>;
+};
+
+export type ListTrigger = {
+    type: ListEnum;
+    id?: string | null;
+};
+
+export type SegmentTrigger = {
+    type: SegmentEnum;
+    id?: string | null;
+};
+
+export type MetricTrigger = {
+    type: MetricEnum;
+    id?: string | null;
+    trigger_filter?: MetricPropertyConditionFilter;
+};
+
+export type ProfilePropertyDateTrigger = {
+    type: DateEnum;
+    date_field_type: ProfilePropertyEnum;
+    date_profile_property: string;
+    /**
+     * See FlowDateTrigger.UNIT_CHOICES in app and CountdownUnit in fender.
+     */
+    timedelta_unit_before_date?: 'days' | 'months' | 'weeks';
+    timedelta_value_before_date: number;
+    /**
+     * aka RepeatTypes in app and RepeatType in fender.
+     */
+    recurrence_frequency?: 'annually' | 'monthly' | 'never' | 'weekly';
+    timezone?: 'Africa/Abidjan' | 'Africa/Accra' | 'Africa/Addis_Ababa' | 'Africa/Algiers' | 'Africa/Asmara' | 'Africa/Bamako' | 'Africa/Bangui' | 'Africa/Banjul' | 'Africa/Bissau' | 'Africa/Blantyre' | 'Africa/Brazzaville' | 'Africa/Bujumbura' | 'Africa/Cairo' | 'Africa/Casablanca' | 'Africa/Ceuta' | 'Africa/Conakry' | 'Africa/Dakar' | 'Africa/Dar_es_Salaam' | 'Africa/Djibouti' | 'Africa/Douala' | 'Africa/El_Aaiun' | 'Africa/Freetown' | 'Africa/Gaborone' | 'Africa/Harare' | 'Africa/Johannesburg' | 'Africa/Juba' | 'Africa/Kampala' | 'Africa/Khartoum' | 'Africa/Kigali' | 'Africa/Kinshasa' | 'Africa/Lagos' | 'Africa/Libreville' | 'Africa/Lome' | 'Africa/Luanda' | 'Africa/Lubumbashi' | 'Africa/Lusaka' | 'Africa/Malabo' | 'Africa/Maputo' | 'Africa/Maseru' | 'Africa/Mbabane' | 'Africa/Mogadishu' | 'Africa/Monrovia' | 'Africa/Nairobi' | 'Africa/Ndjamena' | 'Africa/Niamey' | 'Africa/Nouakchott' | 'Africa/Ouagadougou' | 'Africa/Porto-Novo' | 'Africa/Sao_Tome' | 'Africa/Tripoli' | 'Africa/Tunis' | 'Africa/Windhoek' | 'America/Adak' | 'America/Anchorage' | 'America/Anguilla' | 'America/Antigua' | 'America/Araguaina' | 'America/Argentina/Buenos_Aires' | 'America/Argentina/Catamarca' | 'America/Argentina/Cordoba' | 'America/Argentina/Jujuy' | 'America/Argentina/La_Rioja' | 'America/Argentina/Mendoza' | 'America/Argentina/Rio_Gallegos' | 'America/Argentina/Salta' | 'America/Argentina/San_Juan' | 'America/Argentina/San_Luis' | 'America/Argentina/Tucuman' | 'America/Argentina/Ushuaia' | 'America/Aruba' | 'America/Asuncion' | 'America/Atikokan' | 'America/Bahia' | 'America/Bahia_Banderas' | 'America/Barbados' | 'America/Belem' | 'America/Belize' | 'America/Blanc-Sablon' | 'America/Boa_Vista' | 'America/Bogota' | 'America/Boise' | 'America/Cambridge_Bay' | 'America/Campo_Grande' | 'America/Cancun' | 'America/Caracas' | 'America/Cayenne' | 'America/Cayman' | 'America/Chicago' | 'America/Chihuahua' | 'America/Ciudad_Juarez' | 'America/Costa_Rica' | 'America/Creston' | 'America/Cuiaba' | 'America/Curacao' | 'America/Danmarkshavn' | 'America/Dawson' | 'America/Dawson_Creek' | 'America/Denver' | 'America/Detroit' | 'America/Dominica' | 'America/Edmonton' | 'America/Eirunepe' | 'America/El_Salvador' | 'America/Fort_Nelson' | 'America/Fortaleza' | 'America/Glace_Bay' | 'America/Goose_Bay' | 'America/Grand_Turk' | 'America/Grenada' | 'America/Guadeloupe' | 'America/Guatemala' | 'America/Guayaquil' | 'America/Guyana' | 'America/Halifax' | 'America/Havana' | 'America/Hermosillo' | 'America/Indiana/Indianapolis' | 'America/Indiana/Knox' | 'America/Indiana/Marengo' | 'America/Indiana/Petersburg' | 'America/Indiana/Tell_City' | 'America/Indiana/Vevay' | 'America/Indiana/Vincennes' | 'America/Indiana/Winamac' | 'America/Inuvik' | 'America/Iqaluit' | 'America/Jamaica' | 'America/Juneau' | 'America/Kentucky/Louisville' | 'America/Kentucky/Monticello' | 'America/Kralendijk' | 'America/La_Paz' | 'America/Lima' | 'America/Los_Angeles' | 'America/Lower_Princes' | 'America/Maceio' | 'America/Managua' | 'America/Manaus' | 'America/Marigot' | 'America/Martinique' | 'America/Matamoros' | 'America/Mazatlan' | 'America/Menominee' | 'America/Merida' | 'America/Metlakatla' | 'America/Mexico_City' | 'America/Miquelon' | 'America/Moncton' | 'America/Monterrey' | 'America/Montevideo' | 'America/Montserrat' | 'America/Nassau' | 'America/New_York' | 'America/Nome' | 'America/Noronha' | 'America/North_Dakota/Beulah' | 'America/North_Dakota/Center' | 'America/North_Dakota/New_Salem' | 'America/Nuuk' | 'America/Ojinaga' | 'America/Panama' | 'America/Paramaribo' | 'America/Phoenix' | 'America/Port-au-Prince' | 'America/Port_of_Spain' | 'America/Porto_Velho' | 'America/Puerto_Rico' | 'America/Punta_Arenas' | 'America/Rankin_Inlet' | 'America/Recife' | 'America/Regina' | 'America/Resolute' | 'America/Rio_Branco' | 'America/Santarem' | 'America/Santiago' | 'America/Santo_Domingo' | 'America/Sao_Paulo' | 'America/Scoresbysund' | 'America/Sitka' | 'America/St_Barthelemy' | 'America/St_Johns' | 'America/St_Kitts' | 'America/St_Lucia' | 'America/St_Thomas' | 'America/St_Vincent' | 'America/Swift_Current' | 'America/Tegucigalpa' | 'America/Thule' | 'America/Tijuana' | 'America/Toronto' | 'America/Tortola' | 'America/Vancouver' | 'America/Whitehorse' | 'America/Winnipeg' | 'America/Yakutat' | 'Antarctica/Casey' | 'Antarctica/Davis' | 'Antarctica/DumontDUrville' | 'Antarctica/Macquarie' | 'Antarctica/Mawson' | 'Antarctica/McMurdo' | 'Antarctica/Palmer' | 'Antarctica/Rothera' | 'Antarctica/Syowa' | 'Antarctica/Troll' | 'Antarctica/Vostok' | 'Arctic/Longyearbyen' | 'Asia/Aden' | 'Asia/Almaty' | 'Asia/Amman' | 'Asia/Anadyr' | 'Asia/Aqtau' | 'Asia/Aqtobe' | 'Asia/Ashgabat' | 'Asia/Atyrau' | 'Asia/Baghdad' | 'Asia/Bahrain' | 'Asia/Baku' | 'Asia/Bangkok' | 'Asia/Barnaul' | 'Asia/Beirut' | 'Asia/Bishkek' | 'Asia/Brunei' | 'Asia/Chita' | 'Asia/Choibalsan' | 'Asia/Colombo' | 'Asia/Damascus' | 'Asia/Dhaka' | 'Asia/Dili' | 'Asia/Dubai' | 'Asia/Dushanbe' | 'Asia/Famagusta' | 'Asia/Gaza' | 'Asia/Hebron' | 'Asia/Ho_Chi_Minh' | 'Asia/Hong_Kong' | 'Asia/Hovd' | 'Asia/Irkutsk' | 'Asia/Jakarta' | 'Asia/Jayapura' | 'Asia/Jerusalem' | 'Asia/Kabul' | 'Asia/Kamchatka' | 'Asia/Karachi' | 'Asia/Kathmandu' | 'Asia/Khandyga' | 'Asia/Kolkata' | 'Asia/Krasnoyarsk' | 'Asia/Kuala_Lumpur' | 'Asia/Kuching' | 'Asia/Kuwait' | 'Asia/Macau' | 'Asia/Magadan' | 'Asia/Makassar' | 'Asia/Manila' | 'Asia/Muscat' | 'Asia/Nicosia' | 'Asia/Novokuznetsk' | 'Asia/Novosibirsk' | 'Asia/Omsk' | 'Asia/Oral' | 'Asia/Phnom_Penh' | 'Asia/Pontianak' | 'Asia/Pyongyang' | 'Asia/Qatar' | 'Asia/Qostanay' | 'Asia/Qyzylorda' | 'Asia/Riyadh' | 'Asia/Sakhalin' | 'Asia/Samarkand' | 'Asia/Seoul' | 'Asia/Shanghai' | 'Asia/Singapore' | 'Asia/Srednekolymsk' | 'Asia/Taipei' | 'Asia/Tashkent' | 'Asia/Tbilisi' | 'Asia/Tehran' | 'Asia/Thimphu' | 'Asia/Tokyo' | 'Asia/Tomsk' | 'Asia/Ulaanbaatar' | 'Asia/Urumqi' | 'Asia/Ust-Nera' | 'Asia/Vientiane' | 'Asia/Vladivostok' | 'Asia/Yakutsk' | 'Asia/Yangon' | 'Asia/Yekaterinburg' | 'Asia/Yerevan' | 'Atlantic/Azores' | 'Atlantic/Bermuda' | 'Atlantic/Canary' | 'Atlantic/Cape_Verde' | 'Atlantic/Faroe' | 'Atlantic/Madeira' | 'Atlantic/Reykjavik' | 'Atlantic/South_Georgia' | 'Atlantic/St_Helena' | 'Atlantic/Stanley' | 'Australia/Adelaide' | 'Australia/Brisbane' | 'Australia/Broken_Hill' | 'Australia/Darwin' | 'Australia/Eucla' | 'Australia/Hobart' | 'Australia/Lindeman' | 'Australia/Lord_Howe' | 'Australia/Melbourne' | 'Australia/Perth' | 'Australia/Sydney' | 'Canada/Atlantic' | 'Canada/Central' | 'Canada/Eastern' | 'Canada/Mountain' | 'Canada/Newfoundland' | 'Canada/Pacific' | 'Europe/Amsterdam' | 'Europe/Andorra' | 'Europe/Astrakhan' | 'Europe/Athens' | 'Europe/Belgrade' | 'Europe/Berlin' | 'Europe/Bratislava' | 'Europe/Brussels' | 'Europe/Bucharest' | 'Europe/Budapest' | 'Europe/Busingen' | 'Europe/Chisinau' | 'Europe/Copenhagen' | 'Europe/Dublin' | 'Europe/Gibraltar' | 'Europe/Guernsey' | 'Europe/Helsinki' | 'Europe/Isle_of_Man' | 'Europe/Istanbul' | 'Europe/Jersey' | 'Europe/Kaliningrad' | 'Europe/Kirov' | 'Europe/Kyiv' | 'Europe/Lisbon' | 'Europe/Ljubljana' | 'Europe/London' | 'Europe/Luxembourg' | 'Europe/Madrid' | 'Europe/Malta' | 'Europe/Mariehamn' | 'Europe/Minsk' | 'Europe/Monaco' | 'Europe/Moscow' | 'Europe/Oslo' | 'Europe/Paris' | 'Europe/Podgorica' | 'Europe/Prague' | 'Europe/Riga' | 'Europe/Rome' | 'Europe/Samara' | 'Europe/San_Marino' | 'Europe/Sarajevo' | 'Europe/Saratov' | 'Europe/Simferopol' | 'Europe/Skopje' | 'Europe/Sofia' | 'Europe/Stockholm' | 'Europe/Tallinn' | 'Europe/Tirane' | 'Europe/Ulyanovsk' | 'Europe/Vaduz' | 'Europe/Vatican' | 'Europe/Vienna' | 'Europe/Vilnius' | 'Europe/Volgograd' | 'Europe/Warsaw' | 'Europe/Zagreb' | 'Europe/Zurich' | 'GMT' | 'Indian/Antananarivo' | 'Indian/Chagos' | 'Indian/Christmas' | 'Indian/Cocos' | 'Indian/Comoro' | 'Indian/Kerguelen' | 'Indian/Mahe' | 'Indian/Maldives' | 'Indian/Mauritius' | 'Indian/Mayotte' | 'Indian/Reunion' | 'Pacific/Apia' | 'Pacific/Auckland' | 'Pacific/Bougainville' | 'Pacific/Chatham' | 'Pacific/Chuuk' | 'Pacific/Easter' | 'Pacific/Efate' | 'Pacific/Fakaofo' | 'Pacific/Fiji' | 'Pacific/Funafuti' | 'Pacific/Galapagos' | 'Pacific/Gambier' | 'Pacific/Guadalcanal' | 'Pacific/Guam' | 'Pacific/Honolulu' | 'Pacific/Kanton' | 'Pacific/Kiritimati' | 'Pacific/Kosrae' | 'Pacific/Kwajalein' | 'Pacific/Majuro' | 'Pacific/Marquesas' | 'Pacific/Midway' | 'Pacific/Nauru' | 'Pacific/Niue' | 'Pacific/Norfolk' | 'Pacific/Noumea' | 'Pacific/Pago_Pago' | 'Pacific/Palau' | 'Pacific/Pitcairn' | 'Pacific/Pohnpei' | 'Pacific/Port_Moresby' | 'Pacific/Rarotonga' | 'Pacific/Saipan' | 'Pacific/Tahiti' | 'Pacific/Tarawa' | 'Pacific/Tongatapu' | 'Pacific/Wake' | 'Pacific/Wallis' | 'US/Alaska' | 'US/Arizona' | 'US/Central' | 'US/Eastern' | 'US/Hawaii' | 'US/Mountain' | 'US/Pacific' | 'UTC' | 'profile';
+    trigger_time: string;
+    trigger_days?: Array<'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday'> | null;
+};
+
+export type PriceDropEnum = 'price-drop';
+
+export type PriceDropPropertyEnum = 'price-drop-property';
+
+export type PriceDropCondition = {
+    type: PriceDropPropertyEnum;
+    metric_id: string | null;
+    field: string;
+    filter: StringOperatorFilter | StringArrayOperatorFilter | NumericOperatorFilter | NumericRangeFilter | BooleanFilter | StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter | ListContainsOperatorFilter | ListLengthFilter | ExistenceOperatorFilter;
+};
+
+export type PriceDropConditionGroup = {
+    conditions: Array<PriceDropCondition>;
+};
+
+export type PriceDropConditionFilter = {
+    condition_groups: Array<PriceDropConditionGroup>;
+};
+
+export type PriceDropTrigger = {
+    type: PriceDropEnum;
+    trigger_filter: PriceDropConditionFilter;
+    price_drop_amount_value: number | number;
+    /**
+     * Price Drop amount type.
+     */
+    price_drop_amount_unit?: 'currency' | 'percent';
+    audience: Array<'checkout-started' | 'viewed'>;
+    timeframe_days?: number;
+    /**
+     * Currency type.
+     */
+    currency_type?: 'usd';
+};
+
+export type LowInventoryEnum = 'low-inventory';
+
+export type LowInventoryPropertyEnum = 'low-inventory-property';
+
+export type LowInventoryCondition = {
+    type: LowInventoryPropertyEnum;
+    metric_id: string | null;
+    field: string;
+    filter: StringOperatorFilter | StringArrayOperatorFilter | NumericOperatorFilter | NumericRangeFilter | BooleanFilter | StaticDateFilter | StaticDateRangeFilter | RelativeDateOperatorBaseFilter | RelativeAnniversaryDateFilter | RelativeDateRangeFilter | CalendarDateFilter | AnniversaryDateFilter | ListContainsOperatorFilter | ListLengthFilter | ExistenceOperatorFilter;
+};
+
+export type LowInventoryConditionGroup = {
+    conditions: Array<LowInventoryCondition>;
+};
+
+export type LowInventoryConditionFilter = {
+    condition_groups: Array<LowInventoryConditionGroup>;
+};
+
+export type LowInventoryTrigger = {
+    type: LowInventoryEnum;
+    /**
+     * Low inventory product level.
+     */
+    product_level: 'product' | 'variant';
+    trigger_filter: LowInventoryConditionFilter;
+    inventory_count: number;
+    audience: Array<'added-to-cart' | 'checkout-started' | 'viewed'>;
+    timeframe_days?: number;
+};
+
+export type ProfileNotInFlowEnum = 'profile-not-in-flow';
+
+export type ProfileNotInFlowCondition = {
+    type: ProfileNotInFlowEnum;
+    timeframe_filter: AlltimeDateFilter | InTheLastBaseRelativeDateFilter;
+};
+
 export type FlowDefinition = {
     /**
      * Corresponds to the object which triggers the flow. Only one trigger is supported.
@@ -3939,13 +4026,13 @@ export type FlowDefinition = {
      */
     profile_filter?: {
         condition_groups: Array<{
-            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfileNotInFlowCondition>;
+            conditions: Array<ProfilePropertyCondition | ProfileHasGroupMembershipCondition | ProfileNoGroupMembershipCondition | ProfileRegionCondition | ProfilePostalCodeDistanceCondition | ProfilePredictiveAnalyticsDateCondition | ProfilePredictiveAnalyticsStringCondition | ProfilePredictiveAnalyticsNumericCondition | ProfileMarketingConsentCondition | FlowsProfileMetricCondition | ProfileRandomSampleCondition | ProfilePermissionsCondition | ProfileNotInFlowCondition>;
         }>;
     } | null;
     /**
      * A list of actions that make up the flow. Actions are linked to each other by their ids.
      */
-    actions: Array<ActionOutputSplitAction | BackInStockDelayAction | ConditionalBranchAction | ContentExperimentAction | SendEmailAction | SendPushNotificationAction | SendSmsAction | SendWebhookAction | SendInternalAlertAction | TimeDelayAction | TriggerBranchAction | UpdateProfileAction | TargetDateAction | CountdownDelayAction | AbTestAction | InternalServiceAction | CodeAction | SplitAction | BranchAction | ListUpdateAction>;
+    actions: Array<ActionOutputSplitAction | BackInStockDelayAction | ConditionalBranchAction | ContentExperimentAction | SendEmailAction | SendPushNotificationAction | SendSmsAction | SendWebhookAction | SendInternalAlertAction | SendWhatsAppAction | TimeDelayAction | TriggerBranchAction | UpdateProfileAction | TargetDateAction | CountdownDelayAction | AbTestAction | InternalServiceAction | CodeAction | SplitAction | BranchAction | ListUpdateAction>;
     /**
      * The ID of the action that is the entry point of the flow.
      */
@@ -3993,11 +4080,11 @@ export type GetFlowV2ResponseCompoundDocument = {
             definition?: FlowDefinition;
         };
     };
-    included?: Array<FlowActionResponseObjectResource | TagResponseObjectResource>;
+    included?: Array<FlowActionEncodedResponseObjectResource | TagResponseObjectResource>;
 };
 
-export type GetFlowActionResponseCollection = {
-    data: Array<FlowActionResponseObjectResource & {
+export type GetFlowActionEncodedResponseCollection = {
+    data: Array<FlowActionEncodedResponseObjectResource & {
         relationships?: {
             flow?: {
                 links?: RelationshipLinks;
@@ -4027,50 +4114,24 @@ export type GetFlowTagsRelationshipsResponseCollection = {
     }>;
 };
 
-export type EmailMessageContent = {
-    subject: string;
-    preview_text: string;
-    from_email: string;
-    from_label: string;
-    reply_to_email?: string | null;
-    cc_email?: string | null;
-    bcc_email?: string | null;
-};
-
-export type SmsMessageContent = {
-    body: string;
-    media_url?: string | null;
-};
-
-export type MobilePushMessageContent = {
-    title: string;
-    body: string;
-    sound?: boolean;
-    badge?: boolean;
-    media_url?: string | null;
-    dynamic_image?: string | null;
-    ios_link?: string | null;
-    android_link?: string | null;
-    on_open?: string;
-};
-
 export type TemplateEnum = 'template';
 
-export type FlowMessageResponseObjectResource = {
+export type FlowMessageEncodedResponseObjectResource = {
     type: FlowMessageEnum;
     id: string;
     attributes: {
-        name: string;
-        channel: string;
-        content: EmailMessageContent | SmsMessageContent | MobilePushMessageContent;
         created?: string | null;
         updated?: string | null;
+        /**
+         * The encoded flow message definition.
+         */
+        definition?: FlowEmail | FlowInternalAlert | FlowPushNotification | FlowSms | FlowWebhook | FlowWhatsApp | null;
     };
     links: ObjectLinks;
 };
 
-export type GetFlowActionResponseCompoundDocument = {
-    data: FlowActionResponseObjectResource & {
+export type GetFlowActionEncodedResponseCompoundDocument = {
+    data: FlowActionEncodedResponseObjectResource & {
         relationships?: {
             flow?: {
                 data?: {
@@ -4088,7 +4149,7 @@ export type GetFlowActionResponseCompoundDocument = {
             };
         };
     };
-    included?: Array<FlowResponseObjectResource | FlowMessageResponseObjectResource>;
+    included?: Array<FlowResponseObjectResource | FlowMessageEncodedResponseObjectResource>;
 };
 
 export type GetFlowResponse = {
@@ -4111,8 +4172,8 @@ export type GetFlowActionFlowRelationshipResponse = {
     };
 };
 
-export type GetFlowMessageResponseCollection = {
-    data: Array<FlowMessageResponseObjectResource & {
+export type GetFlowMessageEncodedResponseCollection = {
+    data: Array<FlowMessageEncodedResponseObjectResource & {
         relationships?: {
             'flow-action'?: {
                 links?: RelationshipLinks;
@@ -4175,8 +4236,8 @@ export type TemplateResponseObjectResource = {
     links: ObjectLinks;
 };
 
-export type GetFlowMessageResponseCompoundDocument = {
-    data: FlowMessageResponseObjectResource & {
+export type GetFlowMessageEncodedResponseCompoundDocument = {
+    data: FlowMessageEncodedResponseObjectResource & {
         relationships?: {
             'flow-action'?: {
                 data?: {
@@ -4194,11 +4255,11 @@ export type GetFlowMessageResponseCompoundDocument = {
             };
         };
     };
-    included?: Array<FlowActionResponseObjectResource | TemplateResponseObjectResource>;
+    included?: Array<FlowActionEncodedResponseObjectResource | TemplateResponseObjectResource>;
 };
 
-export type GetFlowActionResponse = {
-    data: FlowActionResponseObjectResource & {
+export type GetFlowActionEncodedResponse = {
+    data: FlowActionEncodedResponseObjectResource & {
         relationships?: {
             flow?: {
                 links?: RelationshipLinks;
@@ -4332,6 +4393,20 @@ export type PushOnOpenDeepLink = {
      * required for all platforms enabled for push
      */
     android_deep_link?: string | null;
+};
+
+export type CampaignMessageIncrement = {
+    badge_config: 'increment_one';
+};
+
+export type CampaignMessageStaticCount = {
+    badge_config: 'set_count';
+    value: string;
+};
+
+export type CampaignMessageProperty = {
+    badge_config: 'set_property';
+    set_from_property: string;
 };
 
 export type MobilePushBadge = {
@@ -6631,19 +6706,1320 @@ export type GetFormResponseCollectionCompoundDocument = {
     links?: CollectionLinks;
 };
 
-export type GetFormResponseCompoundDocument = {
-    data: FormResponseObjectResource & {
-        relationships?: {
-            'form-versions'?: {
-                data?: Array<{
-                    type: FormVersionEnum;
-                    id: string;
-                }>;
-                links?: RelationshipLinks;
-            };
-        };
+export type Padding = {
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
+};
+
+export type BorderStyle = {
+    radius?: number;
+    color?: string | null;
+    /**
+     * Border pattern enumeration.
+     */
+    style?: 'dashed' | 'dotted' | 'solid';
+    thickness?: number | null;
+};
+
+export type TextStyle = {
+    font_family?: 'Arial Black,Arial' | "Arial, 'Helvetica Neue', Helvetica, sans-serif" | 'Century Gothic,AppleGothic,Arial' | 'Comic Sans MS,Comic Sans,cursive' | 'Courier' | 'Courier New' | 'Geneva,Arial' | 'Georgia' | 'Helvetica,Arial' | 'Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'MS Serif,Georgia' | 'New York,Georgia' | 'Palatino Linotype,Palatino,Georgia' | 'Palatino,Georgia' | 'Tahoma,sans-serif' | 'Times New Roman' | 'Trebuchet MS' | 'Verdana' | string;
+    font_size?: number;
+    /**
+     * Font weight enumeration.
+     */
+    font_weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    text_color?: string;
+    character_spacing?: number | null;
+};
+
+export type ButtonStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    /**
+     * Valid button block widths.
+     */
+    width?: 'fill' | 'fit';
+    height?: number;
+    hover_background_color?: string | null;
+    hover_text_color?: string | null;
+    border_styles?: BorderStyle;
+    text_styles?: TextStyle;
+    color?: string | null;
+};
+
+export type AdditionalField = {
+    name: string;
+    value: string;
+};
+
+export type ButtonProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    label: string;
+    additional_fields?: Array<AdditionalField> | null;
+};
+
+export type CloseEnum = 'close';
+
+export type CloseProperties = {
+    list_id?: string | null;
+};
+
+export type Close = {
+    id?: string | null;
+    submit: boolean;
+    type: CloseEnum;
+    properties?: CloseProperties;
+};
+
+export type NextStepEnum = 'next_step';
+
+export type NextStepProperties = {
+    list_id?: string | null;
+};
+
+export type NextStep = {
+    id?: string | null;
+    submit: boolean;
+    type: NextStepEnum;
+    properties?: NextStepProperties;
+};
+
+export type OpenFormEnum = 'open_form';
+
+export type OpenFormProperties = {
+    close_form?: boolean;
+    form_id_to_open: string;
+};
+
+export type OpenForm = {
+    id?: string | null;
+    type: OpenFormEnum;
+    submit?: true;
+    properties: OpenFormProperties;
+};
+
+export type PromotionalSmsSubscriptionEnum = 'promotional_sms_subscription';
+
+export type PromotionalSmsSubscription = {
+    id?: string | null;
+    submit?: true;
+    type: PromotionalSmsSubscriptionEnum;
+    properties?: unknown;
+};
+
+export type RedirectEnum = 'redirect';
+
+export type RedirectProperties = {
+    list_id?: string | null;
+    url: string;
+    new_window?: boolean;
+};
+
+export type Redirect = {
+    id?: string | null;
+    submit: boolean;
+    type: RedirectEnum;
+    properties: RedirectProperties;
+};
+
+export type ResendOptInCodeEnum = 'resend_opt_in_code';
+
+export type ResendOptInCode = {
+    id?: string | null;
+    submit?: false;
+    type: ResendOptInCodeEnum;
+    properties?: unknown;
+};
+
+export type SubmitOptInCodeEnum = 'submit_opt_in_code';
+
+export type SubmitOptInCode = {
+    id?: string | null;
+    submit?: true;
+    type: SubmitOptInCodeEnum;
+    properties?: unknown;
+};
+
+export type SubscribeViaSmsEnum = 'subscribe_via_sms';
+
+export type SubscribeViaSmsProperties = {
+    opt_in_keyword: string | null;
+    opt_in_message: string;
+    sending_number: string | null;
+};
+
+export type SubscribeViaSms = {
+    id?: string | null;
+    submit?: true;
+    type: SubscribeViaSmsEnum;
+    properties: SubscribeViaSmsProperties;
+};
+
+export type GoToInboxEnum = 'go_to_inbox';
+
+export type GoToInbox = {
+    id?: string | null;
+    submit?: true;
+    type: GoToInboxEnum;
+    properties?: unknown;
+};
+
+export type SubmitBackInStockEnum = 'submit_back_in_stock';
+
+export type SubmitBackInStockProperties = {
+    list_id?: string | null;
+};
+
+export type SubmitBackInStock = {
+    id?: string | null;
+    type: SubmitBackInStockEnum;
+    properties?: SubmitBackInStockProperties;
+    submit?: true;
+};
+
+export type Button = {
+    id?: string | null;
+    type: ButtonEnum;
+    styles?: ButtonStyles;
+    properties: ButtonProperties;
+    action?: Close | NextStep | OpenForm | PromotionalSmsSubscription | Redirect | ResendOptInCode | SubmitOptInCode | SubscribeViaSms | GoToInbox | SubmitBackInStock;
+};
+
+export type AgeGateEnum = 'age_gate';
+
+export type AgeGateStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type ErrorMessages = {
+    required?: string;
+    invalid?: string;
+};
+
+export type DollarSignAgeGatedDateOfBirthEnum = '$age_gated_date_of_birth';
+
+export type AgeGateProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    label?: string | null;
+    show_label?: boolean;
+    placeholder?: string | null;
+    error_messages?: ErrorMessages;
+    property_name?: DollarSignAgeGatedDateOfBirthEnum;
+    date_format?: string;
+    /**
+     * SMS County Code Enum.
+     */
+    sms_country_code?: 'AT' | 'AU' | 'CH' | 'DE' | 'ES' | 'FR' | 'GB' | 'IE' | 'IT' | 'PT' | 'US';
+    required?: true;
+};
+
+export type AgeGate = {
+    id?: string | null;
+    type: AgeGateEnum;
+    styles?: AgeGateStyles;
+    properties: AgeGateProperties;
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+};
+
+export type CouponStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    text_styles?: TextStyle;
+    border_styles?: BorderStyle;
+    coupon_background_color?: string | null;
+};
+
+export type UniqueEnum = 'unique';
+
+export type UniqueCouponConfig = {
+    type: UniqueEnum;
+    id?: number | null;
+    code?: string | null;
+    fallback_coupon_code?: string | null;
+    /**
+     * Timeframes for the signup counter lookback.
+     */
+    integration?: 'shopify' | 'uploaded';
+};
+
+export type StaticCouponConfig = {
+    type: StaticEnum;
+    text?: string | null;
+};
+
+export type CouponProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    coupon: UniqueCouponConfig | StaticCouponConfig;
+    success_message?: string | null;
+};
+
+export type Coupon = {
+    id?: string | null;
+    type: CouponEnum;
+    styles?: CouponStyles;
+    properties: CouponProperties;
+};
+
+export type DateStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type DateProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    property_name: string;
+    label?: string | null;
+    show_label?: boolean;
+    placeholder?: string | null;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+    date_format?: string;
+};
+
+export type _Date = {
+    id?: string | null;
+    type: DateEnum;
+    styles?: DateStyles;
+    properties: DateProperties;
+};
+
+export type EmailStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type DollarSignEmailEnum = '$email';
+
+export type EmailProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    label?: string | null;
+    show_label?: boolean;
+    placeholder?: string | null;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+    property_name?: DollarSignEmailEnum;
+};
+
+export type Email = {
+    id?: string | null;
+    type: EmailEnum;
+    styles?: EmailStyles;
+    properties: EmailProperties;
+};
+
+export type HtmlTextEnum = 'html_text';
+
+export type HtmlTextStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type HtmlTextProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    content?: string;
+};
+
+export type HtmlText = {
+    id?: string | null;
+    type: HtmlTextEnum;
+    styles?: HtmlTextStyles;
+    properties?: HtmlTextProperties;
+};
+
+export type OptInCodeEnum = 'opt_in_code';
+
+export type OptInCodeStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type OptInCodeProperties = {
+    label?: string | null;
+    show_label?: boolean;
+    placeholder?: string | null;
+    error_messages?: ErrorMessages;
+    property_name?: OptInCodeEnum;
+    required?: true;
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+};
+
+export type OptInCode = {
+    id?: string | null;
+    type: OptInCodeEnum;
+    styles?: OptInCodeStyles;
+    properties: OptInCodeProperties;
+};
+
+export type PhoneNumberEnum = 'phone_number';
+
+export type PhoneNumberStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type PhoneNumberProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    label?: string | null;
+    show_label?: boolean;
+    placeholder?: string | null;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+    property_name?: string;
+    sms_consent_type?: Array<'phone_number_only' | 'promotional' | 'transactional'>;
+};
+
+export type PhoneNumber = {
+    id?: string | null;
+    type: PhoneNumberEnum;
+    styles?: PhoneNumberStyles;
+    properties: PhoneNumberProperties;
+};
+
+export type PromotionalSmsCheckboxEnum = 'promotional_sms_checkbox';
+
+export type SmsConsentCheckboxStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    /**
+     * Horizontal alignment enumeration.
+     */
+    horizontal_alignment?: 'center' | 'left' | 'right';
+};
+
+export type OptInPromotionalSmsEnum = 'opt_in_promotional_sms';
+
+export type SmsConsentCheckboxProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    label?: string | null;
+    show_label?: boolean;
+    error_messages?: ErrorMessages;
+    required?: false;
+    property_name?: OptInPromotionalSmsEnum;
+    checkbox_text: string;
+    placeholder?: unknown;
+};
+
+export type SmsConsentCheckbox = {
+    id?: string | null;
+    type: PromotionalSmsCheckboxEnum;
+    styles?: SmsConsentCheckboxStyles;
+    properties: SmsConsentCheckboxProperties;
+};
+
+export type TextStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type TextProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    property_name: string;
+    label?: string | null;
+    show_label?: boolean;
+    placeholder?: string | null;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+};
+
+export type Text = {
+    id?: string | null;
+    type: TextEnum;
+    styles?: TextStyles;
+    properties: TextProperties;
+};
+
+export type CheckboxesEnum = 'checkboxes';
+
+export type CheckboxesStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    /**
+     * Arrangement enumeration.
+     */
+    arrangement?: 'horizontal' | 'vertical';
+    /**
+     * Horizontal alignment enumeration.
+     */
+    alignment?: 'center' | 'left' | 'right';
+};
+
+export type PropertyOption = {
+    label: string;
+    value: string;
+};
+
+export type CheckboxesProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    property_name: string;
+    label?: string | null;
+    show_label?: boolean;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+    options: Array<PropertyOption>;
+    placeholder?: string | null;
+};
+
+export type Checkboxes = {
+    id?: string | null;
+    type: CheckboxesEnum;
+    styles?: CheckboxesStyles;
+    properties: CheckboxesProperties;
+};
+
+export type RadioButtonsEnum = 'radio_buttons';
+
+export type RadioButtonsStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    /**
+     * Arrangement enumeration.
+     */
+    arrangement?: 'horizontal' | 'vertical';
+    /**
+     * Horizontal alignment enumeration.
+     */
+    alignment?: 'center' | 'left' | 'right';
+};
+
+export type RadioButtonsProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    property_name: string;
+    label?: string | null;
+    show_label?: boolean;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+    options: Array<PropertyOption>;
+    placeholder?: string | null;
+};
+
+export type RadioButtons = {
+    id?: string | null;
+    type: RadioButtonsEnum;
+    styles?: RadioButtonsStyles;
+    properties: RadioButtonsProperties;
+};
+
+export type DropdownEnum = 'dropdown';
+
+export type DropdownStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type DropdownProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    property_name: string;
+    label?: string | null;
+    show_label?: boolean;
+    required?: boolean | null;
+    error_messages?: ErrorMessages;
+    options: Array<PropertyOption>;
+    placeholder?: string | null;
+};
+
+export type Dropdown = {
+    id?: string | null;
+    type: DropdownEnum;
+    styles?: DropdownStyles;
+    properties: DropdownProperties;
+};
+
+export type ImageStyles = {
+    /**
+     * Horizontal alignment enumeration.
+     */
+    horizontal_alignment?: 'center' | 'left' | 'right';
+    width?: number | null;
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type ImageAssetProperties = {
+    id: number;
+    src?: string;
+    alt_text?: string | null;
+    original_image_url?: string | null;
+    asset_id?: number | null;
+};
+
+export type ImageProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    image: ImageAssetProperties;
+    additional_fields?: Array<AdditionalField> | null;
+};
+
+export type Image = {
+    id?: string | null;
+    type: ImageEnum;
+    styles?: ImageStyles;
+    properties: ImageProperties;
+    action?: Close | NextStep | OpenForm | PromotionalSmsSubscription | Redirect | ResendOptInCode | SubmitOptInCode | SubscribeViaSms | GoToInbox | SubmitBackInStock | null;
+};
+
+export type CountdownTimerEnum = 'countdown_timer';
+
+export type CountdownTimerStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    text_styles?: TextStyle;
+    card_color?: string;
+    label_font_size?: number;
+    /**
+     * Font weight enumeration.
+     */
+    label_font_weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+};
+
+export type FixedEnum = 'fixed';
+
+export type FixedTimerConfiguration = {
+    type: FixedEnum;
+    timezone: 'Africa/Abidjan' | 'Africa/Accra' | 'Africa/Addis_Ababa' | 'Africa/Algiers' | 'Africa/Asmara' | 'Africa/Bamako' | 'Africa/Bangui' | 'Africa/Banjul' | 'Africa/Bissau' | 'Africa/Blantyre' | 'Africa/Brazzaville' | 'Africa/Bujumbura' | 'Africa/Cairo' | 'Africa/Casablanca' | 'Africa/Ceuta' | 'Africa/Conakry' | 'Africa/Dakar' | 'Africa/Dar_es_Salaam' | 'Africa/Djibouti' | 'Africa/Douala' | 'Africa/El_Aaiun' | 'Africa/Freetown' | 'Africa/Gaborone' | 'Africa/Harare' | 'Africa/Johannesburg' | 'Africa/Juba' | 'Africa/Kampala' | 'Africa/Khartoum' | 'Africa/Kigali' | 'Africa/Kinshasa' | 'Africa/Lagos' | 'Africa/Libreville' | 'Africa/Lome' | 'Africa/Luanda' | 'Africa/Lubumbashi' | 'Africa/Lusaka' | 'Africa/Malabo' | 'Africa/Maputo' | 'Africa/Maseru' | 'Africa/Mbabane' | 'Africa/Mogadishu' | 'Africa/Monrovia' | 'Africa/Nairobi' | 'Africa/Ndjamena' | 'Africa/Niamey' | 'Africa/Nouakchott' | 'Africa/Ouagadougou' | 'Africa/Porto-Novo' | 'Africa/Sao_Tome' | 'Africa/Tripoli' | 'Africa/Tunis' | 'Africa/Windhoek' | 'America/Adak' | 'America/Anchorage' | 'America/Anguilla' | 'America/Antigua' | 'America/Araguaina' | 'America/Argentina/Buenos_Aires' | 'America/Argentina/Catamarca' | 'America/Argentina/Cordoba' | 'America/Argentina/Jujuy' | 'America/Argentina/La_Rioja' | 'America/Argentina/Mendoza' | 'America/Argentina/Rio_Gallegos' | 'America/Argentina/Salta' | 'America/Argentina/San_Juan' | 'America/Argentina/San_Luis' | 'America/Argentina/Tucuman' | 'America/Argentina/Ushuaia' | 'America/Aruba' | 'America/Asuncion' | 'America/Atikokan' | 'America/Bahia' | 'America/Bahia_Banderas' | 'America/Barbados' | 'America/Belem' | 'America/Belize' | 'America/Blanc-Sablon' | 'America/Boa_Vista' | 'America/Bogota' | 'America/Boise' | 'America/Cambridge_Bay' | 'America/Campo_Grande' | 'America/Cancun' | 'America/Caracas' | 'America/Cayenne' | 'America/Cayman' | 'America/Chicago' | 'America/Chihuahua' | 'America/Ciudad_Juarez' | 'America/Costa_Rica' | 'America/Creston' | 'America/Cuiaba' | 'America/Curacao' | 'America/Danmarkshavn' | 'America/Dawson' | 'America/Dawson_Creek' | 'America/Denver' | 'America/Detroit' | 'America/Dominica' | 'America/Edmonton' | 'America/Eirunepe' | 'America/El_Salvador' | 'America/Fort_Nelson' | 'America/Fortaleza' | 'America/Glace_Bay' | 'America/Goose_Bay' | 'America/Grand_Turk' | 'America/Grenada' | 'America/Guadeloupe' | 'America/Guatemala' | 'America/Guayaquil' | 'America/Guyana' | 'America/Halifax' | 'America/Havana' | 'America/Hermosillo' | 'America/Indiana/Indianapolis' | 'America/Indiana/Knox' | 'America/Indiana/Marengo' | 'America/Indiana/Petersburg' | 'America/Indiana/Tell_City' | 'America/Indiana/Vevay' | 'America/Indiana/Vincennes' | 'America/Indiana/Winamac' | 'America/Inuvik' | 'America/Iqaluit' | 'America/Jamaica' | 'America/Juneau' | 'America/Kentucky/Louisville' | 'America/Kentucky/Monticello' | 'America/Kralendijk' | 'America/La_Paz' | 'America/Lima' | 'America/Los_Angeles' | 'America/Lower_Princes' | 'America/Maceio' | 'America/Managua' | 'America/Manaus' | 'America/Marigot' | 'America/Martinique' | 'America/Matamoros' | 'America/Mazatlan' | 'America/Menominee' | 'America/Merida' | 'America/Metlakatla' | 'America/Mexico_City' | 'America/Miquelon' | 'America/Moncton' | 'America/Monterrey' | 'America/Montevideo' | 'America/Montserrat' | 'America/Nassau' | 'America/New_York' | 'America/Nome' | 'America/Noronha' | 'America/North_Dakota/Beulah' | 'America/North_Dakota/Center' | 'America/North_Dakota/New_Salem' | 'America/Nuuk' | 'America/Ojinaga' | 'America/Panama' | 'America/Paramaribo' | 'America/Phoenix' | 'America/Port-au-Prince' | 'America/Port_of_Spain' | 'America/Porto_Velho' | 'America/Puerto_Rico' | 'America/Punta_Arenas' | 'America/Rankin_Inlet' | 'America/Recife' | 'America/Regina' | 'America/Resolute' | 'America/Rio_Branco' | 'America/Santarem' | 'America/Santiago' | 'America/Santo_Domingo' | 'America/Sao_Paulo' | 'America/Scoresbysund' | 'America/Sitka' | 'America/St_Barthelemy' | 'America/St_Johns' | 'America/St_Kitts' | 'America/St_Lucia' | 'America/St_Thomas' | 'America/St_Vincent' | 'America/Swift_Current' | 'America/Tegucigalpa' | 'America/Thule' | 'America/Tijuana' | 'America/Toronto' | 'America/Tortola' | 'America/Vancouver' | 'America/Whitehorse' | 'America/Winnipeg' | 'America/Yakutat' | 'Antarctica/Casey' | 'Antarctica/Davis' | 'Antarctica/DumontDUrville' | 'Antarctica/Macquarie' | 'Antarctica/Mawson' | 'Antarctica/McMurdo' | 'Antarctica/Palmer' | 'Antarctica/Rothera' | 'Antarctica/Syowa' | 'Antarctica/Troll' | 'Antarctica/Vostok' | 'Arctic/Longyearbyen' | 'Asia/Aden' | 'Asia/Almaty' | 'Asia/Amman' | 'Asia/Anadyr' | 'Asia/Aqtau' | 'Asia/Aqtobe' | 'Asia/Ashgabat' | 'Asia/Atyrau' | 'Asia/Baghdad' | 'Asia/Bahrain' | 'Asia/Baku' | 'Asia/Bangkok' | 'Asia/Barnaul' | 'Asia/Beirut' | 'Asia/Bishkek' | 'Asia/Brunei' | 'Asia/Chita' | 'Asia/Choibalsan' | 'Asia/Colombo' | 'Asia/Damascus' | 'Asia/Dhaka' | 'Asia/Dili' | 'Asia/Dubai' | 'Asia/Dushanbe' | 'Asia/Famagusta' | 'Asia/Gaza' | 'Asia/Hebron' | 'Asia/Ho_Chi_Minh' | 'Asia/Hong_Kong' | 'Asia/Hovd' | 'Asia/Irkutsk' | 'Asia/Jakarta' | 'Asia/Jayapura' | 'Asia/Jerusalem' | 'Asia/Kabul' | 'Asia/Kamchatka' | 'Asia/Karachi' | 'Asia/Kathmandu' | 'Asia/Khandyga' | 'Asia/Kolkata' | 'Asia/Krasnoyarsk' | 'Asia/Kuala_Lumpur' | 'Asia/Kuching' | 'Asia/Kuwait' | 'Asia/Macau' | 'Asia/Magadan' | 'Asia/Makassar' | 'Asia/Manila' | 'Asia/Muscat' | 'Asia/Nicosia' | 'Asia/Novokuznetsk' | 'Asia/Novosibirsk' | 'Asia/Omsk' | 'Asia/Oral' | 'Asia/Phnom_Penh' | 'Asia/Pontianak' | 'Asia/Pyongyang' | 'Asia/Qatar' | 'Asia/Qostanay' | 'Asia/Qyzylorda' | 'Asia/Riyadh' | 'Asia/Sakhalin' | 'Asia/Samarkand' | 'Asia/Seoul' | 'Asia/Shanghai' | 'Asia/Singapore' | 'Asia/Srednekolymsk' | 'Asia/Taipei' | 'Asia/Tashkent' | 'Asia/Tbilisi' | 'Asia/Tehran' | 'Asia/Thimphu' | 'Asia/Tokyo' | 'Asia/Tomsk' | 'Asia/Ulaanbaatar' | 'Asia/Urumqi' | 'Asia/Ust-Nera' | 'Asia/Vientiane' | 'Asia/Vladivostok' | 'Asia/Yakutsk' | 'Asia/Yangon' | 'Asia/Yekaterinburg' | 'Asia/Yerevan' | 'Atlantic/Azores' | 'Atlantic/Bermuda' | 'Atlantic/Canary' | 'Atlantic/Cape_Verde' | 'Atlantic/Faroe' | 'Atlantic/Madeira' | 'Atlantic/Reykjavik' | 'Atlantic/South_Georgia' | 'Atlantic/St_Helena' | 'Atlantic/Stanley' | 'Australia/Adelaide' | 'Australia/Brisbane' | 'Australia/Broken_Hill' | 'Australia/Darwin' | 'Australia/Eucla' | 'Australia/Hobart' | 'Australia/Lindeman' | 'Australia/Lord_Howe' | 'Australia/Melbourne' | 'Australia/Perth' | 'Australia/Sydney' | 'Canada/Atlantic' | 'Canada/Central' | 'Canada/Eastern' | 'Canada/Mountain' | 'Canada/Newfoundland' | 'Canada/Pacific' | 'Europe/Amsterdam' | 'Europe/Andorra' | 'Europe/Astrakhan' | 'Europe/Athens' | 'Europe/Belgrade' | 'Europe/Berlin' | 'Europe/Bratislava' | 'Europe/Brussels' | 'Europe/Bucharest' | 'Europe/Budapest' | 'Europe/Busingen' | 'Europe/Chisinau' | 'Europe/Copenhagen' | 'Europe/Dublin' | 'Europe/Gibraltar' | 'Europe/Guernsey' | 'Europe/Helsinki' | 'Europe/Isle_of_Man' | 'Europe/Istanbul' | 'Europe/Jersey' | 'Europe/Kaliningrad' | 'Europe/Kirov' | 'Europe/Kyiv' | 'Europe/Lisbon' | 'Europe/Ljubljana' | 'Europe/London' | 'Europe/Luxembourg' | 'Europe/Madrid' | 'Europe/Malta' | 'Europe/Mariehamn' | 'Europe/Minsk' | 'Europe/Monaco' | 'Europe/Moscow' | 'Europe/Oslo' | 'Europe/Paris' | 'Europe/Podgorica' | 'Europe/Prague' | 'Europe/Riga' | 'Europe/Rome' | 'Europe/Samara' | 'Europe/San_Marino' | 'Europe/Sarajevo' | 'Europe/Saratov' | 'Europe/Simferopol' | 'Europe/Skopje' | 'Europe/Sofia' | 'Europe/Stockholm' | 'Europe/Tallinn' | 'Europe/Tirane' | 'Europe/Ulyanovsk' | 'Europe/Vaduz' | 'Europe/Vatican' | 'Europe/Vienna' | 'Europe/Vilnius' | 'Europe/Volgograd' | 'Europe/Warsaw' | 'Europe/Zagreb' | 'Europe/Zurich' | 'GMT' | 'Indian/Antananarivo' | 'Indian/Chagos' | 'Indian/Christmas' | 'Indian/Cocos' | 'Indian/Comoro' | 'Indian/Kerguelen' | 'Indian/Mahe' | 'Indian/Maldives' | 'Indian/Mauritius' | 'Indian/Mayotte' | 'Indian/Reunion' | 'Pacific/Apia' | 'Pacific/Auckland' | 'Pacific/Bougainville' | 'Pacific/Chatham' | 'Pacific/Chuuk' | 'Pacific/Easter' | 'Pacific/Efate' | 'Pacific/Fakaofo' | 'Pacific/Fiji' | 'Pacific/Funafuti' | 'Pacific/Galapagos' | 'Pacific/Gambier' | 'Pacific/Guadalcanal' | 'Pacific/Guam' | 'Pacific/Honolulu' | 'Pacific/Kanton' | 'Pacific/Kiritimati' | 'Pacific/Kosrae' | 'Pacific/Kwajalein' | 'Pacific/Majuro' | 'Pacific/Marquesas' | 'Pacific/Midway' | 'Pacific/Nauru' | 'Pacific/Niue' | 'Pacific/Norfolk' | 'Pacific/Noumea' | 'Pacific/Pago_Pago' | 'Pacific/Palau' | 'Pacific/Pitcairn' | 'Pacific/Pohnpei' | 'Pacific/Port_Moresby' | 'Pacific/Rarotonga' | 'Pacific/Saipan' | 'Pacific/Tahiti' | 'Pacific/Tarawa' | 'Pacific/Tongatapu' | 'Pacific/Wake' | 'Pacific/Wallis' | 'US/Alaska' | 'US/Arizona' | 'US/Central' | 'US/Eastern' | 'US/Hawaii' | 'US/Mountain' | 'US/Pacific' | 'UTC';
+    end_time?: string | null;
+};
+
+export type VariableEnum = 'variable';
+
+export type VariableTimerConfiguration = {
+    type: VariableEnum;
+    days: number;
+    hours: number;
+    minutes: number;
+};
+
+export type CountdownTimerProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    /**
+     * Options for displaying a timer.
+     */
+    clock_face?: 'flip' | 'simple';
+    /**
+     * Options for timer completion animations.
+     */
+    animation?: 'flash' | 'heartbeat' | 'pulse';
+    configuration: FixedTimerConfiguration | VariableTimerConfiguration;
+};
+
+export type CountdownTimer = {
+    id?: string | null;
+    type: CountdownTimerEnum;
+    styles?: CountdownTimerStyles;
+    properties: CountdownTimerProperties;
+};
+
+export type SignupCounterEnum = 'signup_counter';
+
+export type SignupCounterStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+};
+
+export type SignupCounterProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    /**
+     * Timeframes for the signup counter lookback.
+     */
+    timeframe: '1_hour' | '24_hours' | '30_days' | '7_days';
+    min_submits: number;
+    content: string;
+};
+
+export type SignupCounter = {
+    id?: string | null;
+    type: SignupCounterEnum;
+    styles?: SignupCounterStyles;
+    properties: SignupCounterProperties;
+};
+
+export type SpinToWinSliceConfig = {
+    label: string;
+    probability: number;
+    step_id: string;
+};
+
+export type SpinToWinProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    duplicate_slices?: boolean;
+    slices: Array<SpinToWinSliceConfig>;
+};
+
+export type SpinToWinEnum = 'spin_to_win';
+
+export type SpinToWinSliceStyle = {
+    background_color?: string;
+    text_color?: string;
+};
+
+export type SpinToWinStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    slice_styles?: Array<SpinToWinSliceStyle>;
+    text_styles?: TextStyle;
+    center_color?: string;
+    outline_color?: string;
+    outline_thickness?: number;
+    pin_color?: string;
+    wheel_size?: number;
+};
+
+export type SpinToWin = {
+    id?: string | null;
+    properties: SpinToWinProperties;
+    type: SpinToWinEnum;
+    styles?: SpinToWinStyles;
+};
+
+export type SmsDisclosureEnum = 'sms_disclosure';
+
+export type SmsDisclosureTextStyle = {
+    font_family?: 'Arial Black,Arial' | "Arial, 'Helvetica Neue', Helvetica, sans-serif" | 'Century Gothic,AppleGothic,Arial' | 'Comic Sans MS,Comic Sans,cursive' | 'Courier' | 'Courier New' | 'Geneva,Arial' | 'Georgia' | 'Helvetica,Arial' | 'Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'MS Serif,Georgia' | 'New York,Georgia' | 'Palatino Linotype,Palatino,Georgia' | 'Palatino,Georgia' | 'Tahoma,sans-serif' | 'Times New Roman' | 'Trebuchet MS' | 'Verdana' | string;
+    font_size?: number;
+    /**
+     * Font weight enumeration.
+     */
+    font_weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    text_color?: string;
+    character_spacing?: number | null;
+};
+
+export type SmsDisclosureStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    link_styles?: SmsDisclosureTextStyle;
+    text_styles?: SmsDisclosureTextStyle;
+};
+
+export type CustomEnum = 'custom';
+
+export type SmsDisclosureCustom = {
+    type: CustomEnum;
+    compliance_company_name?: string;
+    privacy_policy_url?: string;
+    terms_of_service_url?: string;
+    html?: string;
+};
+
+export type AccountDefaultEnum = 'account_default';
+
+export type SmsDisclosureAccountDefault = {
+    type: AccountDefaultEnum;
+    html?: unknown;
+};
+
+export type SmsDisclosureProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    content?: SmsDisclosureCustom | SmsDisclosureAccountDefault;
+};
+
+export type SmsDisclosure = {
+    id?: string | null;
+    type: SmsDisclosureEnum;
+    styles?: SmsDisclosureStyles;
+    properties?: SmsDisclosureProperties;
+};
+
+export type BisPromotionalEmailCheckboxEnum = 'bis_promotional_email_checkbox';
+
+export type BackInStockEmailConsentCheckboxStyles = {
+    padding?: Padding;
+    background_color?: string | null;
+    /**
+     * Horizontal alignment enumeration.
+     */
+    horizontal_alignment?: 'center' | 'left' | 'right';
+};
+
+export type OptInPromotionalEmailEnum = 'opt_in_promotional_email';
+
+export type BackInStockEmailConsentCheckboxProperties = {
+    display_device?: Array<'both' | 'desktop' | 'mobile'>;
+    label?: string | null;
+    show_label?: boolean;
+    error_messages?: ErrorMessages;
+    required?: false;
+    property_name?: OptInPromotionalEmailEnum;
+    checkbox_text: string;
+    placeholder?: unknown;
+};
+
+export type BackInStockEmailConsentCheckbox = {
+    id?: string | null;
+    type: BisPromotionalEmailCheckboxEnum;
+    styles?: BackInStockEmailConsentCheckboxStyles;
+    properties: BackInStockEmailConsentCheckboxProperties;
+};
+
+export type Row = {
+    id?: string | null;
+    blocks: Array<Button | AgeGate | Coupon | _Date | Email | HtmlText | OptInCode | PhoneNumber | SmsConsentCheckbox | Text | Checkboxes | RadioButtons | Dropdown | Image | CountdownTimer | SignupCounter | SpinToWin | SmsDisclosure | BackInStockEmailConsentCheckbox>;
+};
+
+export type BackgroundImageStyles = {
+    /**
+     * Horizontal alignment enumeration.
+     */
+    horizontal_alignment?: 'center' | 'left' | 'right';
+    width?: number | null;
+    /**
+     * Image position enumeration.
+     */
+    position?: 'contain' | 'cover' | 'custom';
+    /**
+     * Vertical alignment enumeration.
+     */
+    vertical_alignment?: 'bottom' | 'center' | 'top';
+    custom_width?: number | null;
+};
+
+export type BackgroundImage = {
+    styles?: BackgroundImageStyles;
+    properties: ImageAssetProperties;
+};
+
+export type ColumnStyles = {
+    background_image?: BackgroundImage;
+    background_color?: string | null;
+};
+
+export type Column = {
+    id?: string | null;
+    rows?: Array<Row>;
+    styles?: ColumnStyles;
+};
+
+export type Step = {
+    id?: string | null;
+    columns: Array<Column>;
+    name?: string | null;
+    steps?: Array<Step> | null;
+};
+
+export type AfterCloseOrSubmitTimeoutEnum = 'after_close_or_submit_timeout';
+
+export type AfterCloseTimeoutProperties = {
+    timeout_days?: number;
+};
+
+export type AfterCloseTimeout = {
+    id?: string | null;
+    type: AfterCloseOrSubmitTimeoutEnum;
+    properties?: AfterCloseTimeoutProperties;
+};
+
+export type CartItemCountEnum = 'cart_item_count';
+
+export type CartItemCountProperties = {
+    /**
+     * Number comparison enumeration.
+     */
+    comparison?: 'equals' | 'greater_than' | 'less_than';
+    value?: number | null;
+};
+
+export type CartItemCount = {
+    id?: string | null;
+    type: CartItemCountEnum;
+    properties?: CartItemCountProperties;
+};
+
+export type CartProductEnum = 'cart_product';
+
+export type CartProductProperties = {
+    /**
+     * Product descriptor enumeration.
+     */
+    type?: 'brand' | 'categories' | 'id' | 'name';
+    value?: string | null;
+};
+
+export type CartProduct = {
+    id?: string | null;
+    type: CartProductEnum;
+    properties?: CartProductProperties;
+};
+
+export type CartValueEnum = 'cart_value';
+
+export type CartValueProperties = {
+    /**
+     * Number comparison enumeration.
+     */
+    comparison?: 'equals' | 'greater_than' | 'less_than';
+    value?: number | null;
+};
+
+export type CartValue = {
+    id?: string | null;
+    type: CartValueEnum;
+    properties?: CartValueProperties;
+};
+
+export type ChannelEnum = 'channel';
+
+export type ChannelProperties = {
+    /**
+     * Channel type enumeration.
+     */
+    channel: 'email' | 'sms';
+};
+
+export type Channel = {
+    id?: string | null;
+    type: ChannelEnum;
+    properties: ChannelProperties;
+};
+
+export type TriggerBaseProperties = {
+    [key: string]: unknown;
+};
+
+export type CustomJavascriptEnum = 'custom_javascript';
+
+export type CustomJavascript = {
+    id?: string | null;
+    properties?: TriggerBaseProperties;
+    type: CustomJavascriptEnum;
+};
+
+export type DelayEnum = 'delay';
+
+export type DelayProperties = {
+    seconds?: number;
+};
+
+export type Delay = {
+    id?: string | null;
+    type: DelayEnum;
+    properties?: DelayProperties;
+};
+
+export type DeviceEnum = 'device';
+
+export type DeviceProperties = {
+    /**
+     * Enumeration for mobile and desktop.
+     */
+    device?: 'both' | 'desktop' | 'mobile';
+};
+
+export type Device = {
+    id?: string | null;
+    type: DeviceEnum;
+    properties?: DeviceProperties;
+};
+
+export type ExitIntentEnum = 'exit_intent';
+
+export type ExitIntent = {
+    id?: string | null;
+    properties?: TriggerBaseProperties;
+    type: ExitIntentEnum;
+};
+
+export type IdentifiedProfilesEnum = 'identified_profiles';
+
+export type IdentifiedProfiles = {
+    id?: string | null;
+    properties?: TriggerBaseProperties;
+    type: IdentifiedProfilesEnum;
+};
+
+export type ListsAndSegmentsEnum = 'lists_and_segments';
+
+export type ListsAndSegmentsProperties = {
+    allow_list?: Array<string> | null;
+    deny_list?: Array<string> | null;
+};
+
+export type ListsAndSegments = {
+    id?: string | null;
+    type: ListsAndSegmentsEnum;
+    properties: ListsAndSegmentsProperties;
+};
+
+export type LocationEnum = 'location';
+
+export type LocationProperties = {
+    allow_list?: Array<'con_AF' | 'con_AS' | 'con_EU' | 'con_EUP' | 'con_NA' | 'con_OC' | 'con_SA' | 'AD' | 'AE' | 'AF' | 'AG' | 'AI' | 'AL' | 'AM' | 'AO' | 'AQ' | 'AR' | 'AS' | 'AT' | 'AU' | 'AW' | 'AX' | 'AZ' | 'BA' | 'BB' | 'BD' | 'BE' | 'BF' | 'BG' | 'BH' | 'BI' | 'BJ' | 'BM' | 'BN' | 'BO' | 'BR' | 'BS' | 'BT' | 'BV' | 'BW' | 'BY' | 'BZ' | 'CA' | 'CC' | 'CD' | 'CF' | 'CG' | 'CH' | 'CI' | 'CK' | 'CL' | 'CM' | 'CN' | 'CO' | 'CR' | 'CU' | 'CV' | 'CX' | 'CY' | 'CZ' | 'DE' | 'DJ' | 'DK' | 'DM' | 'DO' | 'DZ' | 'EC' | 'EE' | 'EG' | 'ER' | 'ES' | 'ET' | 'FI' | 'FJ' | 'FK' | 'FO' | 'FR' | 'GA' | 'GB' | 'GD' | 'GE' | 'GF' | 'GG' | 'GH' | 'GI' | 'GL' | 'GM' | 'GN' | 'GP' | 'GQ' | 'GR' | 'GT' | 'GU' | 'GW' | 'GY' | 'HK' | 'HN' | 'HR' | 'HT' | 'HU' | 'ID' | 'IE' | 'IL' | 'IM' | 'IN' | 'IO' | 'IQ' | 'IR' | 'IS' | 'IT' | 'JE' | 'JM' | 'JO' | 'JP' | 'KE' | 'KG' | 'KH' | 'KI' | 'KM' | 'KP' | 'KR' | 'KW' | 'KY' | 'KZ' | 'LA' | 'LB' | 'LI' | 'LK' | 'LR' | 'LS' | 'LT' | 'LU' | 'LV' | 'LY' | 'MA' | 'MC' | 'MD' | 'ME' | 'MG' | 'MH' | 'MK' | 'ML' | 'MM' | 'MN' | 'MO' | 'MQ' | 'MR' | 'MS' | 'MT' | 'MU' | 'MV' | 'MW' | 'MX' | 'MY' | 'MZ' | 'NA' | 'NC' | 'NE' | 'NG' | 'NI' | 'NL' | 'NO' | 'NP' | 'NR' | 'NU' | 'NZ' | 'OM' | 'PA' | 'PE' | 'PF' | 'PG' | 'PH' | 'PK' | 'PL' | 'PR' | 'PT' | 'PW' | 'PY' | 'QA' | 'RO' | 'RS' | 'RU' | 'RW' | 'SA' | 'SD' | 'SE' | 'SG' | 'SI' | 'SK' | 'SN' | 'SV' | 'SY' | 'TD' | 'TF' | 'TH' | 'TN' | 'TR' | 'TW' | 'UA' | 'US' | 'VE' | 'VN' | 'YE' | 'YT' | 'ZA' | 'ZM' | 'ZW'> | null;
+    deny_list?: Array<'con_AF' | 'con_AS' | 'con_EU' | 'con_EUP' | 'con_NA' | 'con_OC' | 'con_SA' | 'AD' | 'AE' | 'AF' | 'AG' | 'AI' | 'AL' | 'AM' | 'AO' | 'AQ' | 'AR' | 'AS' | 'AT' | 'AU' | 'AW' | 'AX' | 'AZ' | 'BA' | 'BB' | 'BD' | 'BE' | 'BF' | 'BG' | 'BH' | 'BI' | 'BJ' | 'BM' | 'BN' | 'BO' | 'BR' | 'BS' | 'BT' | 'BV' | 'BW' | 'BY' | 'BZ' | 'CA' | 'CC' | 'CD' | 'CF' | 'CG' | 'CH' | 'CI' | 'CK' | 'CL' | 'CM' | 'CN' | 'CO' | 'CR' | 'CU' | 'CV' | 'CX' | 'CY' | 'CZ' | 'DE' | 'DJ' | 'DK' | 'DM' | 'DO' | 'DZ' | 'EC' | 'EE' | 'EG' | 'ER' | 'ES' | 'ET' | 'FI' | 'FJ' | 'FK' | 'FO' | 'FR' | 'GA' | 'GB' | 'GD' | 'GE' | 'GF' | 'GG' | 'GH' | 'GI' | 'GL' | 'GM' | 'GN' | 'GP' | 'GQ' | 'GR' | 'GT' | 'GU' | 'GW' | 'GY' | 'HK' | 'HN' | 'HR' | 'HT' | 'HU' | 'ID' | 'IE' | 'IL' | 'IM' | 'IN' | 'IO' | 'IQ' | 'IR' | 'IS' | 'IT' | 'JE' | 'JM' | 'JO' | 'JP' | 'KE' | 'KG' | 'KH' | 'KI' | 'KM' | 'KP' | 'KR' | 'KW' | 'KY' | 'KZ' | 'LA' | 'LB' | 'LI' | 'LK' | 'LR' | 'LS' | 'LT' | 'LU' | 'LV' | 'LY' | 'MA' | 'MC' | 'MD' | 'ME' | 'MG' | 'MH' | 'MK' | 'ML' | 'MM' | 'MN' | 'MO' | 'MQ' | 'MR' | 'MS' | 'MT' | 'MU' | 'MV' | 'MW' | 'MX' | 'MY' | 'MZ' | 'NA' | 'NC' | 'NE' | 'NG' | 'NI' | 'NL' | 'NO' | 'NP' | 'NR' | 'NU' | 'NZ' | 'OM' | 'PA' | 'PE' | 'PF' | 'PG' | 'PH' | 'PK' | 'PL' | 'PR' | 'PT' | 'PW' | 'PY' | 'QA' | 'RO' | 'RS' | 'RU' | 'RW' | 'SA' | 'SD' | 'SE' | 'SG' | 'SI' | 'SK' | 'SN' | 'SV' | 'SY' | 'TD' | 'TF' | 'TH' | 'TN' | 'TR' | 'TW' | 'UA' | 'US' | 'VE' | 'VN' | 'YE' | 'YT' | 'ZA' | 'ZM' | 'ZW'> | null;
+};
+
+export type Location = {
+    id?: string | null;
+    type: LocationEnum;
+    properties: LocationProperties;
+};
+
+export type PageVisitsEnum = 'page_visits';
+
+export type PageVisitsProperties = {
+    pages?: number;
+};
+
+export type PageVisits = {
+    id?: string | null;
+    type: PageVisitsEnum;
+    properties?: PageVisitsProperties;
+};
+
+export type PreviouslySubmittedEnum = 'previously_submitted';
+
+export type PreviouslySubmitted = {
+    id?: string | null;
+    properties?: TriggerBaseProperties;
+    type: PreviouslySubmittedEnum;
+};
+
+export type ProfileEventTrackedEnum = 'profile_event_tracked';
+
+export type ProfileEventTrackedProperties = {
+    metric: string;
+};
+
+export type ProfileEventTracked = {
+    id?: string | null;
+    type: ProfileEventTrackedEnum;
+    properties: ProfileEventTrackedProperties;
+};
+
+export type ScrollPercentageEnum = 'scroll_percentage';
+
+export type ScrollProperties = {
+    percentage?: number;
+};
+
+export type Scroll = {
+    id?: string | null;
+    type: ScrollPercentageEnum;
+    properties?: ScrollProperties;
+};
+
+export type UnidentifiedProfilesEnum = 'unidentified_profiles';
+
+export type UnidentifiedProfiles = {
+    id?: string | null;
+    properties?: TriggerBaseProperties;
+    type: UnidentifiedProfilesEnum;
+};
+
+export type UrlPatternsEnum = 'url_patterns';
+
+export type UrlPatternsProperties = {
+    allow_list?: Array<string> | null;
+    deny_list?: Array<string> | null;
+};
+
+export type UrlPatterns = {
+    id?: string | null;
+    type: UrlPatternsEnum;
+    properties?: UrlPatternsProperties;
+};
+
+export type DropShadow = {
+    enabled?: boolean;
+    blur?: number;
+    color?: string | null;
+};
+
+export type Margin = {
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
+};
+
+export type CloseButtonStyle = {
+    background_color?: string;
+    outline_color?: string;
+    color?: string;
+    stroke?: number;
+    size?: number;
+    margin?: Margin;
+};
+
+export type TeaserStyles = {
+    background_color?: string;
+    drop_shadow?: DropShadow;
+    corner_radius?: number;
+    background_image?: BackgroundImage;
+    close_button?: CloseButtonStyle;
+    margin?: Margin;
+};
+
+export type Teaser = {
+    id?: string | null;
+    content: string;
+    /**
+     * Teaser display order enumeration.
+     */
+    display_order?: 'after' | 'before' | 'before_and_after';
+    /**
+     * Teaser display order enumeration.
+     */
+    teaser_type?: 'circle' | 'corner' | 'rectangle';
+    /**
+     * Display location enumeration.
+     */
+    location?: 'bottom_center' | 'bottom_left' | 'bottom_right' | 'center_left' | 'center_right' | 'top_center' | 'top_left' | 'top_right';
+    /**
+     * Teaser size enumeration.
+     */
+    size?: 'custom' | 'large' | 'medium' | 'small';
+    custom_size?: number | null;
+    styles?: TeaserStyles;
+    close_button?: boolean;
+    /**
+     * Enumeration for mobile and desktop.
+     */
+    device_type?: 'both' | 'desktop' | 'mobile';
+};
+
+export type BackInStockDynamicButtonTextStyles = {
+    font_family?: 'Arial Black,Arial' | "Arial, 'Helvetica Neue', Helvetica, sans-serif" | 'Century Gothic,AppleGothic,Arial' | 'Comic Sans MS,Comic Sans,cursive' | 'Courier' | 'Courier New' | 'Geneva,Arial' | 'Georgia' | 'Helvetica,Arial' | 'Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'MS Serif,Georgia' | 'New York,Georgia' | 'Palatino Linotype,Palatino,Georgia' | 'Palatino,Georgia' | 'Tahoma,sans-serif' | 'Times New Roman' | 'Trebuchet MS' | 'Verdana' | string;
+    font_size?: number;
+    /**
+     * Font weight enumeration.
+     */
+    font_weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    font_color?: string;
+    font_style?: string | null;
+    text_decoration?: string | null;
+    letter_spacing?: number;
+};
+
+export type BackInStockDynamicButtonBorderStyles = {
+    enabled?: boolean;
+    color?: string;
+    /**
+     * Border pattern enumeration.
+     */
+    style?: 'dashed' | 'dotted' | 'solid';
+    width?: number;
+};
+
+export type BackInStockDynamicButtonDropShadowStyles = {
+    enabled?: boolean;
+    color?: string;
+};
+
+export type BackInStockDynamicButtonStyles = {
+    color?: string;
+    border_radius?: number;
+    height?: number;
+    /**
+     * Back In Stock Dynamic Button display type enumeration.
+     */
+    width?: 'fitToText' | 'fullWidth';
+    /**
+     * Horizontal alignment enumeration.
+     */
+    alignment?: 'center' | 'left' | 'right';
+    border?: BackInStockDynamicButtonBorderStyles;
+    drop_shadow?: BackInStockDynamicButtonDropShadowStyles;
+};
+
+export type BackInStockDynamicButtonData = {
+    label?: string;
+    /**
+     * Back In Stock Dynamic Button display type enumeration.
+     */
+    display?: 'NEXT_TO' | 'REPLACE';
+    text_styles?: BackInStockDynamicButtonTextStyles;
+    button_styles?: BackInStockDynamicButtonStyles;
+};
+
+export type DynamicButton = {
+    id?: string | null;
+    /**
+     * Dynamic Button type enumeration.
+     */
+    type: 'BACK_IN_STOCK_OPEN';
+    data: BackInStockDynamicButtonData;
+};
+
+export type InputStyles = {
+    text_styles?: TextStyle;
+    label_color?: string;
+    text_color?: string;
+    placeholder_color?: string;
+    background_color?: string;
+    border_color?: string;
+    border_focus_color?: string;
+    focus_outline_color?: string;
+    corner_radius?: number;
+    field_height?: number;
+};
+
+export type RichTextMargin = {
+    left?: 0;
+    right?: 0;
+    top?: 0;
+    bottom?: number;
+};
+
+export type RichTextStyle = {
+    font_family?: 'Arial Black,Arial' | "Arial, 'Helvetica Neue', Helvetica, sans-serif" | 'Century Gothic,AppleGothic,Arial' | 'Comic Sans MS,Comic Sans,cursive' | 'Courier' | 'Courier New' | 'Geneva,Arial' | 'Georgia' | 'Helvetica,Arial' | 'Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'Lucida,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif' | 'MS Serif,Georgia' | 'New York,Georgia' | 'Palatino Linotype,Palatino,Georgia' | 'Palatino,Georgia' | 'Tahoma,sans-serif' | 'Times New Roman' | 'Trebuchet MS' | 'Verdana' | string;
+    font_size?: number;
+    /**
+     * Font weight enumeration.
+     */
+    font_weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    text_color?: string;
+    line_spacing?: number;
+    character_spacing?: number | null;
+    /**
+     * Horizontal alignment enumeration.
+     */
+    alignment?: 'center' | 'left' | 'right';
+    margin?: RichTextMargin;
+};
+
+export type UnderlineEnum = 'underline';
+
+export type LinkStyles = {
+    color?: string;
+    decoration?: UnderlineEnum;
+};
+
+export type RichTextStyles = {
+    body?: RichTextStyle;
+    link?: LinkStyles;
+    h1?: RichTextStyle;
+    h2?: RichTextStyle;
+    h3?: RichTextStyle;
+    h4?: RichTextStyle;
+    h5?: RichTextStyle;
+    h6?: RichTextStyle;
+};
+
+export type MobileOverlay = {
+    color?: string | null;
+    enabled?: false;
+};
+
+export type BannerStyles = {
+    /**
+     * Positioning of banner forms.
+     */
+    desktop_position?: 'bottom' | 'top';
+    /**
+     * Positioning of banner forms.
+     */
+    mobile_position?: 'bottom' | 'top';
+    scroll_with_page?: boolean;
+};
+
+export type VersionStyles = {
+    wrap_content?: false;
+    border_styles?: BorderStyle;
+    close_button?: CloseButtonStyle;
+    margin?: Margin;
+    padding?: Padding;
+    minimum_height?: number;
+    /**
+     * Version width enumeration.
+     */
+    width?: 'custom' | 'large' | 'medium' | 'small';
+    custom_width?: number | null;
+    background_image?: BackgroundImage;
+    background_color?: string | null;
+    input_styles?: InputStyles;
+    drop_shadow?: DropShadow;
+    overlay_color?: string;
+    rich_text_styles?: RichTextStyles;
+    mobile_overlay?: MobileOverlay;
+    banner_styles?: BannerStyles;
+};
+
+export type SideImageSettings = {
+    /**
+     * Side image size enumeration.
+     */
+    size?: 'large' | 'medium' | 'small';
+    /**
+     * Side image alignment enumeration.
+     */
+    alignment?: 'left' | 'right';
+    device_type?: Array<'both' | 'desktop' | 'mobile'>;
+};
+
+export type VersionProperties = {
+    side_image_settings?: SideImageSettings;
+    click_outside_to_close?: Array<'both' | 'desktop' | 'mobile'> | null;
+    /**
+     * Side image alignment enumeration.
+     */
+    rule_based_trigger_evaluation?: 'all' | 'any';
+    record_utm_params_on_submit?: boolean;
+    show_close_button?: boolean;
+};
+
+export type Version = {
+    id?: number | null;
+    steps: Array<Step>;
+    triggers?: Array<AfterCloseTimeout | CartItemCount | CartProduct | CartValue | Channel | CustomJavascript | Delay | Device | ExitIntent | IdentifiedProfiles | ListsAndSegments | Location | PageVisits | PreviouslySubmitted | ProfileEventTracked | Scroll | UnidentifiedProfiles | UrlPatterns>;
+    teasers?: Array<Teaser>;
+    dynamic_button?: DynamicButton;
+    name?: string | null;
+    styles?: VersionStyles;
+    properties?: VersionProperties;
+    /**
+     * Form type enumeration.
+     */
+    type?: 'banner' | 'embed' | 'flyout' | 'full_screen' | 'popup';
+    /**
+     * Display location enumeration.
+     */
+    location?: 'bottom_center' | 'bottom_left' | 'bottom_right' | 'center_left' | 'center_right' | 'top_center' | 'top_left' | 'top_right';
+    /**
+     * Form status enumeration.
+     */
+    status?: 'draft' | 'live';
+    ab_test?: boolean;
+    specialties?: Array<'BACK_IN_STOCK'>;
+};
+
+export type FormDefinition = {
+    versions: Array<Version>;
+};
+
+export type EncodedFormResponseObjectResource = {
+    type: FormEnum;
+    /**
+     * The ID of the form
+     */
+    id: string;
+    attributes: {
+        /**
+         * The status of the form.
+         */
+        status: 'draft' | 'live';
+        /**
+         * Whether the form has an A/B test configured.
+         */
+        ab_test: boolean;
+        /**
+         * The name of the form.
+         */
+        name: string;
+        definition: FormDefinition;
+        /**
+         * The ISO8601 timestamp when the form was created.
+         */
+        created_at: string;
+        /**
+         * The ISO8601 timestamp when the form was last updated.
+         */
+        updated_at: string;
     };
-    included?: Array<FormVersionResponseObjectResource>;
+    links: ObjectLinks;
+};
+
+export type GetEncodedFormResponseCompoundDocument = {
+    data: EncodedFormResponseObjectResource;
 };
 
 export type MetricPropertyResponseObjectResource = {
@@ -7926,7 +9302,6 @@ export type ProfileIdentifierDtoResourceObject = {
          * A unique identifier used by customers to associate Klaviyo profiles with profiles in an external system, such as a point-of-sale system. Format varies based on the external system.
          */
         external_id?: string | null;
-        anonymous_id?: string | null;
     };
 };
 
@@ -8637,10 +10012,6 @@ export type ProfileUpsertQueryResourceObject = {
          * A unique identifier used by customers to associate Klaviyo profiles with profiles in an external system, such as a point-of-sale system. Format varies based on the external system.
          */
         external_id?: string | null;
-        /**
-         * Id that can be used to identify a profile when other identifiers are not available
-         */
-        anonymous_id?: string | null;
         /**
          * Also known as the `exchange_id`, this is an encrypted identifier used for identifying a
          * profile by Klaviyo's web tracking.
@@ -10889,10 +12260,6 @@ export type PushProfileUpsertQueryResourceObject = {
          */
         external_id?: string | null;
         /**
-         * Id that can be used to identify a profile when other identifiers are not available
-         */
-        anonymous_id?: string | null;
-        /**
          * Also known as the `exchange_id`, this is an encrypted identifier used for identifying a
          * profile by Klaviyo's web tracking.
          *
@@ -11057,7 +12424,7 @@ export type CampaignValuesRequestDtoResourceObject = {
         /**
          * List of statistics to query for. All rate statistics will be returned in fractional form [0.0, 1.0]
          */
-        statistics: Array<'average_order_value' | 'bounce_rate' | 'bounced' | 'bounced_or_failed' | 'bounced_or_failed_rate' | 'click_rate' | 'click_to_open_rate' | 'clicks' | 'clicks_unique' | 'conversion_rate' | 'conversion_uniques' | 'conversion_value' | 'conversions' | 'delivered' | 'delivery_rate' | 'failed' | 'failed_rate' | 'open_rate' | 'opens' | 'opens_unique' | 'recipients' | 'revenue_per_recipient' | 'spam_complaint_rate' | 'spam_complaints' | 'unsubscribe_rate' | 'unsubscribe_uniques' | 'unsubscribes'>;
+        statistics: Array<'average_order_value' | 'bounce_rate' | 'bounced' | 'bounced_or_failed' | 'bounced_or_failed_rate' | 'click_rate' | 'click_to_open_rate' | 'clicks' | 'clicks_unique' | 'conversion_rate' | 'conversion_uniques' | 'conversion_value' | 'conversions' | 'delivered' | 'delivery_rate' | 'failed' | 'failed_rate' | 'message_segment_count_sum' | 'open_rate' | 'opens' | 'opens_unique' | 'recipients' | 'revenue_per_recipient' | 'spam_complaint_rate' | 'spam_complaints' | 'text_message_credit_usage_amount' | 'text_message_roi' | 'text_message_spend' | 'unsubscribe_rate' | 'unsubscribe_uniques' | 'unsubscribes'>;
         /**
          * The time frame to pull data from (Max length: 1 year). See [available time frames](https://developers.klaviyo.com/en/reference/reporting_api_overview#available-time-frames).
          */
@@ -11127,7 +12494,7 @@ export type FlowValuesRequestDtoResourceObject = {
         /**
          * List of statistics to query for. All rate statistics will be returned in fractional form [0.0, 1.0]
          */
-        statistics: Array<'average_order_value' | 'bounce_rate' | 'bounced' | 'bounced_or_failed' | 'bounced_or_failed_rate' | 'click_rate' | 'click_to_open_rate' | 'clicks' | 'clicks_unique' | 'conversion_rate' | 'conversion_uniques' | 'conversion_value' | 'conversions' | 'delivered' | 'delivery_rate' | 'failed' | 'failed_rate' | 'open_rate' | 'opens' | 'opens_unique' | 'recipients' | 'revenue_per_recipient' | 'spam_complaint_rate' | 'spam_complaints' | 'unsubscribe_rate' | 'unsubscribe_uniques' | 'unsubscribes'>;
+        statistics: Array<'average_order_value' | 'bounce_rate' | 'bounced' | 'bounced_or_failed' | 'bounced_or_failed_rate' | 'click_rate' | 'click_to_open_rate' | 'clicks' | 'clicks_unique' | 'conversion_rate' | 'conversion_uniques' | 'conversion_value' | 'conversions' | 'delivered' | 'delivery_rate' | 'failed' | 'failed_rate' | 'message_segment_count_sum' | 'open_rate' | 'opens' | 'opens_unique' | 'recipients' | 'revenue_per_recipient' | 'spam_complaint_rate' | 'spam_complaints' | 'text_message_credit_usage_amount' | 'text_message_roi' | 'text_message_spend' | 'unsubscribe_rate' | 'unsubscribe_uniques' | 'unsubscribes'>;
         /**
          * The time frame to pull data from (Max length: 1 year). See [available time frames](https://developers.klaviyo.com/en/reference/reporting_api_overview#available-time-frames).
          */
@@ -11189,7 +12556,7 @@ export type FlowSeriesRequestDtoResourceObject = {
         /**
          * List of statistics to query for. All rate statistics will be returned in fractional form [0.0, 1.0]
          */
-        statistics: Array<'average_order_value' | 'bounce_rate' | 'bounced' | 'bounced_or_failed' | 'bounced_or_failed_rate' | 'click_rate' | 'click_to_open_rate' | 'clicks' | 'clicks_unique' | 'conversion_rate' | 'conversion_uniques' | 'conversion_value' | 'conversions' | 'delivered' | 'delivery_rate' | 'failed' | 'failed_rate' | 'open_rate' | 'opens' | 'opens_unique' | 'recipients' | 'revenue_per_recipient' | 'spam_complaint_rate' | 'spam_complaints' | 'unsubscribe_rate' | 'unsubscribe_uniques' | 'unsubscribes'>;
+        statistics: Array<'average_order_value' | 'bounce_rate' | 'bounced' | 'bounced_or_failed' | 'bounced_or_failed_rate' | 'click_rate' | 'click_to_open_rate' | 'clicks' | 'clicks_unique' | 'conversion_rate' | 'conversion_uniques' | 'conversion_value' | 'conversions' | 'delivered' | 'delivery_rate' | 'failed' | 'failed_rate' | 'message_segment_count_sum' | 'open_rate' | 'opens' | 'opens_unique' | 'recipients' | 'revenue_per_recipient' | 'spam_complaint_rate' | 'spam_complaints' | 'text_message_credit_usage_amount' | 'text_message_roi' | 'text_message_spend' | 'unsubscribe_rate' | 'unsubscribe_uniques' | 'unsubscribes'>;
         /**
          * The time frame to pull data from (Max length: 1 year). See [available time frames](https://developers.klaviyo.com/en/reference/reporting_api_overview#available-time-frames).
          */
@@ -11518,6 +12885,63 @@ export type PostUniversalContentResponse = {
     };
 };
 
+export type FormCreateQueryResourceObject = {
+    type: FormEnum;
+    attributes: {
+        definition: FormDefinition;
+        /**
+         * The status of the form.
+         */
+        status: 'draft' | 'live';
+        /**
+         * Whether the form has an A/B test configured.
+         */
+        ab_test: boolean;
+        /**
+         * The name of the form.
+         */
+        name: string;
+    };
+};
+
+export type FormCreateQuery = {
+    data: FormCreateQueryResourceObject;
+};
+
+export type PostEncodedFormResponse = {
+    data: {
+        type: FormEnum;
+        /**
+         * The ID of the form
+         */
+        id: string;
+        attributes: {
+            /**
+             * The status of the form.
+             */
+            status: 'draft' | 'live';
+            /**
+             * Whether the form has an A/B test configured.
+             */
+            ab_test: boolean;
+            /**
+             * The name of the form.
+             */
+            name: string;
+            definition: FormDefinition;
+            /**
+             * The ISO8601 timestamp when the form was created.
+             */
+            created_at: string;
+            /**
+             * The ISO8601 timestamp when the form was last updated.
+             */
+            updated_at: string;
+        };
+        links: ObjectLinks;
+    };
+};
+
 export type DataSourceRecordEnum = 'data-source-record';
 
 export type DataSourceRecordResourceObject = {
@@ -11563,7 +12987,7 @@ export type DataSourceCreateQueryResourceObject = {
     attributes: {
         title: string;
         /**
-         * Visibility of data source. Currently only PRIVATE is supported.
+         * Visibility of data source.
          */
         visibility: 'private' | 'shared';
         description?: string | null;
@@ -11738,10 +13162,6 @@ export type ProfileUpsertQueryWithSubscriptionsResourceObject = {
          * A unique identifier used by customers to associate Klaviyo profiles with profiles in an external system, such as a point-of-sale system. Format varies based on the external system.
          */
         external_id?: string | null;
-        /**
-         * Id that can be used to identify a profile when other identifiers are not available
-         */
-        anonymous_id?: string | null;
         /**
          * Also known as the `exchange_id`, this is an encrypted identifier used for identifying a
          * profile by Klaviyo's web tracking.
@@ -12433,7 +13853,6 @@ export type ProfilePartialUpdateQueryResourceObject = {
          * A unique identifier used by customers to associate Klaviyo profiles with profiles in an external system, such as a point-of-sale system. Format varies based on the external system.
          */
         external_id?: string | null;
-        anonymous_id?: string | null;
         /**
          * Individual's first name
          */
@@ -12610,6 +14029,53 @@ export type PatchFlowResponse = {
             tags?: {
                 data?: Array<{
                     type: TagEnum;
+                    id: string;
+                }>;
+                links?: RelationshipLinks;
+            };
+        };
+        links: ObjectLinks;
+    };
+};
+
+export type FlowActionUpdateQueryResourceObject = {
+    type: FlowActionEnum;
+    id: string;
+    attributes: {
+        /**
+         * The encoded flow action definition.
+         */
+        definition: ActionOutputSplitAction | BackInStockDelayAction | ConditionalBranchAction | ContentExperimentAction | SendEmailAction | SendPushNotificationAction | SendSmsAction | SendWebhookAction | SendInternalAlertAction | SendWhatsAppAction | TimeDelayAction | TriggerBranchAction | UpdateProfileAction | TargetDateAction | CountdownDelayAction | AbTestAction | InternalServiceAction | CodeAction | SplitAction | BranchAction | ListUpdateAction;
+    };
+};
+
+export type FlowActionUpdateQuery = {
+    data: FlowActionUpdateQueryResourceObject;
+};
+
+export type PatchFlowActionEncodedResponse = {
+    data: {
+        type: FlowActionEnum;
+        id: string;
+        attributes: {
+            created?: string | null;
+            updated?: string | null;
+            /**
+             * The encoded flow action definition.
+             */
+            definition?: ActionOutputSplitAction | BackInStockDelayAction | ConditionalBranchAction | ContentExperimentAction | SendEmailAction | SendPushNotificationAction | SendSmsAction | SendWebhookAction | SendInternalAlertAction | SendWhatsAppAction | TimeDelayAction | TriggerBranchAction | UpdateProfileAction | TargetDateAction | CountdownDelayAction | AbTestAction | InternalServiceAction | CodeAction | SplitAction | BranchAction | ListUpdateAction | null;
+        };
+        relationships?: {
+            flow?: {
+                data?: {
+                    type: FlowEnum;
+                    id: string;
+                };
+                links?: RelationshipLinks;
+            };
+            'flow-messages'?: {
+                data?: Array<{
+                    type: FlowMessageEnum;
                     id: string;
                 }>;
                 links?: RelationshipLinks;
@@ -13647,7 +15113,7 @@ export type GetAccountsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[account]'?: Array<'test_account' | 'contact_information' | 'contact_information.default_sender_name' | 'contact_information.default_sender_email' | 'contact_information.website_url' | 'contact_information.organization_name' | 'contact_information.street_address' | 'contact_information.street_address.address1' | 'contact_information.street_address.address2' | 'contact_information.street_address.city' | 'contact_information.street_address.region' | 'contact_information.street_address.country' | 'contact_information.street_address.zip' | 'industry' | 'timezone' | 'preferred_currency' | 'public_api_key' | 'locale'>;
     };
@@ -13714,7 +15180,7 @@ export type GetAccountData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[account]'?: Array<'test_account' | 'contact_information' | 'contact_information.default_sender_name' | 'contact_information.default_sender_email' | 'contact_information.website_url' | 'contact_information.organization_name' | 'contact_information.street_address' | 'contact_information.street_address.address1' | 'contact_information.street_address.address2' | 'contact_information.street_address.city' | 'contact_information.street_address.region' | 'contact_information.street_address.country' | 'contact_information.street_address.zip' | 'industry' | 'timezone' | 'preferred_currency' | 'public_api_key' | 'locale'>;
     };
@@ -13776,31 +15242,31 @@ export type GetCampaignsData = {
     path?: never;
     query: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-message]'?: Array<'definition' | 'definition.channel' | 'definition.label' | 'definition.content' | 'definition.content.subject' | 'definition.content.preview_text' | 'definition.content.from_email' | 'definition.content.from_label' | 'definition.content.reply_to_email' | 'definition.content.cc_email' | 'definition.content.bcc_email' | 'definition.content.body' | 'definition.content.media_url' | 'definition.render_options' | 'definition.render_options.shorten_links' | 'definition.render_options.add_org_prefix' | 'definition.render_options.add_info_link' | 'definition.render_options.add_opt_out_language' | 'definition.notification_type' | 'definition.content.title' | 'definition.content.dynamic_image' | 'definition.kv_pairs' | 'definition.options' | 'definition.options.on_open' | 'definition.options.on_open.type' | 'definition.options.on_open.ios_deep_link' | 'definition.options.on_open.android_deep_link' | 'definition.options.badge' | 'definition.options.badge.display' | 'definition.options.badge.badge_options' | 'definition.options.badge.badge_options.badge_config' | 'definition.options.badge.badge_options.value' | 'definition.options.badge.badge_options.set_from_property' | 'definition.options.play_sound' | 'send_times' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign]'?: Array<'name' | 'status' | 'archived' | 'audiences' | 'audiences.included' | 'audiences.excluded' | 'send_options' | 'send_options.use_smart_sending' | 'tracking_options' | 'tracking_options.add_tracking_params' | 'tracking_options.custom_tracking_params' | 'tracking_options.is_tracking_clicks' | 'tracking_options.is_tracking_opens' | 'send_strategy' | 'send_strategy.method' | 'send_strategy.datetime' | 'send_strategy.options' | 'send_strategy.options.is_local' | 'send_strategy.options.send_past_recipients_immediately' | 'send_strategy.date' | 'send_strategy.throttle_percentage' | 'created_at' | 'scheduled_at' | 'updated_at' | 'send_time'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`messages.channel`: `equals`<br>`name`: `contains`<br>`status`: `any`, `equals`<br>`archived`: `equals`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`scheduled_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`messages.channel`: `equals`<br>`name`: `contains`<br>`status`: `any`, `equals`<br>`archived`: `equals`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`scheduled_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'campaign-messages' | 'tags'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created_at' | '-created_at' | 'id' | '-id' | 'name' | '-name' | 'scheduled_at' | '-scheduled_at' | 'updated_at' | '-updated_at';
     };
@@ -13989,19 +15455,19 @@ export type GetCampaignData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-message]'?: Array<'definition' | 'definition.channel' | 'definition.label' | 'definition.content' | 'definition.content.subject' | 'definition.content.preview_text' | 'definition.content.from_email' | 'definition.content.from_label' | 'definition.content.reply_to_email' | 'definition.content.cc_email' | 'definition.content.bcc_email' | 'definition.content.body' | 'definition.content.media_url' | 'definition.render_options' | 'definition.render_options.shorten_links' | 'definition.render_options.add_org_prefix' | 'definition.render_options.add_info_link' | 'definition.render_options.add_opt_out_language' | 'definition.notification_type' | 'definition.content.title' | 'definition.content.dynamic_image' | 'definition.kv_pairs' | 'definition.options' | 'definition.options.on_open' | 'definition.options.on_open.type' | 'definition.options.on_open.ios_deep_link' | 'definition.options.on_open.android_deep_link' | 'definition.options.badge' | 'definition.options.badge.display' | 'definition.options.badge.badge_options' | 'definition.options.badge.badge_options.badge_config' | 'definition.options.badge.badge_options.value' | 'definition.options.badge.badge_options.set_from_property' | 'definition.options.play_sound' | 'send_times' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign]'?: Array<'name' | 'status' | 'archived' | 'audiences' | 'audiences.included' | 'audiences.excluded' | 'send_options' | 'send_options.use_smart_sending' | 'tracking_options' | 'tracking_options.add_tracking_params' | 'tracking_options.custom_tracking_params' | 'tracking_options.is_tracking_clicks' | 'tracking_options.is_tracking_opens' | 'send_strategy' | 'send_strategy.method' | 'send_strategy.datetime' | 'send_strategy.options' | 'send_strategy.options.is_local' | 'send_strategy.options.send_past_recipients_immediately' | 'send_strategy.date' | 'send_strategy.throttle_percentage' | 'created_at' | 'scheduled_at' | 'updated_at' | 'send_time'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'campaign-messages' | 'tags'>;
     };
@@ -14133,23 +15599,23 @@ export type GetCampaignMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-message]'?: Array<'definition' | 'definition.channel' | 'definition.label' | 'definition.content' | 'definition.content.subject' | 'definition.content.preview_text' | 'definition.content.from_email' | 'definition.content.from_label' | 'definition.content.reply_to_email' | 'definition.content.cc_email' | 'definition.content.bcc_email' | 'definition.content.body' | 'definition.content.media_url' | 'definition.render_options' | 'definition.render_options.shorten_links' | 'definition.render_options.add_org_prefix' | 'definition.render_options.add_info_link' | 'definition.render_options.add_opt_out_language' | 'definition.notification_type' | 'definition.content.title' | 'definition.content.dynamic_image' | 'definition.kv_pairs' | 'definition.options' | 'definition.options.on_open' | 'definition.options.on_open.type' | 'definition.options.on_open.ios_deep_link' | 'definition.options.on_open.android_deep_link' | 'definition.options.badge' | 'definition.options.badge.display' | 'definition.options.badge.badge_options' | 'definition.options.badge.badge_options.badge_config' | 'definition.options.badge.badge_options.value' | 'definition.options.badge.badge_options.set_from_property' | 'definition.options.play_sound' | 'send_times' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign]'?: Array<'name' | 'status' | 'archived' | 'audiences' | 'audiences.included' | 'audiences.excluded' | 'send_options' | 'send_options.use_smart_sending' | 'tracking_options' | 'tracking_options.add_tracking_params' | 'tracking_options.custom_tracking_params' | 'tracking_options.is_tracking_clicks' | 'tracking_options.is_tracking_opens' | 'send_strategy' | 'send_strategy.method' | 'send_strategy.datetime' | 'send_strategy.options' | 'send_strategy.options.is_local' | 'send_strategy.options.send_past_recipients_immediately' | 'send_strategy.date' | 'send_strategy.throttle_percentage' | 'created_at' | 'scheduled_at' | 'updated_at' | 'send_time'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[image]'?: Array<'name' | 'image_url' | 'format' | 'size' | 'hidden' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'campaign' | 'image' | 'template'>;
     };
@@ -14281,7 +15747,7 @@ export type GetCampaignSendJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-send-job]'?: Array<'status'>;
     };
@@ -14414,7 +15880,7 @@ export type GetCampaignRecipientEstimationJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-recipient-estimation-job]'?: Array<'status'>;
     };
@@ -14481,7 +15947,7 @@ export type GetCampaignRecipientEstimationData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-recipient-estimation]'?: Array<'estimated_recipient_count'>;
     };
@@ -14789,7 +16255,7 @@ export type GetCampaignForCampaignMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign]'?: Array<'name' | 'status' | 'archived' | 'audiences' | 'audiences.included' | 'audiences.excluded' | 'send_options' | 'send_options.use_smart_sending' | 'tracking_options' | 'tracking_options.add_tracking_params' | 'tracking_options.custom_tracking_params' | 'tracking_options.is_tracking_clicks' | 'tracking_options.is_tracking_opens' | 'send_strategy' | 'send_strategy.method' | 'send_strategy.datetime' | 'send_strategy.options' | 'send_strategy.options.is_local' | 'send_strategy.options.send_past_recipients_immediately' | 'send_strategy.date' | 'send_strategy.throttle_percentage' | 'created_at' | 'scheduled_at' | 'updated_at' | 'send_time'>;
     };
@@ -14912,7 +16378,7 @@ export type GetTemplateForCampaignMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
     };
@@ -15035,7 +16501,7 @@ export type GetImageForCampaignMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[image]'?: Array<'name' | 'image_url' | 'format' | 'size' | 'hidden' | 'updated_at'>;
     };
@@ -15217,7 +16683,7 @@ export type GetTagsForCampaignData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
     };
@@ -15340,23 +16806,23 @@ export type GetMessagesForCampaignData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign-message]'?: Array<'definition' | 'definition.channel' | 'definition.label' | 'definition.content' | 'definition.content.subject' | 'definition.content.preview_text' | 'definition.content.from_email' | 'definition.content.from_label' | 'definition.content.reply_to_email' | 'definition.content.cc_email' | 'definition.content.bcc_email' | 'definition.content.body' | 'definition.content.media_url' | 'definition.render_options' | 'definition.render_options.shorten_links' | 'definition.render_options.add_org_prefix' | 'definition.render_options.add_info_link' | 'definition.render_options.add_opt_out_language' | 'definition.notification_type' | 'definition.content.title' | 'definition.content.dynamic_image' | 'definition.kv_pairs' | 'definition.options' | 'definition.options.on_open' | 'definition.options.on_open.type' | 'definition.options.on_open.ios_deep_link' | 'definition.options.on_open.android_deep_link' | 'definition.options.badge' | 'definition.options.badge.display' | 'definition.options.badge.badge_options' | 'definition.options.badge.badge_options.badge_config' | 'definition.options.badge.badge_options.value' | 'definition.options.badge.badge_options.set_from_property' | 'definition.options.play_sound' | 'send_times' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[campaign]'?: Array<'name' | 'status' | 'archived' | 'audiences' | 'audiences.included' | 'audiences.excluded' | 'send_options' | 'send_options.use_smart_sending' | 'tracking_options' | 'tracking_options.add_tracking_params' | 'tracking_options.custom_tracking_params' | 'tracking_options.is_tracking_clicks' | 'tracking_options.is_tracking_opens' | 'send_strategy' | 'send_strategy.method' | 'send_strategy.datetime' | 'send_strategy.options' | 'send_strategy.options.is_local' | 'send_strategy.options.send_past_recipients_immediately' | 'send_strategy.date' | 'send_strategy.throttle_percentage' | 'created_at' | 'scheduled_at' | 'updated_at' | 'send_time'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[image]'?: Array<'name' | 'image_url' | 'format' | 'size' | 'hidden' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'campaign' | 'image' | 'template'>;
     };
@@ -15477,27 +16943,27 @@ export type GetCatalogItemsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item]'?: Array<'external_id' | 'title' | 'description' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`category.id`: `equals`<br>`title`: `contains`<br>`published`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`category.id`: `equals`<br>`title`: `contains`<br>`published`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'variants'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -15683,15 +17149,15 @@ export type GetCatalogItemData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item]'?: Array<'external_id' | 'title' | 'description' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'variants'>;
     };
@@ -15815,19 +17281,19 @@ export type GetCatalogVariantsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`sku`: `equals`<br>`title`: `contains`<br>`published`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`sku`: `equals`<br>`title`: `contains`<br>`published`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -16013,7 +17479,7 @@ export type GetCatalogVariantData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
     };
@@ -16137,19 +17603,19 @@ export type GetCatalogCategoriesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category]'?: Array<'external_id' | 'name' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`name`: `contains`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`name`: `contains`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -16335,7 +17801,7 @@ export type GetCatalogCategoryData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category]'?: Array<'external_id' | 'name' | 'updated'>;
     };
@@ -16459,15 +17925,15 @@ export type GetBulkCreateCatalogItemsJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -16591,15 +18057,15 @@ export type GetBulkCreateCatalogItemsJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item]'?: Array<'external_id' | 'title' | 'description' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'items'>;
     };
@@ -16661,15 +18127,15 @@ export type GetBulkUpdateCatalogItemsJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item-bulk-update-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -16793,15 +18259,15 @@ export type GetBulkUpdateCatalogItemsJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item-bulk-update-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item]'?: Array<'external_id' | 'title' | 'description' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'items'>;
     };
@@ -16863,15 +18329,15 @@ export type GetBulkDeleteCatalogItemsJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -16995,7 +18461,7 @@ export type GetBulkDeleteCatalogItemsJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
     };
@@ -17057,15 +18523,15 @@ export type GetBulkCreateVariantsJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -17189,15 +18655,15 @@ export type GetBulkCreateVariantsJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'variants'>;
     };
@@ -17259,15 +18725,15 @@ export type GetBulkUpdateVariantsJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant-bulk-update-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -17391,15 +18857,15 @@ export type GetBulkUpdateVariantsJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant-bulk-update-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'variants'>;
     };
@@ -17461,15 +18927,15 @@ export type GetBulkDeleteVariantsJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -17593,7 +19059,7 @@ export type GetBulkDeleteVariantsJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
     };
@@ -17655,15 +19121,15 @@ export type GetBulkCreateCategoriesJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -17787,15 +19253,15 @@ export type GetBulkCreateCategoriesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category]'?: Array<'external_id' | 'name' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'categories'>;
     };
@@ -17857,15 +19323,15 @@ export type GetBulkUpdateCategoriesJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category-bulk-update-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -17989,15 +19455,15 @@ export type GetBulkUpdateCategoriesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category-bulk-update-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category]'?: Array<'external_id' | 'name' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'categories'>;
     };
@@ -18059,15 +19525,15 @@ export type GetBulkDeleteCategoriesJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -18191,7 +19657,7 @@ export type GetBulkDeleteCategoriesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
     };
@@ -18313,27 +19779,27 @@ export type GetItemsForCatalogCategoryData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-item]'?: Array<'external_id' | 'title' | 'description' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`category.id`: `equals`<br>`title`: `contains`<br>`published`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`category.id`: `equals`<br>`title`: `contains`<br>`published`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'variants'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -18462,15 +19928,15 @@ export type GetItemIdsForCatalogCategoryData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`category.id`: `equals`<br>`title`: `contains`<br>`published`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`category.id`: `equals`<br>`title`: `contains`<br>`published`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -18661,19 +20127,19 @@ export type GetVariantsForCatalogItemData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-variant]'?: Array<'external_id' | 'title' | 'description' | 'sku' | 'inventory_policy' | 'inventory_quantity' | 'price' | 'url' | 'image_full_url' | 'image_thumbnail_url' | 'images' | 'custom_metadata' | 'published' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`sku`: `equals`<br>`title`: `contains`<br>`published`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`sku`: `equals`<br>`title`: `contains`<br>`published`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -18740,15 +20206,15 @@ export type GetVariantIdsForCatalogItemData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`sku`: `equals`<br>`title`: `contains`<br>`published`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`sku`: `equals`<br>`title`: `contains`<br>`published`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -18815,19 +20281,19 @@ export type GetCategoriesForCatalogItemData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[catalog-category]'?: Array<'external_id' | 'name' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`name`: `contains`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`name`: `contains`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -18956,15 +20422,15 @@ export type GetCategoryIdsForCatalogItemData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`name`: `contains`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`ids`: `any`<br>`item.id`: `equals`<br>`name`: `contains`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -19150,11 +20616,11 @@ export type GetCouponsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon]'?: Array<'external_id' | 'description' | 'monitor_configuration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -19340,7 +20806,7 @@ export type GetCouponData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon]'?: Array<'external_id' | 'description' | 'monitor_configuration'>;
     };
@@ -19464,23 +20930,23 @@ export type GetCouponCodesData = {
     path?: never;
     query: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon-code]'?: Array<'unique_code' | 'expires_at' | 'status'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon]'?: Array<'external_id' | 'description' | 'monitor_configuration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`expires_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`<br>`coupon.id`: `any`, `equals`<br>`profile.id`: `any`, `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`expires_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`<br>`coupon.id`: `any`, `equals`<br>`profile.id`: `any`, `equals`
          */
         filter: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'coupon'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -19666,15 +21132,15 @@ export type GetCouponCodeData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon-code]'?: Array<'unique_code' | 'expires_at' | 'status'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon]'?: Array<'external_id' | 'description' | 'monitor_configuration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'coupon'>;
     };
@@ -19798,15 +21264,15 @@ export type GetBulkCreateCouponCodeJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon-code-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -19930,15 +21396,15 @@ export type GetBulkCreateCouponCodesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon-code-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'errors' | 'expires_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon-code]'?: Array<'unique_code' | 'expires_at' | 'status'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'coupon-codes'>;
     };
@@ -20005,7 +21471,7 @@ export type GetCouponForCouponCodeData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon]'?: Array<'external_id' | 'description' | 'monitor_configuration'>;
     };
@@ -20134,15 +21600,15 @@ export type GetCouponCodesForCouponData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[coupon-code]'?: Array<'unique_code' | 'expires_at' | 'status'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`expires_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`<br>`coupon.id`: `any`, `equals`<br>`profile.id`: `any`, `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`expires_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`<br>`coupon.id`: `any`, `equals`<br>`profile.id`: `any`, `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -20209,11 +21675,11 @@ export type GetCouponCodeIdsForCouponData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`expires_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`<br>`coupon.id`: `any`, `equals`<br>`profile.id`: `any`, `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`expires_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`<br>`coupon.id`: `any`, `equals`<br>`profile.id`: `any`, `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -20275,11 +21741,11 @@ export type GetDataSourcesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[data-source]'?: Array<'title' | 'visibility' | 'description'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -20472,7 +21938,7 @@ export type GetDataSourceData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[data-source]'?: Array<'title' | 'visibility' | 'description'>;
     };
@@ -20649,31 +22115,31 @@ export type GetEventsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[event]'?: Array<'timestamp' | 'event_properties' | 'datetime' | 'uuid'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`metric_id`: `equals`<br>`profile_id`: `equals`<br>`profile`: `has`<br>`datetime`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`timestamp`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`metric_id`: `equals`<br>`profile_id`: `equals`<br>`profile`: `has`<br>`datetime`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`timestamp`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'attributions' | 'metric' | 'profile'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'datetime' | '-datetime' | 'timestamp' | '-timestamp';
     };
@@ -20795,19 +22261,19 @@ export type GetEventData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[event]'?: Array<'timestamp' | 'event_properties' | 'datetime' | 'uuid'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'attributions' | 'metric' | 'profile'>;
     };
@@ -20929,7 +22395,7 @@ export type GetMetricForEventData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
     };
@@ -21062,7 +22528,7 @@ export type GetProfileForEventData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
     };
@@ -21186,27 +22652,27 @@ export type GetFlowsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-action]'?: Array<'action_type' | 'status' | 'created' | 'updated' | 'settings' | 'tracking_options' | 'tracking_options.add_utm' | 'tracking_options.utm_params' | 'tracking_options.is_tracking_opens' | 'tracking_options.is_tracking_clicks' | 'send_options' | 'send_options.use_smart_sending' | 'send_options.is_transactional' | 'badge_options' | 'badge_options.badge_config' | 'badge_options.value' | 'badge_options.set_from_property' | 'render_options' | 'render_options.shorten_links' | 'render_options.add_org_prefix' | 'render_options.add_info_link' | 'render_options.add_opt_out_language'>;
+        'fields[flow-action]'?: Array<'created' | 'updated' | 'definition' | 'definition.id' | 'definition.temporary_id' | 'definition.type' | 'definition.links' | 'definition.links.next_if_true' | 'definition.links.next_if_false' | 'definition.data' | 'definition.data.action_output_filter' | 'definition.data.action_output_filter.condition_groups' | 'definition.links.next' | 'definition.data.profile_filter' | 'definition.data.profile_filter.condition_groups' | 'definition.data.message' | 'definition.data.message.from_email' | 'definition.data.message.from_label' | 'definition.data.message.reply_to_email' | 'definition.data.message.cc_email' | 'definition.data.message.bcc_email' | 'definition.data.message.subject_line' | 'definition.data.message.preview_text' | 'definition.data.message.template_id' | 'definition.data.message.smart_sending_enabled' | 'definition.data.message.transactional' | 'definition.data.message.add_tracking_params' | 'definition.data.message.custom_tracking_params' | 'definition.data.message.additional_filters' | 'definition.data.message.additional_filters.condition_groups' | 'definition.data.message.name' | 'definition.data.message.id' | 'definition.data.status' | 'definition.data.message.title' | 'definition.data.message.body' | 'definition.data.message.sound' | 'definition.data.message.badge' | 'definition.data.message.badge_options' | 'definition.data.message.badge_options.badge_config' | 'definition.data.message.badge_options.value' | 'definition.data.message.badge_options.set_from_property' | 'definition.data.message.image_id' | 'definition.data.message.dynamic_image' | 'definition.data.message.on_open' | 'definition.data.message.ios_link' | 'definition.data.message.android_link' | 'definition.data.message.conversion_metric_id' | 'definition.data.message.shorten_links' | 'definition.data.message.include_contact_card' | 'definition.data.message.add_org_prefix' | 'definition.data.message.add_info_link' | 'definition.data.message.add_opt_out_language' | 'definition.data.message.sms_quiet_hours_enabled' | 'definition.data.message.url' | 'definition.data.message.headers' | 'definition.data.message.to_emails' | 'definition.data.message.vendor_id' | 'definition.data.unit' | 'definition.data.value' | 'definition.data.secondary_value' | 'definition.data.timezone' | 'definition.data.delay_until_time' | 'definition.data.delay_until_weekdays' | 'definition.data.trigger_filter' | 'definition.data.trigger_filter.condition_groups' | 'definition.data.trigger_id' | 'definition.data.trigger_type' | 'definition.data.trigger_subtype' | 'definition.data.profile_operations' | 'definition.data.target_time' | 'definition.data.target_days' | 'definition.data.experiment_status' | 'definition.data.main_action' | 'definition.data.main_action.id' | 'definition.data.main_action.temporary_id' | 'definition.data.main_action.type' | 'definition.data.main_action.links' | 'definition.data.main_action.links.next' | 'definition.data.main_action.data' | 'definition.data.main_action.data.message' | 'definition.data.main_action.data.message.from_email' | 'definition.data.main_action.data.message.from_label' | 'definition.data.main_action.data.message.reply_to_email' | 'definition.data.main_action.data.message.cc_email' | 'definition.data.main_action.data.message.bcc_email' | 'definition.data.main_action.data.message.subject_line' | 'definition.data.main_action.data.message.preview_text' | 'definition.data.main_action.data.message.template_id' | 'definition.data.main_action.data.message.smart_sending_enabled' | 'definition.data.main_action.data.message.transactional' | 'definition.data.main_action.data.message.add_tracking_params' | 'definition.data.main_action.data.message.custom_tracking_params' | 'definition.data.main_action.data.message.additional_filters' | 'definition.data.main_action.data.message.additional_filters.condition_groups' | 'definition.data.main_action.data.message.name' | 'definition.data.main_action.data.message.id' | 'definition.data.main_action.data.status' | 'definition.data.main_action.data.message.body' | 'definition.data.main_action.data.message.image_id' | 'definition.data.main_action.data.message.dynamic_image' | 'definition.data.main_action.data.message.shorten_links' | 'definition.data.main_action.data.message.include_contact_card' | 'definition.data.main_action.data.message.add_org_prefix' | 'definition.data.main_action.data.message.add_info_link' | 'definition.data.main_action.data.message.add_opt_out_language' | 'definition.data.main_action.data.message.sms_quiet_hours_enabled' | 'definition.data.current_experiment' | 'definition.data.current_experiment.id' | 'definition.data.current_experiment.name' | 'definition.data.current_experiment.variations' | 'definition.data.current_experiment.allocations' | 'definition.data.current_experiment.started' | 'definition.data.current_experiment.winner_metric' | 'definition.data.current_experiment.automatic_winner_selection_settings' | 'definition.data.current_experiment.automatic_winner_selection_settings.enabled' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_date' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_statistical_certainty' | 'definition.data.name' | 'definition.data.on_execution' | 'definition.data.list_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`status`: `equals`<br>`archived`: `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`trigger_type`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`status`: `equals`<br>`archived`: `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`trigger_type`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-actions' | 'tags'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -21214,7 +22680,7 @@ export type GetFlowsData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'status' | '-status' | 'trigger_type' | '-trigger_type' | 'updated' | '-updated';
     };
@@ -21409,19 +22875,19 @@ export type GetFlowData = {
          */
         'additional-fields[flow]'?: Array<'definition'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-action]'?: Array<'action_type' | 'status' | 'created' | 'updated' | 'settings' | 'tracking_options' | 'tracking_options.add_utm' | 'tracking_options.utm_params' | 'tracking_options.is_tracking_opens' | 'tracking_options.is_tracking_clicks' | 'send_options' | 'send_options.use_smart_sending' | 'send_options.is_transactional' | 'badge_options' | 'badge_options.badge_config' | 'badge_options.value' | 'badge_options.set_from_property' | 'render_options' | 'render_options.shorten_links' | 'render_options.add_org_prefix' | 'render_options.add_info_link' | 'render_options.add_opt_out_language'>;
+        'fields[flow-action]'?: Array<'created' | 'updated' | 'definition' | 'definition.id' | 'definition.temporary_id' | 'definition.type' | 'definition.links' | 'definition.links.next_if_true' | 'definition.links.next_if_false' | 'definition.data' | 'definition.data.action_output_filter' | 'definition.data.action_output_filter.condition_groups' | 'definition.links.next' | 'definition.data.profile_filter' | 'definition.data.profile_filter.condition_groups' | 'definition.data.message' | 'definition.data.message.from_email' | 'definition.data.message.from_label' | 'definition.data.message.reply_to_email' | 'definition.data.message.cc_email' | 'definition.data.message.bcc_email' | 'definition.data.message.subject_line' | 'definition.data.message.preview_text' | 'definition.data.message.template_id' | 'definition.data.message.smart_sending_enabled' | 'definition.data.message.transactional' | 'definition.data.message.add_tracking_params' | 'definition.data.message.custom_tracking_params' | 'definition.data.message.additional_filters' | 'definition.data.message.additional_filters.condition_groups' | 'definition.data.message.name' | 'definition.data.message.id' | 'definition.data.status' | 'definition.data.message.title' | 'definition.data.message.body' | 'definition.data.message.sound' | 'definition.data.message.badge' | 'definition.data.message.badge_options' | 'definition.data.message.badge_options.badge_config' | 'definition.data.message.badge_options.value' | 'definition.data.message.badge_options.set_from_property' | 'definition.data.message.image_id' | 'definition.data.message.dynamic_image' | 'definition.data.message.on_open' | 'definition.data.message.ios_link' | 'definition.data.message.android_link' | 'definition.data.message.conversion_metric_id' | 'definition.data.message.shorten_links' | 'definition.data.message.include_contact_card' | 'definition.data.message.add_org_prefix' | 'definition.data.message.add_info_link' | 'definition.data.message.add_opt_out_language' | 'definition.data.message.sms_quiet_hours_enabled' | 'definition.data.message.url' | 'definition.data.message.headers' | 'definition.data.message.to_emails' | 'definition.data.message.vendor_id' | 'definition.data.unit' | 'definition.data.value' | 'definition.data.secondary_value' | 'definition.data.timezone' | 'definition.data.delay_until_time' | 'definition.data.delay_until_weekdays' | 'definition.data.trigger_filter' | 'definition.data.trigger_filter.condition_groups' | 'definition.data.trigger_id' | 'definition.data.trigger_type' | 'definition.data.trigger_subtype' | 'definition.data.profile_operations' | 'definition.data.target_time' | 'definition.data.target_days' | 'definition.data.experiment_status' | 'definition.data.main_action' | 'definition.data.main_action.id' | 'definition.data.main_action.temporary_id' | 'definition.data.main_action.type' | 'definition.data.main_action.links' | 'definition.data.main_action.links.next' | 'definition.data.main_action.data' | 'definition.data.main_action.data.message' | 'definition.data.main_action.data.message.from_email' | 'definition.data.main_action.data.message.from_label' | 'definition.data.main_action.data.message.reply_to_email' | 'definition.data.main_action.data.message.cc_email' | 'definition.data.main_action.data.message.bcc_email' | 'definition.data.main_action.data.message.subject_line' | 'definition.data.main_action.data.message.preview_text' | 'definition.data.main_action.data.message.template_id' | 'definition.data.main_action.data.message.smart_sending_enabled' | 'definition.data.main_action.data.message.transactional' | 'definition.data.main_action.data.message.add_tracking_params' | 'definition.data.main_action.data.message.custom_tracking_params' | 'definition.data.main_action.data.message.additional_filters' | 'definition.data.main_action.data.message.additional_filters.condition_groups' | 'definition.data.main_action.data.message.name' | 'definition.data.main_action.data.message.id' | 'definition.data.main_action.data.status' | 'definition.data.main_action.data.message.body' | 'definition.data.main_action.data.message.image_id' | 'definition.data.main_action.data.message.dynamic_image' | 'definition.data.main_action.data.message.shorten_links' | 'definition.data.main_action.data.message.include_contact_card' | 'definition.data.main_action.data.message.add_org_prefix' | 'definition.data.main_action.data.message.add_info_link' | 'definition.data.main_action.data.message.add_opt_out_language' | 'definition.data.main_action.data.message.sms_quiet_hours_enabled' | 'definition.data.current_experiment' | 'definition.data.current_experiment.id' | 'definition.data.current_experiment.name' | 'definition.data.current_experiment.variations' | 'definition.data.current_experiment.allocations' | 'definition.data.current_experiment.started' | 'definition.data.current_experiment.winner_metric' | 'definition.data.current_experiment.automatic_winner_selection_settings' | 'definition.data.current_experiment.automatic_winner_selection_settings.enabled' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_date' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_statistical_certainty' | 'definition.data.name' | 'definition.data.on_execution' | 'definition.data.list_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type' | 'definition' | 'definition.triggers' | 'definition.profile_filter' | 'definition.profile_filter.condition_groups' | 'definition.actions' | 'definition.entry_action_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-actions' | 'tags'>;
     };
@@ -21547,19 +23013,19 @@ export type GetFlowActionData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-action]'?: Array<'action_type' | 'status' | 'created' | 'updated' | 'settings' | 'tracking_options' | 'tracking_options.add_utm' | 'tracking_options.utm_params' | 'tracking_options.is_tracking_opens' | 'tracking_options.is_tracking_clicks' | 'send_options' | 'send_options.use_smart_sending' | 'send_options.is_transactional' | 'badge_options' | 'badge_options.badge_config' | 'badge_options.value' | 'badge_options.set_from_property' | 'render_options' | 'render_options.shorten_links' | 'render_options.add_org_prefix' | 'render_options.add_info_link' | 'render_options.add_opt_out_language'>;
+        'fields[flow-action]'?: Array<'created' | 'updated' | 'definition' | 'definition.id' | 'definition.temporary_id' | 'definition.type' | 'definition.links' | 'definition.links.next_if_true' | 'definition.links.next_if_false' | 'definition.data' | 'definition.data.action_output_filter' | 'definition.data.action_output_filter.condition_groups' | 'definition.links.next' | 'definition.data.profile_filter' | 'definition.data.profile_filter.condition_groups' | 'definition.data.message' | 'definition.data.message.from_email' | 'definition.data.message.from_label' | 'definition.data.message.reply_to_email' | 'definition.data.message.cc_email' | 'definition.data.message.bcc_email' | 'definition.data.message.subject_line' | 'definition.data.message.preview_text' | 'definition.data.message.template_id' | 'definition.data.message.smart_sending_enabled' | 'definition.data.message.transactional' | 'definition.data.message.add_tracking_params' | 'definition.data.message.custom_tracking_params' | 'definition.data.message.additional_filters' | 'definition.data.message.additional_filters.condition_groups' | 'definition.data.message.name' | 'definition.data.message.id' | 'definition.data.status' | 'definition.data.message.title' | 'definition.data.message.body' | 'definition.data.message.sound' | 'definition.data.message.badge' | 'definition.data.message.badge_options' | 'definition.data.message.badge_options.badge_config' | 'definition.data.message.badge_options.value' | 'definition.data.message.badge_options.set_from_property' | 'definition.data.message.image_id' | 'definition.data.message.dynamic_image' | 'definition.data.message.on_open' | 'definition.data.message.ios_link' | 'definition.data.message.android_link' | 'definition.data.message.conversion_metric_id' | 'definition.data.message.shorten_links' | 'definition.data.message.include_contact_card' | 'definition.data.message.add_org_prefix' | 'definition.data.message.add_info_link' | 'definition.data.message.add_opt_out_language' | 'definition.data.message.sms_quiet_hours_enabled' | 'definition.data.message.url' | 'definition.data.message.headers' | 'definition.data.message.to_emails' | 'definition.data.message.vendor_id' | 'definition.data.unit' | 'definition.data.value' | 'definition.data.secondary_value' | 'definition.data.timezone' | 'definition.data.delay_until_time' | 'definition.data.delay_until_weekdays' | 'definition.data.trigger_filter' | 'definition.data.trigger_filter.condition_groups' | 'definition.data.trigger_id' | 'definition.data.trigger_type' | 'definition.data.trigger_subtype' | 'definition.data.profile_operations' | 'definition.data.target_time' | 'definition.data.target_days' | 'definition.data.experiment_status' | 'definition.data.main_action' | 'definition.data.main_action.id' | 'definition.data.main_action.temporary_id' | 'definition.data.main_action.type' | 'definition.data.main_action.links' | 'definition.data.main_action.links.next' | 'definition.data.main_action.data' | 'definition.data.main_action.data.message' | 'definition.data.main_action.data.message.from_email' | 'definition.data.main_action.data.message.from_label' | 'definition.data.main_action.data.message.reply_to_email' | 'definition.data.main_action.data.message.cc_email' | 'definition.data.main_action.data.message.bcc_email' | 'definition.data.main_action.data.message.subject_line' | 'definition.data.main_action.data.message.preview_text' | 'definition.data.main_action.data.message.template_id' | 'definition.data.main_action.data.message.smart_sending_enabled' | 'definition.data.main_action.data.message.transactional' | 'definition.data.main_action.data.message.add_tracking_params' | 'definition.data.main_action.data.message.custom_tracking_params' | 'definition.data.main_action.data.message.additional_filters' | 'definition.data.main_action.data.message.additional_filters.condition_groups' | 'definition.data.main_action.data.message.name' | 'definition.data.main_action.data.message.id' | 'definition.data.main_action.data.status' | 'definition.data.main_action.data.message.body' | 'definition.data.main_action.data.message.image_id' | 'definition.data.main_action.data.message.dynamic_image' | 'definition.data.main_action.data.message.shorten_links' | 'definition.data.main_action.data.message.include_contact_card' | 'definition.data.main_action.data.message.add_org_prefix' | 'definition.data.main_action.data.message.add_info_link' | 'definition.data.main_action.data.message.add_opt_out_language' | 'definition.data.main_action.data.message.sms_quiet_hours_enabled' | 'definition.data.current_experiment' | 'definition.data.current_experiment.id' | 'definition.data.current_experiment.name' | 'definition.data.current_experiment.variations' | 'definition.data.current_experiment.allocations' | 'definition.data.current_experiment.started' | 'definition.data.current_experiment.winner_metric' | 'definition.data.current_experiment.automatic_winner_selection_settings' | 'definition.data.current_experiment.automatic_winner_selection_settings.enabled' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_date' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_statistical_certainty' | 'definition.data.name' | 'definition.data.on_execution' | 'definition.data.list_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-message]'?: Array<'name' | 'channel' | 'content' | 'content.subject' | 'content.preview_text' | 'content.from_email' | 'content.from_label' | 'content.reply_to_email' | 'content.cc_email' | 'content.bcc_email' | 'content.body' | 'content.media_url' | 'content.title' | 'content.sound' | 'content.badge' | 'content.dynamic_image' | 'content.ios_link' | 'content.android_link' | 'content.on_open' | 'created' | 'updated'>;
+        'fields[flow-message]'?: Array<'created' | 'updated' | 'definition' | 'definition.from_email' | 'definition.from_label' | 'definition.reply_to_email' | 'definition.cc_email' | 'definition.bcc_email' | 'definition.subject_line' | 'definition.preview_text' | 'definition.template_id' | 'definition.smart_sending_enabled' | 'definition.transactional' | 'definition.add_tracking_params' | 'definition.custom_tracking_params' | 'definition.additional_filters' | 'definition.additional_filters.condition_groups' | 'definition.name' | 'definition.id' | 'definition.to_emails' | 'definition.title' | 'definition.body' | 'definition.sound' | 'definition.badge' | 'definition.badge_options' | 'definition.badge_options.badge_config' | 'definition.badge_options.value' | 'definition.badge_options.set_from_property' | 'definition.image_id' | 'definition.dynamic_image' | 'definition.on_open' | 'definition.ios_link' | 'definition.android_link' | 'definition.conversion_metric_id' | 'definition.shorten_links' | 'definition.include_contact_card' | 'definition.add_org_prefix' | 'definition.add_info_link' | 'definition.add_opt_out_language' | 'definition.sms_quiet_hours_enabled' | 'definition.url' | 'definition.headers' | 'definition.vendor_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow' | 'flow-messages'>;
     };
@@ -21605,10 +23071,69 @@ export type GetFlowActionResponses = {
     /**
      * Success
      */
-    200: GetFlowActionResponseCompoundDocument;
+    200: GetFlowActionEncodedResponseCompoundDocument;
 };
 
-export type GetFlowActionResponse2 = GetFlowActionResponses[keyof GetFlowActionResponses];
+export type GetFlowActionResponse = GetFlowActionResponses[keyof GetFlowActionResponses];
+
+export type UpdateFlowActionData = {
+    body: FlowActionUpdateQuery;
+    headers: {
+        /**
+         * API endpoint revision (format: YYYY-MM-DD[.suffix])
+         */
+        revision: string;
+    };
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/flow-actions/{id}';
+};
+
+export type UpdateFlowActionErrors = {
+    /**
+     * Client Error
+     */
+    '4XX': {
+        errors: Array<{
+            id: string;
+            code: string;
+            title: string;
+            detail: string;
+            source?: {
+                pointer?: string;
+                parameter?: string;
+            };
+        }>;
+    };
+    /**
+     * Server Error
+     */
+    '5XX': {
+        errors: Array<{
+            id: string;
+            code: string;
+            title: string;
+            detail: string;
+            source?: {
+                pointer?: string;
+                parameter?: string;
+            };
+        }>;
+    };
+};
+
+export type UpdateFlowActionError = UpdateFlowActionErrors[keyof UpdateFlowActionErrors];
+
+export type UpdateFlowActionResponses = {
+    /**
+     * Success
+     */
+    200: PatchFlowActionEncodedResponse;
+};
+
+export type UpdateFlowActionResponse = UpdateFlowActionResponses[keyof UpdateFlowActionResponses];
 
 export type GetFlowMessageData = {
     body?: never;
@@ -21623,19 +23148,19 @@ export type GetFlowMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-action]'?: Array<'action_type' | 'status' | 'created' | 'updated' | 'settings' | 'tracking_options' | 'tracking_options.add_utm' | 'tracking_options.utm_params' | 'tracking_options.is_tracking_opens' | 'tracking_options.is_tracking_clicks' | 'send_options' | 'send_options.use_smart_sending' | 'send_options.is_transactional' | 'badge_options' | 'badge_options.badge_config' | 'badge_options.value' | 'badge_options.set_from_property' | 'render_options' | 'render_options.shorten_links' | 'render_options.add_org_prefix' | 'render_options.add_info_link' | 'render_options.add_opt_out_language'>;
+        'fields[flow-action]'?: Array<'created' | 'updated' | 'definition' | 'definition.id' | 'definition.temporary_id' | 'definition.type' | 'definition.links' | 'definition.links.next_if_true' | 'definition.links.next_if_false' | 'definition.data' | 'definition.data.action_output_filter' | 'definition.data.action_output_filter.condition_groups' | 'definition.links.next' | 'definition.data.profile_filter' | 'definition.data.profile_filter.condition_groups' | 'definition.data.message' | 'definition.data.message.from_email' | 'definition.data.message.from_label' | 'definition.data.message.reply_to_email' | 'definition.data.message.cc_email' | 'definition.data.message.bcc_email' | 'definition.data.message.subject_line' | 'definition.data.message.preview_text' | 'definition.data.message.template_id' | 'definition.data.message.smart_sending_enabled' | 'definition.data.message.transactional' | 'definition.data.message.add_tracking_params' | 'definition.data.message.custom_tracking_params' | 'definition.data.message.additional_filters' | 'definition.data.message.additional_filters.condition_groups' | 'definition.data.message.name' | 'definition.data.message.id' | 'definition.data.status' | 'definition.data.message.title' | 'definition.data.message.body' | 'definition.data.message.sound' | 'definition.data.message.badge' | 'definition.data.message.badge_options' | 'definition.data.message.badge_options.badge_config' | 'definition.data.message.badge_options.value' | 'definition.data.message.badge_options.set_from_property' | 'definition.data.message.image_id' | 'definition.data.message.dynamic_image' | 'definition.data.message.on_open' | 'definition.data.message.ios_link' | 'definition.data.message.android_link' | 'definition.data.message.conversion_metric_id' | 'definition.data.message.shorten_links' | 'definition.data.message.include_contact_card' | 'definition.data.message.add_org_prefix' | 'definition.data.message.add_info_link' | 'definition.data.message.add_opt_out_language' | 'definition.data.message.sms_quiet_hours_enabled' | 'definition.data.message.url' | 'definition.data.message.headers' | 'definition.data.message.to_emails' | 'definition.data.message.vendor_id' | 'definition.data.unit' | 'definition.data.value' | 'definition.data.secondary_value' | 'definition.data.timezone' | 'definition.data.delay_until_time' | 'definition.data.delay_until_weekdays' | 'definition.data.trigger_filter' | 'definition.data.trigger_filter.condition_groups' | 'definition.data.trigger_id' | 'definition.data.trigger_type' | 'definition.data.trigger_subtype' | 'definition.data.profile_operations' | 'definition.data.target_time' | 'definition.data.target_days' | 'definition.data.experiment_status' | 'definition.data.main_action' | 'definition.data.main_action.id' | 'definition.data.main_action.temporary_id' | 'definition.data.main_action.type' | 'definition.data.main_action.links' | 'definition.data.main_action.links.next' | 'definition.data.main_action.data' | 'definition.data.main_action.data.message' | 'definition.data.main_action.data.message.from_email' | 'definition.data.main_action.data.message.from_label' | 'definition.data.main_action.data.message.reply_to_email' | 'definition.data.main_action.data.message.cc_email' | 'definition.data.main_action.data.message.bcc_email' | 'definition.data.main_action.data.message.subject_line' | 'definition.data.main_action.data.message.preview_text' | 'definition.data.main_action.data.message.template_id' | 'definition.data.main_action.data.message.smart_sending_enabled' | 'definition.data.main_action.data.message.transactional' | 'definition.data.main_action.data.message.add_tracking_params' | 'definition.data.main_action.data.message.custom_tracking_params' | 'definition.data.main_action.data.message.additional_filters' | 'definition.data.main_action.data.message.additional_filters.condition_groups' | 'definition.data.main_action.data.message.name' | 'definition.data.main_action.data.message.id' | 'definition.data.main_action.data.status' | 'definition.data.main_action.data.message.body' | 'definition.data.main_action.data.message.image_id' | 'definition.data.main_action.data.message.dynamic_image' | 'definition.data.main_action.data.message.shorten_links' | 'definition.data.main_action.data.message.include_contact_card' | 'definition.data.main_action.data.message.add_org_prefix' | 'definition.data.main_action.data.message.add_info_link' | 'definition.data.main_action.data.message.add_opt_out_language' | 'definition.data.main_action.data.message.sms_quiet_hours_enabled' | 'definition.data.current_experiment' | 'definition.data.current_experiment.id' | 'definition.data.current_experiment.name' | 'definition.data.current_experiment.variations' | 'definition.data.current_experiment.allocations' | 'definition.data.current_experiment.started' | 'definition.data.current_experiment.winner_metric' | 'definition.data.current_experiment.automatic_winner_selection_settings' | 'definition.data.current_experiment.automatic_winner_selection_settings.enabled' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_date' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_statistical_certainty' | 'definition.data.name' | 'definition.data.on_execution' | 'definition.data.list_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-message]'?: Array<'name' | 'channel' | 'content' | 'content.subject' | 'content.preview_text' | 'content.from_email' | 'content.from_label' | 'content.reply_to_email' | 'content.cc_email' | 'content.bcc_email' | 'content.body' | 'content.media_url' | 'content.title' | 'content.sound' | 'content.badge' | 'content.dynamic_image' | 'content.ios_link' | 'content.android_link' | 'content.on_open' | 'created' | 'updated'>;
+        'fields[flow-message]'?: Array<'created' | 'updated' | 'definition' | 'definition.from_email' | 'definition.from_label' | 'definition.reply_to_email' | 'definition.cc_email' | 'definition.bcc_email' | 'definition.subject_line' | 'definition.preview_text' | 'definition.template_id' | 'definition.smart_sending_enabled' | 'definition.transactional' | 'definition.add_tracking_params' | 'definition.custom_tracking_params' | 'definition.additional_filters' | 'definition.additional_filters.condition_groups' | 'definition.name' | 'definition.id' | 'definition.to_emails' | 'definition.title' | 'definition.body' | 'definition.sound' | 'definition.badge' | 'definition.badge_options' | 'definition.badge_options.badge_config' | 'definition.badge_options.value' | 'definition.badge_options.set_from_property' | 'definition.image_id' | 'definition.dynamic_image' | 'definition.on_open' | 'definition.ios_link' | 'definition.android_link' | 'definition.conversion_metric_id' | 'definition.shorten_links' | 'definition.include_contact_card' | 'definition.add_org_prefix' | 'definition.add_info_link' | 'definition.add_opt_out_language' | 'definition.sms_quiet_hours_enabled' | 'definition.url' | 'definition.headers' | 'definition.vendor_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-action' | 'template'>;
     };
@@ -21681,7 +23206,7 @@ export type GetFlowMessageResponses = {
     /**
      * Success
      */
-    200: GetFlowMessageResponseCompoundDocument;
+    200: GetFlowMessageEncodedResponseCompoundDocument;
 };
 
 export type GetFlowMessageResponse = GetFlowMessageResponses[keyof GetFlowMessageResponses];
@@ -21699,15 +23224,15 @@ export type GetActionsForFlowData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-action]'?: Array<'action_type' | 'status' | 'created' | 'updated' | 'settings' | 'tracking_options' | 'tracking_options.add_utm' | 'tracking_options.utm_params' | 'tracking_options.is_tracking_opens' | 'tracking_options.is_tracking_clicks' | 'send_options' | 'send_options.use_smart_sending' | 'send_options.is_transactional' | 'badge_options' | 'badge_options.badge_config' | 'badge_options.value' | 'badge_options.set_from_property' | 'render_options' | 'render_options.shorten_links' | 'render_options.add_org_prefix' | 'render_options.add_info_link' | 'render_options.add_opt_out_language'>;
+        'fields[flow-action]'?: Array<'created' | 'updated' | 'definition' | 'definition.id' | 'definition.temporary_id' | 'definition.type' | 'definition.links' | 'definition.links.next_if_true' | 'definition.links.next_if_false' | 'definition.data' | 'definition.data.action_output_filter' | 'definition.data.action_output_filter.condition_groups' | 'definition.links.next' | 'definition.data.profile_filter' | 'definition.data.profile_filter.condition_groups' | 'definition.data.message' | 'definition.data.message.from_email' | 'definition.data.message.from_label' | 'definition.data.message.reply_to_email' | 'definition.data.message.cc_email' | 'definition.data.message.bcc_email' | 'definition.data.message.subject_line' | 'definition.data.message.preview_text' | 'definition.data.message.template_id' | 'definition.data.message.smart_sending_enabled' | 'definition.data.message.transactional' | 'definition.data.message.add_tracking_params' | 'definition.data.message.custom_tracking_params' | 'definition.data.message.additional_filters' | 'definition.data.message.additional_filters.condition_groups' | 'definition.data.message.name' | 'definition.data.message.id' | 'definition.data.status' | 'definition.data.message.title' | 'definition.data.message.body' | 'definition.data.message.sound' | 'definition.data.message.badge' | 'definition.data.message.badge_options' | 'definition.data.message.badge_options.badge_config' | 'definition.data.message.badge_options.value' | 'definition.data.message.badge_options.set_from_property' | 'definition.data.message.image_id' | 'definition.data.message.dynamic_image' | 'definition.data.message.on_open' | 'definition.data.message.ios_link' | 'definition.data.message.android_link' | 'definition.data.message.conversion_metric_id' | 'definition.data.message.shorten_links' | 'definition.data.message.include_contact_card' | 'definition.data.message.add_org_prefix' | 'definition.data.message.add_info_link' | 'definition.data.message.add_opt_out_language' | 'definition.data.message.sms_quiet_hours_enabled' | 'definition.data.message.url' | 'definition.data.message.headers' | 'definition.data.message.to_emails' | 'definition.data.message.vendor_id' | 'definition.data.unit' | 'definition.data.value' | 'definition.data.secondary_value' | 'definition.data.timezone' | 'definition.data.delay_until_time' | 'definition.data.delay_until_weekdays' | 'definition.data.trigger_filter' | 'definition.data.trigger_filter.condition_groups' | 'definition.data.trigger_id' | 'definition.data.trigger_type' | 'definition.data.trigger_subtype' | 'definition.data.profile_operations' | 'definition.data.target_time' | 'definition.data.target_days' | 'definition.data.experiment_status' | 'definition.data.main_action' | 'definition.data.main_action.id' | 'definition.data.main_action.temporary_id' | 'definition.data.main_action.type' | 'definition.data.main_action.links' | 'definition.data.main_action.links.next' | 'definition.data.main_action.data' | 'definition.data.main_action.data.message' | 'definition.data.main_action.data.message.from_email' | 'definition.data.main_action.data.message.from_label' | 'definition.data.main_action.data.message.reply_to_email' | 'definition.data.main_action.data.message.cc_email' | 'definition.data.main_action.data.message.bcc_email' | 'definition.data.main_action.data.message.subject_line' | 'definition.data.main_action.data.message.preview_text' | 'definition.data.main_action.data.message.template_id' | 'definition.data.main_action.data.message.smart_sending_enabled' | 'definition.data.main_action.data.message.transactional' | 'definition.data.main_action.data.message.add_tracking_params' | 'definition.data.main_action.data.message.custom_tracking_params' | 'definition.data.main_action.data.message.additional_filters' | 'definition.data.main_action.data.message.additional_filters.condition_groups' | 'definition.data.main_action.data.message.name' | 'definition.data.main_action.data.message.id' | 'definition.data.main_action.data.status' | 'definition.data.main_action.data.message.body' | 'definition.data.main_action.data.message.image_id' | 'definition.data.main_action.data.message.dynamic_image' | 'definition.data.main_action.data.message.shorten_links' | 'definition.data.main_action.data.message.include_contact_card' | 'definition.data.main_action.data.message.add_org_prefix' | 'definition.data.main_action.data.message.add_info_link' | 'definition.data.main_action.data.message.add_opt_out_language' | 'definition.data.main_action.data.message.sms_quiet_hours_enabled' | 'definition.data.current_experiment' | 'definition.data.current_experiment.id' | 'definition.data.current_experiment.name' | 'definition.data.current_experiment.variations' | 'definition.data.current_experiment.allocations' | 'definition.data.current_experiment.started' | 'definition.data.current_experiment.winner_metric' | 'definition.data.current_experiment.automatic_winner_selection_settings' | 'definition.data.current_experiment.automatic_winner_selection_settings.enabled' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_date' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_statistical_certainty' | 'definition.data.name' | 'definition.data.on_execution' | 'definition.data.list_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`action_type`: `any`, `equals`<br>`status`: `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`action_type`: `any`, `equals`<br>`status`: `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -21715,7 +23240,7 @@ export type GetActionsForFlowData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'action_type' | '-action_type' | 'created' | '-created' | 'id' | '-id' | 'status' | '-status' | 'updated' | '-updated';
     };
@@ -21761,7 +23286,7 @@ export type GetActionsForFlowResponses = {
     /**
      * Success
      */
-    200: GetFlowActionResponseCollection;
+    200: GetFlowActionEncodedResponseCollection;
 };
 
 export type GetActionsForFlowResponse = GetActionsForFlowResponses[keyof GetActionsForFlowResponses];
@@ -21779,11 +23304,11 @@ export type GetActionIdsForFlowData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`action_type`: `any`, `equals`<br>`status`: `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`action_type`: `any`, `equals`<br>`status`: `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -21791,7 +23316,7 @@ export type GetActionIdsForFlowData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'action_type' | '-action_type' | 'created' | '-created' | 'id' | '-id' | 'status' | '-status' | 'updated' | '-updated';
     };
@@ -21855,7 +23380,7 @@ export type GetTagsForFlowData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
     };
@@ -21978,7 +23503,7 @@ export type GetFlowForFlowActionData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
     };
@@ -22101,15 +23626,15 @@ export type GetFlowActionMessagesData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-message]'?: Array<'name' | 'channel' | 'content' | 'content.subject' | 'content.preview_text' | 'content.from_email' | 'content.from_label' | 'content.reply_to_email' | 'content.cc_email' | 'content.bcc_email' | 'content.body' | 'content.media_url' | 'content.title' | 'content.sound' | 'content.badge' | 'content.dynamic_image' | 'content.ios_link' | 'content.android_link' | 'content.on_open' | 'created' | 'updated'>;
+        'fields[flow-message]'?: Array<'created' | 'updated' | 'definition' | 'definition.from_email' | 'definition.from_label' | 'definition.reply_to_email' | 'definition.cc_email' | 'definition.bcc_email' | 'definition.subject_line' | 'definition.preview_text' | 'definition.template_id' | 'definition.smart_sending_enabled' | 'definition.transactional' | 'definition.add_tracking_params' | 'definition.custom_tracking_params' | 'definition.additional_filters' | 'definition.additional_filters.condition_groups' | 'definition.name' | 'definition.id' | 'definition.to_emails' | 'definition.title' | 'definition.body' | 'definition.sound' | 'definition.badge' | 'definition.badge_options' | 'definition.badge_options.badge_config' | 'definition.badge_options.value' | 'definition.badge_options.set_from_property' | 'definition.image_id' | 'definition.dynamic_image' | 'definition.on_open' | 'definition.ios_link' | 'definition.android_link' | 'definition.conversion_metric_id' | 'definition.shorten_links' | 'definition.include_contact_card' | 'definition.add_org_prefix' | 'definition.add_info_link' | 'definition.add_opt_out_language' | 'definition.sms_quiet_hours_enabled' | 'definition.url' | 'definition.headers' | 'definition.vendor_id'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -22117,7 +23642,7 @@ export type GetFlowActionMessagesData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -22163,7 +23688,7 @@ export type GetFlowActionMessagesResponses = {
     /**
      * Success
      */
-    200: GetFlowMessageResponseCollection;
+    200: GetFlowMessageEncodedResponseCollection;
 };
 
 export type GetFlowActionMessagesResponse = GetFlowActionMessagesResponses[keyof GetFlowActionMessagesResponses];
@@ -22181,11 +23706,11 @@ export type GetMessageIdsForFlowActionData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -22193,7 +23718,7 @@ export type GetMessageIdsForFlowActionData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -22257,9 +23782,9 @@ export type GetActionForFlowMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[flow-action]'?: Array<'action_type' | 'status' | 'created' | 'updated' | 'settings' | 'tracking_options' | 'tracking_options.add_utm' | 'tracking_options.utm_params' | 'tracking_options.is_tracking_opens' | 'tracking_options.is_tracking_clicks' | 'send_options' | 'send_options.use_smart_sending' | 'send_options.is_transactional' | 'badge_options' | 'badge_options.badge_config' | 'badge_options.value' | 'badge_options.set_from_property' | 'render_options' | 'render_options.shorten_links' | 'render_options.add_org_prefix' | 'render_options.add_info_link' | 'render_options.add_opt_out_language'>;
+        'fields[flow-action]'?: Array<'created' | 'updated' | 'definition' | 'definition.id' | 'definition.temporary_id' | 'definition.type' | 'definition.links' | 'definition.links.next_if_true' | 'definition.links.next_if_false' | 'definition.data' | 'definition.data.action_output_filter' | 'definition.data.action_output_filter.condition_groups' | 'definition.links.next' | 'definition.data.profile_filter' | 'definition.data.profile_filter.condition_groups' | 'definition.data.message' | 'definition.data.message.from_email' | 'definition.data.message.from_label' | 'definition.data.message.reply_to_email' | 'definition.data.message.cc_email' | 'definition.data.message.bcc_email' | 'definition.data.message.subject_line' | 'definition.data.message.preview_text' | 'definition.data.message.template_id' | 'definition.data.message.smart_sending_enabled' | 'definition.data.message.transactional' | 'definition.data.message.add_tracking_params' | 'definition.data.message.custom_tracking_params' | 'definition.data.message.additional_filters' | 'definition.data.message.additional_filters.condition_groups' | 'definition.data.message.name' | 'definition.data.message.id' | 'definition.data.status' | 'definition.data.message.title' | 'definition.data.message.body' | 'definition.data.message.sound' | 'definition.data.message.badge' | 'definition.data.message.badge_options' | 'definition.data.message.badge_options.badge_config' | 'definition.data.message.badge_options.value' | 'definition.data.message.badge_options.set_from_property' | 'definition.data.message.image_id' | 'definition.data.message.dynamic_image' | 'definition.data.message.on_open' | 'definition.data.message.ios_link' | 'definition.data.message.android_link' | 'definition.data.message.conversion_metric_id' | 'definition.data.message.shorten_links' | 'definition.data.message.include_contact_card' | 'definition.data.message.add_org_prefix' | 'definition.data.message.add_info_link' | 'definition.data.message.add_opt_out_language' | 'definition.data.message.sms_quiet_hours_enabled' | 'definition.data.message.url' | 'definition.data.message.headers' | 'definition.data.message.to_emails' | 'definition.data.message.vendor_id' | 'definition.data.unit' | 'definition.data.value' | 'definition.data.secondary_value' | 'definition.data.timezone' | 'definition.data.delay_until_time' | 'definition.data.delay_until_weekdays' | 'definition.data.trigger_filter' | 'definition.data.trigger_filter.condition_groups' | 'definition.data.trigger_id' | 'definition.data.trigger_type' | 'definition.data.trigger_subtype' | 'definition.data.profile_operations' | 'definition.data.target_time' | 'definition.data.target_days' | 'definition.data.experiment_status' | 'definition.data.main_action' | 'definition.data.main_action.id' | 'definition.data.main_action.temporary_id' | 'definition.data.main_action.type' | 'definition.data.main_action.links' | 'definition.data.main_action.links.next' | 'definition.data.main_action.data' | 'definition.data.main_action.data.message' | 'definition.data.main_action.data.message.from_email' | 'definition.data.main_action.data.message.from_label' | 'definition.data.main_action.data.message.reply_to_email' | 'definition.data.main_action.data.message.cc_email' | 'definition.data.main_action.data.message.bcc_email' | 'definition.data.main_action.data.message.subject_line' | 'definition.data.main_action.data.message.preview_text' | 'definition.data.main_action.data.message.template_id' | 'definition.data.main_action.data.message.smart_sending_enabled' | 'definition.data.main_action.data.message.transactional' | 'definition.data.main_action.data.message.add_tracking_params' | 'definition.data.main_action.data.message.custom_tracking_params' | 'definition.data.main_action.data.message.additional_filters' | 'definition.data.main_action.data.message.additional_filters.condition_groups' | 'definition.data.main_action.data.message.name' | 'definition.data.main_action.data.message.id' | 'definition.data.main_action.data.status' | 'definition.data.main_action.data.message.body' | 'definition.data.main_action.data.message.image_id' | 'definition.data.main_action.data.message.dynamic_image' | 'definition.data.main_action.data.message.shorten_links' | 'definition.data.main_action.data.message.include_contact_card' | 'definition.data.main_action.data.message.add_org_prefix' | 'definition.data.main_action.data.message.add_info_link' | 'definition.data.main_action.data.message.add_opt_out_language' | 'definition.data.main_action.data.message.sms_quiet_hours_enabled' | 'definition.data.current_experiment' | 'definition.data.current_experiment.id' | 'definition.data.current_experiment.name' | 'definition.data.current_experiment.variations' | 'definition.data.current_experiment.allocations' | 'definition.data.current_experiment.started' | 'definition.data.current_experiment.winner_metric' | 'definition.data.current_experiment.automatic_winner_selection_settings' | 'definition.data.current_experiment.automatic_winner_selection_settings.enabled' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_date' | 'definition.data.current_experiment.automatic_winner_selection_settings.automatic_end_statistical_certainty' | 'definition.data.name' | 'definition.data.on_execution' | 'definition.data.list_id'>;
     };
     url: '/api/flow-messages/{id}/flow-action';
 };
@@ -22303,7 +23828,7 @@ export type GetActionForFlowMessageResponses = {
     /**
      * Success
      */
-    200: GetFlowActionResponse;
+    200: GetFlowActionEncodedResponse;
 };
 
 export type GetActionForFlowMessageResponse = GetActionForFlowMessageResponses[keyof GetActionForFlowMessageResponses];
@@ -22380,7 +23905,7 @@ export type GetTemplateForFlowMessageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
     };
@@ -22501,15 +24026,15 @@ export type GetFormsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[form]'?: Array<'name' | 'status' | 'ab_test' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`name`: `any`, `contains`, `equals`<br>`ab_test`: `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`name`: `any`, `contains`, `equals`<br>`ab_test`: `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`status`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -22517,7 +24042,7 @@ export type GetFormsData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created_at' | '-created_at' | 'updated_at' | '-updated_at';
     };
@@ -22567,6 +24092,66 @@ export type GetFormsResponses = {
 };
 
 export type GetFormsResponse = GetFormsResponses[keyof GetFormsResponses];
+
+export type CreateFormData = {
+    /**
+     * Creates a Form from parameters
+     */
+    body: FormCreateQuery;
+    headers: {
+        /**
+         * API endpoint revision (format: YYYY-MM-DD[.suffix])
+         */
+        revision: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/forms';
+};
+
+export type CreateFormErrors = {
+    /**
+     * Client Error
+     */
+    '4XX': {
+        errors: Array<{
+            id: string;
+            code: string;
+            title: string;
+            detail: string;
+            source?: {
+                pointer?: string;
+                parameter?: string;
+            };
+        }>;
+    };
+    /**
+     * Server Error
+     */
+    '5XX': {
+        errors: Array<{
+            id: string;
+            code: string;
+            title: string;
+            detail: string;
+            source?: {
+                pointer?: string;
+                parameter?: string;
+            };
+        }>;
+    };
+};
+
+export type CreateFormError = CreateFormErrors[keyof CreateFormErrors];
+
+export type CreateFormResponses = {
+    /**
+     * Success
+     */
+    201: PostEncodedFormResponse;
+};
+
+export type CreateFormResponse = CreateFormResponses[keyof CreateFormResponses];
 
 export type DeleteFormData = {
     body?: never;
@@ -22646,17 +24231,9 @@ export type GetFormData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
-        'fields[form-version]'?: Array<'form_type' | 'ab_test' | 'ab_test.variation_name' | 'status' | 'created_at' | 'updated_at'>;
-        /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
-         */
-        'fields[form]'?: Array<'name' | 'status' | 'ab_test' | 'created_at' | 'updated_at'>;
-        /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
-         */
-        include?: Array<'form-versions'>;
+        'fields[form]'?: Array<'status' | 'ab_test' | 'name' | 'definition' | 'definition.versions' | 'created_at' | 'updated_at'>;
     };
     url: '/api/forms/{id}';
 };
@@ -22700,7 +24277,7 @@ export type GetFormResponses = {
     /**
      * Success
      */
-    200: GetFormResponseCompoundDocument;
+    200: GetEncodedFormResponseCompoundDocument;
 };
 
 export type GetFormResponse2 = GetFormResponses[keyof GetFormResponses];
@@ -22721,7 +24298,7 @@ export type GetFormVersionData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[form-version]'?: Array<'form_type' | 'ab_test' | 'ab_test.variation_name' | 'status' | 'created_at' | 'updated_at'>;
     };
@@ -22788,15 +24365,15 @@ export type GetVersionsForFormData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[form-version]'?: Array<'form_type' | 'ab_test' | 'ab_test.variation_name' | 'status' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`form_type`: `any`, `equals`<br>`status`: `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`form_type`: `any`, `equals`<br>`status`: `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -22804,7 +24381,7 @@ export type GetVersionsForFormData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created_at' | '-created_at' | 'updated_at' | '-updated_at';
     };
@@ -22871,11 +24448,11 @@ export type GetVersionIdsForFormData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`form_type`: `any`, `equals`<br>`status`: `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`form_type`: `any`, `equals`<br>`status`: `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`created_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -22883,7 +24460,7 @@ export type GetVersionIdsForFormData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created_at' | '-created_at' | 'updated_at' | '-updated_at';
     };
@@ -22950,7 +24527,7 @@ export type GetFormForFormVersionData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[form]'?: Array<'name' | 'status' | 'ab_test' | 'created_at' | 'updated_at'>;
     };
@@ -23074,15 +24651,15 @@ export type GetImagesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[image]'?: Array<'name' | 'image_url' | 'format' | 'size' | 'hidden' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`format`: `any`, `equals`<br>`name`: `any`, `contains`, `ends-with`, `equals`, `starts-with`<br>`size`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`hidden`: `any`, `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`updated_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`format`: `any`, `equals`<br>`name`: `any`, `contains`, `ends-with`, `equals`, `starts-with`<br>`size`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`hidden`: `any`, `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -23090,7 +24667,7 @@ export type GetImagesData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'format' | '-format' | 'id' | '-id' | 'name' | '-name' | 'size' | '-size' | 'updated_at' | '-updated_at';
     };
@@ -23214,7 +24791,7 @@ export type GetImageData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[image]'?: Array<'name' | 'image_url' | 'format' | 'size' | 'hidden' | 'updated_at'>;
     };
@@ -23395,31 +24972,31 @@ export type GetListsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[list]'?: Array<'name' | 'created' | 'updated' | 'opt_in_process'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `any`, `equals`<br>`id`: `any`, `equals`<br>`created`: `greater-than`<br>`updated`: `greater-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `any`, `equals`<br>`id`: `any`, `equals`<br>`created`: `greater-than`<br>`updated`: `greater-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-triggers' | 'tags'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -23609,19 +25186,19 @@ export type GetListData = {
          */
         'additional-fields[list]'?: Array<'profile_count'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[list]'?: Array<'name' | 'created' | 'updated' | 'opt_in_process' | 'profile_count'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-triggers' | 'tags'>;
     };
@@ -23750,7 +25327,7 @@ export type GetTagsForListData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
     };
@@ -23883,15 +25460,15 @@ export type GetProfilesForListData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'joined_group_at' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -23899,7 +25476,7 @@ export type GetProfilesForListData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'joined_group_at' | '-joined_group_at';
     };
@@ -24025,11 +25602,11 @@ export type GetProfileIdsForListData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -24037,7 +25614,7 @@ export type GetProfileIdsForListData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'joined_group_at' | '-joined_group_at';
     };
@@ -24163,7 +25740,7 @@ export type GetFlowsTriggeredByListData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
     };
@@ -24287,23 +25864,23 @@ export type GetMetricsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`integration.name`: `equals`<br>`integration.category`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`integration.name`: `equals`<br>`integration.category`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-triggers'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
     };
@@ -24370,15 +25947,15 @@ export type GetMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-triggers'>;
     };
@@ -24449,15 +26026,15 @@ export type GetMetricPropertyData = {
          */
         'additional-fields[metric-property]'?: Array<'sample_values'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric-property]'?: Array<'label' | 'property' | 'inferred_type' | 'sample_values'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'metric'>;
     };
@@ -24519,15 +26096,15 @@ export type GetCustomMetricsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[custom-metric]'?: Array<'name' | 'created' | 'updated' | 'definition' | 'definition.aggregation_method' | 'definition.metric_groups'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'metrics'>;
     };
@@ -24716,15 +26293,15 @@ export type GetCustomMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[custom-metric]'?: Array<'name' | 'created' | 'updated' | 'definition' | 'definition.aggregation_method' | 'definition.metric_groups'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'metrics'>;
     };
@@ -24851,19 +26428,19 @@ export type GetMappedMetricsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[custom-metric]'?: Array<'name' | 'created' | 'updated' | 'definition' | 'definition.aggregation_method' | 'definition.metric_groups'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[mapped-metric]'?: Array<'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'custom-metric' | 'metric'>;
     };
@@ -24930,19 +26507,19 @@ export type GetMappedMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[custom-metric]'?: Array<'name' | 'created' | 'updated' | 'definition' | 'definition.aggregation_method' | 'definition.metric_groups'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[mapped-metric]'?: Array<'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'custom-metric' | 'metric'>;
     };
@@ -25131,7 +26708,7 @@ export type GetFlowsTriggeredByMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
     };
@@ -25261,7 +26838,7 @@ export type GetPropertiesForMetricData = {
          */
         'additional-fields[metric-property]'?: Array<'sample_values'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric-property]'?: Array<'label' | 'property' | 'inferred_type' | 'sample_values'>;
     };
@@ -25390,7 +26967,7 @@ export type GetMetricForMetricPropertyData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
     };
@@ -25519,7 +27096,7 @@ export type GetMetricsForCustomMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
     };
@@ -25648,7 +27225,7 @@ export type GetMetricForMappedMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[metric]'?: Array<'name' | 'created' | 'updated' | 'integration'>;
     };
@@ -25777,7 +27354,7 @@ export type GetCustomMetricForMappedMetricData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[custom-metric]'?: Array<'name' | 'created' | 'updated' | 'definition' | 'definition.aggregation_method' | 'definition.metric_groups'>;
     };
@@ -25905,19 +27482,19 @@ export type GetProfilesData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`external_id`: `any`, `equals`<br>`_kx`: `equals`<br>`created`: `greater-than`, `less-than`<br>`updated`: `greater-than`, `less-than`<br>`subscriptions.email.marketing.list_suppressions.reason`: `equals`<br>`subscriptions.email.marketing.list_suppressions.timestamp`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`subscriptions.email.marketing.list_suppressions.list_id`: `equals`<br>`subscriptions.email.marketing.suppression.reason`: `equals`<br>`subscriptions.email.marketing.suppression.timestamp`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`external_id`: `any`, `equals`<br>`_kx`: `equals`<br>`created`: `greater-than`, `less-than`<br>`updated`: `greater-than`, `less-than`<br>`subscriptions.email.marketing.list_suppressions.reason`: `equals`<br>`subscriptions.email.marketing.list_suppressions.timestamp`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`subscriptions.email.marketing.list_suppressions.list_id`: `equals`<br>`subscriptions.email.marketing.suppression.reason`: `equals`<br>`subscriptions.email.marketing.suppression.timestamp`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'lists' | 'push-tokens' | 'segments'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -25925,7 +27502,7 @@ export type GetProfilesData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'email' | '-email' | 'id' | '-id' | 'subscriptions.email.marketing.list_suppressions.timestamp' | '-subscriptions.email.marketing.list_suppressions.timestamp' | 'subscriptions.email.marketing.suppression.timestamp' | '-subscriptions.email.marketing.suppression.timestamp' | 'updated' | '-updated';
     };
@@ -26055,23 +27632,23 @@ export type GetProfileData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[list]'?: Array<'name' | 'created' | 'updated' | 'opt_in_process'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[push-token]'?: Array<'created' | 'token' | 'enablement_status' | 'platform' | 'vendor' | 'background' | 'recorded_date' | 'metadata' | 'metadata.device_id' | 'metadata.klaviyo_sdk' | 'metadata.sdk_version' | 'metadata.device_model' | 'metadata.os_name' | 'metadata.os_version' | 'metadata.manufacturer' | 'metadata.app_name' | 'metadata.app_version' | 'metadata.app_build' | 'metadata.app_id' | 'metadata.environment'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[segment]'?: Array<'name' | 'definition' | 'definition.condition_groups' | 'created' | 'updated' | 'is_active' | 'is_processing' | 'is_starred'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'lists' | 'push-tokens' | 'segments'>;
     };
@@ -26200,15 +27777,15 @@ export type GetBulkImportProfilesJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile-bulk-import-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'expires_at' | 'started_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `any`, `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `any`, `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -26216,7 +27793,7 @@ export type GetBulkImportProfilesJobsData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created_at' | '-created_at';
     };
@@ -26340,15 +27917,15 @@ export type GetBulkImportProfilesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[list]'?: Array<'name' | 'created' | 'updated' | 'opt_in_process'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile-bulk-import-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'failed_count' | 'completed_at' | 'expires_at' | 'started_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'lists'>;
     };
@@ -26410,19 +27987,19 @@ export type GetBulkSuppressProfilesJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile-suppression-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'completed_at' | 'skipped_count'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`<br>`list_id`: `equals`<br>`segment_id`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`<br>`list_id`: `equals`<br>`segment_id`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -26549,7 +28126,7 @@ export type GetBulkSuppressProfilesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile-suppression-bulk-create-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'completed_at' | 'skipped_count'>;
     };
@@ -26611,19 +28188,19 @@ export type GetBulkUnsuppressProfilesJobsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile-suppression-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'completed_at' | 'skipped_count'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`<br>`list_id`: `equals`<br>`segment_id`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`<br>`list_id`: `equals`<br>`segment_id`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created';
     };
@@ -26751,7 +28328,7 @@ export type GetBulkUnsuppressProfilesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile-suppression-bulk-delete-job]'?: Array<'status' | 'created_at' | 'total_count' | 'completed_count' | 'completed_at' | 'skipped_count'>;
     };
@@ -26813,23 +28390,23 @@ export type GetPushTokensData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[push-token]'?: Array<'created' | 'token' | 'enablement_status' | 'platform' | 'vendor' | 'background' | 'recorded_date' | 'metadata' | 'metadata.device_id' | 'metadata.klaviyo_sdk' | 'metadata.sdk_version' | 'metadata.device_model' | 'metadata.os_name' | 'metadata.os_version' | 'metadata.manufacturer' | 'metadata.app_name' | 'metadata.app_version' | 'metadata.app_build' | 'metadata.app_id' | 'metadata.environment'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `equals`<br>`profile.id`: `equals`<br>`enablement_status`: `equals`<br>`platform`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `equals`<br>`profile.id`: `equals`<br>`enablement_status`: `equals`<br>`platform`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'profile'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -27017,15 +28594,15 @@ export type GetPushTokenData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[push-token]'?: Array<'created' | 'token' | 'enablement_status' | 'platform' | 'vendor' | 'background' | 'recorded_date' | 'metadata' | 'metadata.device_id' | 'metadata.klaviyo_sdk' | 'metadata.sdk_version' | 'metadata.device_model' | 'metadata.os_name' | 'metadata.os_version' | 'metadata.manufacturer' | 'metadata.app_name' | 'metadata.app_version' | 'metadata.app_build' | 'metadata.app_id' | 'metadata.environment'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'profile'>;
     };
@@ -27330,7 +28907,7 @@ export type GetPushTokensForProfileData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[push-token]'?: Array<'created' | 'token' | 'enablement_status' | 'platform' | 'vendor' | 'background' | 'recorded_date' | 'metadata' | 'metadata.device_id' | 'metadata.klaviyo_sdk' | 'metadata.sdk_version' | 'metadata.device_model' | 'metadata.os_name' | 'metadata.os_version' | 'metadata.manufacturer' | 'metadata.app_name' | 'metadata.app_version' | 'metadata.app_build' | 'metadata.app_id' | 'metadata.environment'>;
     };
@@ -27453,7 +29030,7 @@ export type GetListsForProfileData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[list]'?: Array<'name' | 'created' | 'updated' | 'opt_in_process'>;
     };
@@ -27576,7 +29153,7 @@ export type GetSegmentsForProfileData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[segment]'?: Array<'name' | 'definition' | 'definition.condition_groups' | 'created' | 'updated' | 'is_active' | 'is_processing' | 'is_starred'>;
     };
@@ -27699,7 +29276,7 @@ export type GetListForBulkImportProfilesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[list]'?: Array<'name' | 'created' | 'updated' | 'opt_in_process'>;
     };
@@ -27826,11 +29403,11 @@ export type GetProfilesForBulkImportProfilesJobData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -27898,7 +29475,7 @@ export type GetProfileIdsForBulkImportProfilesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -27966,11 +29543,11 @@ export type GetErrorsForBulkImportProfilesJobData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[import-error]'?: Array<'code' | 'title' | 'detail' | 'source' | 'source.pointer' | 'original_payload'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -28045,7 +29622,7 @@ export type GetProfileForPushTokenData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
     };
@@ -28169,7 +29746,7 @@ export type QueryCampaignValuesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         page_cursor?: string;
     };
@@ -28231,7 +29808,7 @@ export type QueryFlowValuesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         page_cursor?: string;
     };
@@ -28293,7 +29870,7 @@ export type QueryFlowSeriesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         page_cursor?: string;
     };
@@ -28583,23 +30160,23 @@ export type GetReviewsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[event]'?: Array<'timestamp' | 'event_properties' | 'datetime' | 'uuid'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[review]'?: Array<'email' | 'status' | 'status.value' | 'status.rejection_reason' | 'status.rejection_reason.reason' | 'status.rejection_reason.status_explanation' | 'verified' | 'review_type' | 'created' | 'updated' | 'images' | 'product' | 'product.url' | 'product.name' | 'product.image_url' | 'product.external_id' | 'rating' | 'author' | 'content' | 'title' | 'smart_quote' | 'public_reply' | 'public_reply.content' | 'public_reply.author' | 'public_reply.updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`created`: `greater-or-equal`, `less-or-equal`<br>`rating`: `any`, `equals`, `greater-or-equal`, `less-or-equal`<br>`id`: `any`, `equals`<br>`item.id`: `any`, `equals`<br>`content`: `contains`<br>`status`: `equals`<br>`review_type`: `equals`<br>`verified`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`created`: `greater-or-equal`, `less-or-equal`<br>`rating`: `any`, `equals`, `greater-or-equal`, `less-or-equal`<br>`id`: `any`, `equals`<br>`item.id`: `any`, `equals`<br>`content`: `contains`<br>`status`: `equals`<br>`review_type`: `equals`<br>`verified`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'events'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -28607,7 +30184,7 @@ export type GetReviewsData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'rating' | '-rating' | 'updated' | '-updated';
     };
@@ -28674,15 +30251,15 @@ export type GetReviewData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[event]'?: Array<'timestamp' | 'event_properties' | 'datetime' | 'uuid'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[review]'?: Array<'email' | 'status' | 'status.value' | 'status.rejection_reason' | 'status.rejection_reason.reason' | 'status.rejection_reason.status_explanation' | 'verified' | 'review_type' | 'created' | 'updated' | 'images' | 'product' | 'product.url' | 'product.name' | 'product.image_url' | 'product.external_id' | 'rating' | 'author' | 'content' | 'title' | 'smart_quote' | 'public_reply' | 'public_reply.content' | 'public_reply.author' | 'public_reply.updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'events'>;
     };
@@ -28809,31 +30386,31 @@ export type GetSegmentsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[segment]'?: Array<'name' | 'definition' | 'definition.condition_groups' | 'created' | 'updated' | 'is_active' | 'is_processing' | 'is_starred'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `any`, `equals`<br>`id`: `any`, `equals`<br>`created`: `greater-than`<br>`updated`: `greater-than`<br>`is_active`: `any`, `equals`<br>`is_starred`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `any`, `equals`<br>`id`: `any`, `equals`<br>`created`: `greater-than`<br>`updated`: `greater-than`<br>`is_active`: `any`, `equals`<br>`is_starred`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-triggers' | 'tags'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -29017,19 +30594,19 @@ export type GetSegmentData = {
          */
         'additional-fields[segment]'?: Array<'profile_count'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[segment]'?: Array<'name' | 'definition' | 'definition.condition_groups' | 'created' | 'updated' | 'is_active' | 'is_processing' | 'is_starred' | 'profile_count'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'flow-triggers' | 'tags'>;
     };
@@ -29152,7 +30729,7 @@ export type GetTagsForSegmentData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
     };
@@ -29282,15 +30859,15 @@ export type GetProfilesForSegmentData = {
          */
         'additional-fields[profile]'?: Array<'subscriptions' | 'predictive_analytics'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[profile]'?: Array<'email' | 'phone_number' | 'external_id' | 'first_name' | 'last_name' | 'organization' | 'locale' | 'title' | 'image' | 'created' | 'updated' | 'last_event_date' | 'location' | 'location.address1' | 'location.address2' | 'location.city' | 'location.country' | 'location.latitude' | 'location.longitude' | 'location.region' | 'location.zip' | 'location.timezone' | 'location.ip' | 'properties' | 'joined_group_at' | 'subscriptions' | 'subscriptions.email' | 'subscriptions.email.marketing' | 'subscriptions.email.marketing.can_receive_email_marketing' | 'subscriptions.email.marketing.consent' | 'subscriptions.email.marketing.consent_timestamp' | 'subscriptions.email.marketing.last_updated' | 'subscriptions.email.marketing.method' | 'subscriptions.email.marketing.method_detail' | 'subscriptions.email.marketing.custom_method_detail' | 'subscriptions.email.marketing.double_optin' | 'subscriptions.email.marketing.suppression' | 'subscriptions.email.marketing.list_suppressions' | 'subscriptions.sms' | 'subscriptions.sms.marketing' | 'subscriptions.sms.marketing.can_receive_sms_marketing' | 'subscriptions.sms.marketing.consent' | 'subscriptions.sms.marketing.consent_timestamp' | 'subscriptions.sms.marketing.method' | 'subscriptions.sms.marketing.method_detail' | 'subscriptions.sms.marketing.last_updated' | 'subscriptions.sms.transactional' | 'subscriptions.sms.transactional.can_receive_sms_transactional' | 'subscriptions.sms.transactional.consent' | 'subscriptions.sms.transactional.consent_timestamp' | 'subscriptions.sms.transactional.method' | 'subscriptions.sms.transactional.method_detail' | 'subscriptions.sms.transactional.last_updated' | 'subscriptions.mobile_push' | 'subscriptions.mobile_push.marketing' | 'subscriptions.mobile_push.marketing.can_receive_push_marketing' | 'subscriptions.mobile_push.marketing.consent' | 'subscriptions.mobile_push.marketing.consent_timestamp' | 'subscriptions.whatsapp' | 'subscriptions.whatsapp.marketing' | 'subscriptions.whatsapp.marketing.consent' | 'subscriptions.whatsapp.marketing.consent_timestamp' | 'subscriptions.whatsapp.marketing.last_updated' | 'subscriptions.whatsapp.marketing.created_timestamp' | 'subscriptions.whatsapp.marketing.metadata' | 'subscriptions.whatsapp.marketing.can_receive' | 'subscriptions.whatsapp.marketing.valid_until' | 'subscriptions.whatsapp.marketing.phone_number' | 'subscriptions.whatsapp.transactional' | 'subscriptions.whatsapp.transactional.consent' | 'subscriptions.whatsapp.transactional.consent_timestamp' | 'subscriptions.whatsapp.transactional.last_updated' | 'subscriptions.whatsapp.transactional.created_timestamp' | 'subscriptions.whatsapp.transactional.metadata' | 'subscriptions.whatsapp.transactional.can_receive' | 'subscriptions.whatsapp.transactional.valid_until' | 'subscriptions.whatsapp.transactional.phone_number' | 'subscriptions.whatsapp.conversational' | 'subscriptions.whatsapp.conversational.consent' | 'subscriptions.whatsapp.conversational.consent_timestamp' | 'subscriptions.whatsapp.conversational.last_updated' | 'subscriptions.whatsapp.conversational.created_timestamp' | 'subscriptions.whatsapp.conversational.metadata' | 'subscriptions.whatsapp.conversational.can_receive' | 'subscriptions.whatsapp.conversational.valid_until' | 'subscriptions.whatsapp.conversational.phone_number' | 'predictive_analytics' | 'predictive_analytics.historic_clv' | 'predictive_analytics.predicted_clv' | 'predictive_analytics.total_clv' | 'predictive_analytics.historic_number_of_orders' | 'predictive_analytics.predicted_number_of_orders' | 'predictive_analytics.average_days_between_orders' | 'predictive_analytics.average_order_value' | 'predictive_analytics.churn_probability' | 'predictive_analytics.expected_date_of_next_order' | 'predictive_analytics.ranked_channel_affinity'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -29298,7 +30875,7 @@ export type GetProfilesForSegmentData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'joined_group_at' | '-joined_group_at';
     };
@@ -29365,11 +30942,11 @@ export type GetProfileIdsForSegmentData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`email`: `any`, `equals`<br>`phone_number`: `any`, `equals`<br>`push_token`: `any`, `equals`<br>`_kx`: `equals`<br>`joined_group_at`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -29377,7 +30954,7 @@ export type GetProfileIdsForSegmentData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'joined_group_at' | '-joined_group_at';
     };
@@ -29444,7 +31021,7 @@ export type GetFlowsTriggeredBySegmentData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[flow]'?: Array<'name' | 'status' | 'archived' | 'created' | 'updated' | 'trigger_type'>;
     };
@@ -29568,27 +31145,27 @@ export type GetTagsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag-group]'?: Array<'name' | 'exclusive' | 'default'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'tag-group'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'id' | '-id' | 'name' | '-name';
     };
@@ -29774,15 +31351,15 @@ export type GetTagData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag-group]'?: Array<'name' | 'exclusive' | 'default'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'tag-group'>;
     };
@@ -29906,19 +31483,19 @@ export type GetTagGroupsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag-group]'?: Array<'name' | 'exclusive' | 'default'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`exclusive`: `equals`<br>`default`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `contains`, `ends-with`, `equals`, `starts-with`<br>`exclusive`: `equals`<br>`default`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'id' | '-id' | 'name' | '-name';
     };
@@ -30104,7 +31681,7 @@ export type GetTagGroupData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag-group]'?: Array<'name' | 'exclusive' | 'default'>;
     };
@@ -30977,7 +32554,7 @@ export type GetTagGroupForTagData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag-group]'?: Array<'name' | 'exclusive' | 'default'>;
     };
@@ -31106,7 +32683,7 @@ export type GetTagsForTagGroupData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tag]'?: Array<'name'>;
     };
@@ -31230,19 +32807,19 @@ export type GetTemplatesData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`name`: `any`, `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`name`: `any`, `contains`, `equals`<br>`created`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `equals`, `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -31428,7 +33005,7 @@ export type GetTemplateData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template]'?: Array<'name' | 'editor_type' | 'html' | 'text' | 'amp' | 'created' | 'updated'>;
     };
@@ -31552,15 +33129,15 @@ export type GetAllUniversalContentData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template-universal-content]'?: Array<'name' | 'definition' | 'definition.content_type' | 'definition.type' | 'definition.data' | 'definition.data.content' | 'definition.data.display_options' | 'definition.data.display_options.show_on' | 'definition.data.display_options.visible_check' | 'definition.data.display_options.content_repeat' | 'definition.data.display_options.content_repeat.repeat_for' | 'definition.data.display_options.content_repeat.item_alias' | 'definition.data.styles' | 'definition.data.styles.background_color' | 'definition.data.styles.block_background_color' | 'definition.data.styles.block_border_color' | 'definition.data.styles.block_border_style' | 'definition.data.styles.block_border_width' | 'definition.data.styles.block_padding_bottom' | 'definition.data.styles.block_padding_left' | 'definition.data.styles.block_padding_right' | 'definition.data.styles.block_padding_top' | 'definition.data.styles.color' | 'definition.data.styles.extra_css_class' | 'definition.data.styles.font_family' | 'definition.data.styles.font_size' | 'definition.data.styles.font_style' | 'definition.data.styles.font_weight' | 'definition.data.styles.inner_padding_bottom' | 'definition.data.styles.inner_padding_left' | 'definition.data.styles.inner_padding_right' | 'definition.data.styles.inner_padding_top' | 'definition.data.styles.letter_spacing' | 'definition.data.styles.line_height' | 'definition.data.styles.mobile_stretch_content' | 'definition.data.styles.text_align' | 'definition.data.styles.text_decoration' | 'definition.data.styles.text_table_layout' | 'created' | 'updated' | 'screenshot_status' | 'screenshot_url'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`name`: `any`, `equals`<br>`created`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`definition.content_type`: `equals`<br>`definition.type`: `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`id`: `any`, `equals`<br>`name`: `any`, `equals`<br>`created`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`definition.content_type`: `equals`<br>`definition.type`: `equals`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -31568,7 +33145,7 @@ export type GetAllUniversalContentData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'id' | '-id' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -31757,7 +33334,7 @@ export type GetUniversalContentData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[template-universal-content]'?: Array<'name' | 'definition' | 'definition.content_type' | 'definition.type' | 'definition.data' | 'definition.data.content' | 'definition.data.display_options' | 'definition.data.display_options.show_on' | 'definition.data.display_options.visible_check' | 'definition.data.display_options.content_repeat' | 'definition.data.display_options.content_repeat.repeat_for' | 'definition.data.display_options.content_repeat.item_alias' | 'definition.data.styles' | 'definition.data.styles.background_color' | 'definition.data.styles.block_background_color' | 'definition.data.styles.block_border_color' | 'definition.data.styles.block_border_style' | 'definition.data.styles.block_border_width' | 'definition.data.styles.block_padding_bottom' | 'definition.data.styles.block_padding_left' | 'definition.data.styles.block_padding_right' | 'definition.data.styles.block_padding_top' | 'definition.data.styles.color' | 'definition.data.styles.extra_css_class' | 'definition.data.styles.font_family' | 'definition.data.styles.font_size' | 'definition.data.styles.font_style' | 'definition.data.styles.font_weight' | 'definition.data.styles.inner_padding_bottom' | 'definition.data.styles.inner_padding_left' | 'definition.data.styles.inner_padding_right' | 'definition.data.styles.inner_padding_top' | 'definition.data.styles.letter_spacing' | 'definition.data.styles.line_height' | 'definition.data.styles.mobile_stretch_content' | 'definition.data.styles.text_align' | 'definition.data.styles.text_decoration' | 'definition.data.styles.text_table_layout' | 'created' | 'updated' | 'screenshot_status' | 'screenshot_url'>;
     };
@@ -31998,11 +33575,11 @@ export type GetTrackingSettingsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tracking-setting]'?: Array<'auto_add_parameters' | 'utm_source' | 'utm_source.flow' | 'utm_source.flow.type' | 'utm_source.flow.value' | 'utm_source.campaign' | 'utm_source.campaign.type' | 'utm_source.campaign.value' | 'utm_medium' | 'utm_medium.flow' | 'utm_medium.flow.type' | 'utm_medium.flow.value' | 'utm_medium.campaign' | 'utm_medium.campaign.type' | 'utm_medium.campaign.value' | 'utm_campaign' | 'utm_campaign.flow' | 'utm_campaign.flow.type' | 'utm_campaign.flow.value' | 'utm_campaign.campaign' | 'utm_campaign.campaign.type' | 'utm_campaign.campaign.value' | 'utm_id' | 'utm_id.flow' | 'utm_id.flow.type' | 'utm_id.flow.value' | 'utm_id.campaign' | 'utm_id.campaign.type' | 'utm_id.campaign.value' | 'utm_term' | 'utm_term.flow' | 'utm_term.flow.type' | 'utm_term.flow.value' | 'utm_term.campaign' | 'utm_term.campaign.type' | 'utm_term.campaign.value' | 'custom_parameters'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -32073,7 +33650,7 @@ export type GetTrackingSettingData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[tracking-setting]'?: Array<'auto_add_parameters' | 'utm_source' | 'utm_source.flow' | 'utm_source.flow.type' | 'utm_source.flow.value' | 'utm_source.campaign' | 'utm_source.campaign.type' | 'utm_source.campaign.value' | 'utm_medium' | 'utm_medium.flow' | 'utm_medium.flow.type' | 'utm_medium.flow.value' | 'utm_medium.campaign' | 'utm_medium.campaign.type' | 'utm_medium.campaign.value' | 'utm_campaign' | 'utm_campaign.flow' | 'utm_campaign.flow.type' | 'utm_campaign.flow.value' | 'utm_campaign.campaign' | 'utm_campaign.campaign.type' | 'utm_campaign.campaign.value' | 'utm_id' | 'utm_id.flow' | 'utm_id.flow.type' | 'utm_id.flow.value' | 'utm_id.campaign' | 'utm_id.campaign.type' | 'utm_id.campaign.value' | 'utm_term' | 'utm_term.flow' | 'utm_term.flow.type' | 'utm_term.flow.value' | 'utm_term.campaign' | 'utm_term.campaign.type' | 'utm_term.campaign.value' | 'custom_parameters'>;
     };
@@ -32200,15 +33777,15 @@ export type GetWebFeedsData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[web-feed]'?: Array<'name' | 'url' | 'request_method' | 'content_type' | 'created' | 'updated' | 'status'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `any`, `contains`, `equals`<br>`created`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`name`: `any`, `contains`, `equals`<br>`created`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`<br>`updated`: `greater-or-equal`, `greater-than`, `less-or-equal`, `less-than`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -32216,7 +33793,7 @@ export type GetWebFeedsData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'name' | '-name' | 'updated' | '-updated';
     };
@@ -32405,7 +33982,7 @@ export type GetWebFeedData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[web-feed]'?: Array<'name' | 'url' | 'request_method' | 'content_type' | 'created' | 'updated' | 'status'>;
     };
@@ -32532,11 +34109,11 @@ export type GetWebhooksData = {
     path?: never;
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[webhook]'?: Array<'name' | 'description' | 'endpoint_url' | 'enabled' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'webhook-topics'>;
     };
@@ -32722,11 +34299,11 @@ export type GetWebhookData = {
     };
     query?: {
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[webhook]'?: Array<'name' | 'description' | 'endpoint_url' | 'enabled' | 'created_at' | 'updated_at'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#relationships
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#relationships
          */
         include?: Array<'webhook-topics'>;
     };
@@ -32973,11 +34550,11 @@ export type GetClientReviewValuesReportsData = {
          */
         company_id: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[review-values-report]'?: Array<'results'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`product_external_ids`: `any`, `equals`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`product_external_ids`: `any`, `equals`
          */
         filter?: string;
         /**
@@ -32985,7 +34562,7 @@ export type GetClientReviewValuesReportsData = {
          */
         group_by: 'company_id' | 'product_id';
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -33063,15 +34640,15 @@ export type GetClientReviewsData = {
          */
         company_id: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sparse-fieldsets
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sparse-fieldsets
          */
         'fields[review]'?: Array<'status' | 'status.value' | 'status.rejection_reason' | 'status.rejection_reason.reason' | 'status.rejection_reason.status_explanation' | 'verified' | 'review_type' | 'created' | 'updated' | 'images' | 'product' | 'product.url' | 'product.name' | 'product.image_url' | 'product.external_id' | 'rating' | 'author' | 'content' | 'title' | 'smart_quote' | 'public_reply' | 'public_reply.content' | 'public_reply.author' | 'public_reply.updated'>;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`<br>`review_type`: `equals`<br>`rating`: `any`, `equals`, `greater-or-equal`, `less-or-equal`<br>`id`: `any`, `equals`<br>`content`: `contains`<br>`smart_quote`: `has`<br>`public_reply`: `has`<br>`verified`: `equals`<br>`incentivized`: `equals`<br>`edited`: `equals`<br>`media`: `has`<br>`created`: `greater-or-equal`, `less-or-equal`<br>`updated`: `greater-or-equal`, `less-or-equal`
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#filtering<br>Allowed field(s)/operator(s):<br>`status`: `equals`<br>`review_type`: `equals`<br>`rating`: `any`, `equals`, `greater-or-equal`, `less-or-equal`<br>`id`: `any`, `equals`<br>`content`: `contains`<br>`smart_quote`: `has`<br>`public_reply`: `has`<br>`verified`: `equals`<br>`incentivized`: `equals`<br>`edited`: `equals`<br>`media`: `has`<br>`created`: `greater-or-equal`, `less-or-equal`<br>`updated`: `greater-or-equal`, `less-or-equal`
          */
         filter?: string;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#pagination
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#pagination
          */
         'page[cursor]'?: string;
         /**
@@ -33079,7 +34656,7 @@ export type GetClientReviewsData = {
          */
         'page[size]'?: number;
         /**
-         * For more information please visit https://developers.klaviyo.com/en/v2025-07-15/reference/api-overview#sorting
+         * For more information please visit https://developers.klaviyo.com/en/v2025-10-15/reference/api-overview#sorting
          */
         sort?: 'created' | '-created' | 'rating' | '-rating' | 'updated' | '-updated';
     };
